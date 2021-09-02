@@ -138,8 +138,6 @@
     var timerdate = mm + '/' + dd + '/' + yyyy;
     // For demo preview end
 
-    console.log(timerdate);
-
     // Use this for real timer date
     /* var timerdate = "2020/01/01"; */
 
@@ -198,12 +196,12 @@
         max: maxPrice,
         values: [minPrice, maxPrice],
         slide: function (event, ui) {
-            minamount.val('$' + ui.values[0]);
-            maxamount.val('$' + ui.values[1]);
+            minamount.val(+ui.values[0]);
+            maxamount.val(+ui.values[1]);
         },
     });
-    minamount.val('$' + rangeSlider.slider('values', 0));
-    maxamount.val('$' + rangeSlider.slider('values', 1));
+    minamount.val(+rangeSlider.slider('values', 0));
+    maxamount.val(+rangeSlider.slider('values', 1));
 
     /*-------------------
 		Radio Btn
