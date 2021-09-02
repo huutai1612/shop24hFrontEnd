@@ -1,6 +1,11 @@
 $(document).ready(() => {
-	// getproduct
+	// TODO: refracotring api
 
+	// add event listener
+	$('.filter-catagories').on('click', 'a', onFilterProductLineClick);
+	$('.filter-btn').click(onFilterByPriceClick);
+
+	// getproduct
 	function getProduct(paramUrl) {
 		$.ajax({
 			url: paramUrl,
@@ -86,17 +91,30 @@ $(document).ready(() => {
 		$.get('http://localhost:8080/product-lines', loadProductLineToFilter);
 	})();
 
+	// lọc theo giới tính
 	function loadProductLineToFilter(paramProductLine) {
 		let vResult = paramProductLine.map((productLine) => {
-			return `<li><a  data-id="${productLine.id}" href="#">${productLine.productLine}</a></li>`;
+			return `<li><a data-id="${productLine.id}" href="#">${productLine.productLine}</a></li>`;
 		});
-		$('.filter-catagories').html(vResult);
+		$('.filter-catagories').append(vResult);
 	}
 
-	$('.filter-catagories').on('click', 'a', onFilterProductLineClick);
 	function onFilterProductLineClick(e) {
 		e.preventDefault();
 		let vProductLineId = $(this).data('id');
-		getProduct(`http://localhost:8080/product-lines/${vProductLineId}/products`);
+		if (vProductLineId == 0) {
+			getProduct('http://localhost:8080/products');
+		} else {
+			getProduct(`http://localhost:8080/product-lines/${vProductLineId}/products`);
+		}
+	}
+
+	// Lọc theo giá
+	function onFilterByPriceClick() {
+		let vMinValue = $('#minamount').val();
+		let vMaxValue = $('#maxamount').val();
+		getProduct(
+			`http://localhost:8080/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`,
+		);
 	}
 });
