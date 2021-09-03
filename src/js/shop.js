@@ -1,9 +1,9 @@
+// TODO: refracotring api
 $(document).ready(() => {
-	// TODO: refracotring api
-
 	// add event listener
 	$('.filter-catagories').on('click', 'a', onFilterProductLineClick);
 	$('.filter-btn').click(onFilterByPriceClick);
+	$('.product-content').on('click', '.add-cart', onAddCartClick);
 
 	// getproduct
 	function getProduct(paramUrl) {
@@ -32,7 +32,7 @@ $(document).ready(() => {
                                 </div>
                                 <ul>
                                     <li class="w-icon active">
-                                        <a href="#"><i class="icon_bag_alt"></i></a>
+                                        <a class="add-cart" href="#"><i class="icon_bag_alt"></i></a>
                                     </li>
                                     <li class="quick-view">
                                         <a href="product.html?productId=${product.id}">+ Quick View</a>
@@ -41,7 +41,7 @@ $(document).ready(() => {
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">Towel</div>
-                                <a href="product.html?productId=${product.id}">
+                                <a class="add-cart" href="product.html?productId=${product.id}">
                                     <h5>${product.productName}</h5>
                                 </a>
                                 <div class="product-price">
@@ -62,7 +62,7 @@ $(document).ready(() => {
                                 </div>
                                 <ul>
                                     <li class="w-icon active">
-                                        <a href="#"><i class="icon_bag_alt"></i></a>
+                                        <a class="add-cart" href="#"><i class="icon_bag_alt"></i></a>
                                     </li>
                                     <li class="quick-view">
                                         <a href="product.html?productId=${product.id}">+ Quick View</a>
@@ -116,5 +116,10 @@ $(document).ready(() => {
 		getProduct(
 			`http://localhost:8080/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`,
 		);
+	}
+
+	// add cart
+	function onAddCartClick(e) {
+		e.preventDefault();
 	}
 });
