@@ -1,4 +1,3 @@
-// TODO: refractoring api
 $(document).ready(() => {
 	let gUrlString = window.location.href;
 	let gUrl = new URL(gUrlString);

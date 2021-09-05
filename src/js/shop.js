@@ -1,4 +1,3 @@
-// TODO: refracotring api
 $(document).ready(() => {
 	// add event listener
 	$(".filter-catagories").on("click", "a", onFilterProductLineClick);
