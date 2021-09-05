@@ -46,49 +46,52 @@ $(document).ready(() => {
 			<td class="total-price first-row">${
 				paramOrderDetail.priceEach * paramOrderDetail.quantityOrder
 			} VNĐ</td>
-			<td data-index="${paramIndex}" class="close-td first-row"><i class="ti-close"></i></td>
+			<td class="close-td first-row"><i  data-index="${paramIndex}" class="ti-close"></i></td>
 		</tr>
 		`;
 		$(".cart-table tbody").append(vResult);
 	}
 
-	let gDecreaseInput = $(".dec");
-	let gIncreaseInput = $(".inc");
-	let gInputElement = document.querySelectorAll(".inp-quantity");
-	// decrease
-	for (let i = 0; i < gDecreaseInput.length; i++) {
-		gDecreaseInput[i].addEventListener("click", () =>
-			onDecreaseProductClick(gInputElement[i], i)
-		);
-	}
-
-	function onDecreaseProductClick(paramInputElement, paramIndex) {
-		console.log(paramIndex);
-		if (paramInputElement.value < 2) {
-			paramInputElement.value = 1;
+	function addEventListenerForIncreaseAndDecrease() {
+		let gDecreaseInput = $(".dec");
+		let gIncreaseInput = $(".inc");
+		let gInputElement = document.querySelectorAll(".inp-quantity");
+		// decrease
+		for (let i = 0; i < gDecreaseInput.length; i++) {
+			gDecreaseInput[i].addEventListener("click", () =>
+				onDecreaseProductClick(gInputElement[i], i)
+			);
 		}
-		gOrderDetail[paramIndex].quantityOrder = parseInt(
-			--paramInputElement.value
-		);
-		localStorage.setItem("orderDetail", JSON.stringify(gOrderDetail));
-		$(".select-items tbody").html("");
-		loadProductToCart();
+	
+		function onDecreaseProductClick(paramInputElement, paramIndex) {
+			console.log(paramIndex);
+			if (paramInputElement.value < 2) {
+				paramInputElement.value = 1;
+			}
+			gOrderDetail[paramIndex].quantityOrder = parseInt(
+				--paramInputElement.value
+			);
+			localStorage.setItem("orderDetail", JSON.stringify(gOrderDetail));
+			$(".select-items tbody").html("");
+			loadProductToCart();
+		}
+		// increase
+		for (let i = 0; i < gIncreaseInput.length; i++) {
+			gIncreaseInput[i].addEventListener("click", () =>
+				onIncreaseProductClick(gInputElement[i], i)
+			);
+		}
+	
+		function onIncreaseProductClick(paramInputElement, paramIndex) {
+			gOrderDetail[paramIndex].quantityOrder = parseInt(
+				++paramInputElement.value
+			);
+			localStorage.setItem("orderDetail", JSON.stringify(gOrderDetail));
+			$(".select-items tbody").html("");
+			loadProductToCart();
+		}
 	}
-	// increase
-	for (let i = 0; i < gIncreaseInput.length; i++) {
-		gIncreaseInput[i].addEventListener("click", () =>
-			onIncreaseProductClick(gInputElement[i], i)
-		);
-	}
-
-	function onIncreaseProductClick(paramInputElement, paramIndex) {
-		gOrderDetail[paramIndex].quantityOrder = parseInt(
-			++paramInputElement.value
-		);
-		localStorage.setItem("orderDetail", JSON.stringify(gOrderDetail));
-		$(".select-items tbody").html("");
-		loadProductToCart();
-	}
+	addEventListenerForIncreaseAndDecrease()
 
 	// on load cart number function
 	function onLoadCartNumber() {
@@ -172,5 +175,6 @@ $(document).ready(() => {
 		gProduct = JSON.parse(localStorage.getItem("products"));
 		gOrderDetail = JSON.parse(localStorage.getItem("orderDetail"));
 		getProduct();
+		addEventListenerForIncreaseAndDecrease()
 	});
 });
