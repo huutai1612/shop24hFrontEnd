@@ -1,53 +1,50 @@
 $(document).ready(() => {
-	let gUrlString = window.location.href;
-	let gUrl = new URL(gUrlString);
-	let gProductId = parseInt(gUrl.searchParams.get("productId"));
-	
-	let gProductIdArray = [];
-	let gOrderDetailArray = [];
-	let gProduct = '';
+    let gUrlString = window.location.href;
+    let gUrl = new URL(gUrlString);
+    let gProductId = parseInt(gUrl.searchParams.get('productId'));
 
-	// add plus and minus product click
-	let vQuantityNumber = 1;
-	$(document).on("click", ".inc", function () {
-		vQuantityNumber++;
-		$("#quantity").val(vQuantityNumber);
-	});
+    let gProductIdArray = [];
+    let gOrderDetailArray = [];
+    let gProduct = '';
 
-	$(document).on("click", ".dec", function () {
-		if (vQuantityNumber < 2) {
-			vQuantityNumber = 1;
-			$("#quantity").val(vQuantityNumber);
-		} else {
-			vQuantityNumber--;
-			$("#quantity").val(vQuantityNumber);
-		}
-	});
+    // add plus and minus product click
+    let vQuantityNumber = 1;
+    $(document).on('click', '.inc', function () {
+        vQuantityNumber++;
+        $('#quantity').val(vQuantityNumber);
+    });
 
-	// get product
-	$.ajax({
-		method: "get",
-		dataType: "json",
-		async: false,
-		url: `http://localhost:8080/products/${gProductId}`,
-		success: renderProductToPage,
-		error: (e) => alert(e.responseJSON),
-	});
+    $(document).on('click', '.dec', function () {
+        if (vQuantityNumber < 2) {
+            vQuantityNumber = 1;
+            $('#quantity').val(vQuantityNumber);
+        } else {
+            vQuantityNumber--;
+            $('#quantity').val(vQuantityNumber);
+        }
+    });
 
-	// renderProduct
-	function renderProductToPage(paramProduct) {
-		gProduct = paramProduct;
-		let vResult = `
+    // get product
+    $.ajax({
+        method: 'get',
+        dataType: 'json',
+        async: false,
+        url: `http://localhost:8080/products/${gProductId}`,
+        success: renderProductToPage,
+        error: (e) => alert(e.responseJSON),
+    });
+
+    // renderProduct
+    function renderProductToPage(paramProduct) {
+        gProduct = paramProduct;
+        let vResult = `
 		<div class="col-lg-6">
 			<div class="product-pic-zoom">
 				<img
 					class="product-big-img"
 					src="${gProduct.urlImage}"
-					alt=""
+					alt="product"
 				/>
-				<div class="zoom-icon">
-					<i class="fa fa-search-plus"></i>
-				</div>
 			</div>
 		</div>
 		<div class="col-lg-6">
@@ -99,82 +96,87 @@ $(document).ready(() => {
 			</div>
 		</div>
 		`;
-		$(".product-details").html(vResult);
-	}
+        $('.product-details').html(vResult);
+    }
 
-	// add event listener
-	$('#btn-add-cart').click(onAddCartClick)
+    // add event listener
+    $('#btn-add-cart').click(onAddCartClick);
 
-	// add cart
-	function onAddCartClick(e) {
-		e.preventDefault();
-		// set cart number
-		let productNumber = localStorage.getItem("cartNumbers");
-		productNumber = parseInt(productNumber);
-		if (productNumber) {
-			localStorage.setItem("cartNumbers", ++productNumber);
-			$(".cart-icon span").text(productNumber);
-		} else {
-			localStorage.setItem("cartNumbers", 1);
-			$(".cart-icon span").text(1);
-		}
+    // add cart
+    function onAddCartClick(e) {
+        e.preventDefault();
+        // set cart number
+        let productNumber = localStorage.getItem('cartNumbers');
+        productNumber = parseInt(productNumber);
+        if (productNumber) {
+            localStorage.setItem('cartNumbers', ++productNumber);
+            $('.cart-icon span').text(productNumber);
+        } else {
+            localStorage.setItem('cartNumbers', 1);
+            $('.cart-icon span').text(1);
+        }
 
-		// set product 
-		let vProduct = JSON.parse(localStorage.getItem("products"));
-		if (vProduct) {
-			gProductIdArray = vProduct;
-		}
-		gProductIdArray.push(gProductId);
-		localStorage.setItem("products", JSON.stringify(gProductIdArray));
+        // set product
+        let vProduct = JSON.parse(localStorage.getItem('products'));
+        if (vProduct) {
+            gProductIdArray = vProduct;
+        }
+        gProductIdArray.push(gProductId);
+        localStorage.setItem('products', JSON.stringify(gProductIdArray));
 
-		// set order detail
-		let vOrderDetail = JSON.parse(localStorage.getItem("orderDetail"));
-		if (vOrderDetail ) {
-			gOrderDetailArray = vOrderDetail
-		}
-		let newOrderDetail = {
-			quantityOrder : $('#quantity').val(),
-			priceEach : gProduct.buyPrice,
-		}
-		gOrderDetailArray.push(newOrderDetail);
-		localStorage.setItem('orderDetail', JSON.stringify(gOrderDetailArray))
+        // set order detail
+        let vOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
+        if (vOrderDetail) {
+            gOrderDetailArray = vOrderDetail;
+        }
+        let newOrderDetail = {
+            quantityOrder: parseInt($('#quantity').val()),
+            priceEach: gProduct.buyPrice,
+        };
+        gOrderDetailArray.push(newOrderDetail);
+        localStorage.setItem('orderDetail', JSON.stringify(gOrderDetailArray));
 
-		$(".select-items tbody").html("");
-		loadProductToCart();
-	}
+        $('.select-items tbody').html('');
+        loadProductToCart();
+        $('#modal-added').modal('show');
+    }
 
-	// on load cart number function
-	function onLoadCartNumber() {
-		let productNumber = localStorage.getItem("cartNumbers");
-		if (productNumber) {
-			$(".cart-icon span").text(productNumber);
-		}
-	}
-	onLoadCartNumber();
+    // on load cart number function
+    function onLoadCartNumber() {
+        let productNumber = localStorage.getItem('cartNumbers');
+        if (productNumber) {
+            $('.cart-icon span').text(productNumber);
+        }
+    }
+    onLoadCartNumber();
 
-	// function load cart product
-	function loadProductToCart() {
-		let vProduct = JSON.parse(localStorage.getItem("products"));
-		let vOrderDetail = JSON.parse(localStorage.getItem("orderDetail"));
-		if (vProduct) {
-			vProduct.forEach((productId, index) => {
-				$.ajax({
-					url: `http://localhost:8080/products/${productId}`,
-					method: "get",
-					dataType: "json",
-					success: (product) => {
-						renderProductToCart(product, index, vOrderDetail[index]);
-					},
-					error: (e) => alert(e.responseText),
-				});
-			});
-		}
-	}
-	loadProductToCart();
+    // function load cart product
+    function loadProductToCart() {
+        let vProduct = JSON.parse(localStorage.getItem('products'));
+        let vOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
+        if (vProduct) {
+            vProduct.forEach((productId, index) => {
+                $.ajax({
+                    url: `http://localhost:8080/products/${productId}`,
+                    method: 'get',
+                    dataType: 'json',
+                    success: (product) => {
+                        renderProductToCart(
+                            product,
+                            index,
+                            vOrderDetail[index]
+                        );
+                    },
+                    error: (e) => alert(e.responseText),
+                });
+            });
+        }
+    }
+    loadProductToCart();
 
-	// render product to cart
-	function renderProductToCart(paramProduct, paramIndex, paramOrderDetail) {
-		let vResult = `
+    // render product to cart
+    function renderProductToCart(paramProduct, paramIndex, paramOrderDetail) {
+        let vResult = `
 			<tr>
 				<td class="si-pic">
 					<img style="width:72px; height:72px"
@@ -193,30 +195,30 @@ $(document).ready(() => {
 				</td>
 			</tr>
 			`;
-		$(".select-items tbody").append(vResult);
-	}
+        $('.select-items tbody').append(vResult);
+    }
 
-	// delete product
-	$(document).on("click", ".ti-close", (e) => {
-		let vIndex = parseInt(e.target.dataset.index);
+    // delete product
+    $(document).on('click', '.ti-close', (e) => {
+        let vIndex = parseInt(e.target.dataset.index);
 
-		// set product number
-		let productNumber = localStorage.getItem("cartNumbers");
-		productNumber = parseInt(productNumber);
-		localStorage.setItem("cartNumbers", --productNumber);
-		$(".cart-icon span").text(productNumber);
-		$(".select-items tbody").html("");
+        // set product number
+        let productNumber = localStorage.getItem('cartNumbers');
+        productNumber = parseInt(productNumber);
+        localStorage.setItem('cartNumbers', --productNumber);
+        $('.cart-icon span').text(productNumber);
+        $('.select-items tbody').html('');
 
-		// set product
-		let vProduct = JSON.parse(localStorage.getItem("products"));
-		vProduct.splice(vIndex, 1);
-		localStorage.setItem("products", JSON.stringify(vProduct));
+        // set product
+        let vProduct = JSON.parse(localStorage.getItem('products'));
+        vProduct.splice(vIndex, 1);
+        localStorage.setItem('products', JSON.stringify(vProduct));
 
-		// set order detail
-		let vOrderDetail = JSON.parse(localStorage.getItem("orderDetail"));
-		vOrderDetail.splice(vIndex, 1);
-		localStorage.setItem("orderDetail", JSON.stringify(vOrderDetail));
+        // set order detail
+        let vOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
+        vOrderDetail.splice(vIndex, 1);
+        localStorage.setItem('orderDetail', JSON.stringify(vOrderDetail));
 
-		loadProductToCart();
-	});
+        loadProductToCart();
+    });
 });

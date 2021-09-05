@@ -73,7 +73,10 @@ $(document).ready(() => {
 			);
 			localStorage.setItem("orderDetail", JSON.stringify(gOrderDetail));
 			$(".select-items tbody").html("");
-			loadProductToCart();
+			gProduct = JSON.parse(localStorage.getItem("products"));
+			gOrderDetail = JSON.parse(localStorage.getItem("orderDetail"));
+			getProduct();
+			addEventListenerForIncreaseAndDecrease()
 		}
 		// increase
 		for (let i = 0; i < gIncreaseInput.length; i++) {
@@ -88,7 +91,10 @@ $(document).ready(() => {
 			);
 			localStorage.setItem("orderDetail", JSON.stringify(gOrderDetail));
 			$(".select-items tbody").html("");
-			loadProductToCart();
+			gProduct = JSON.parse(localStorage.getItem("products"));
+			gOrderDetail = JSON.parse(localStorage.getItem("orderDetail"));
+			getProduct();
+			addEventListenerForIncreaseAndDecrease();
 		}
 	}
 	addEventListenerForIncreaseAndDecrease()
