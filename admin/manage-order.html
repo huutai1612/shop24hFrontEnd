@@ -351,8 +351,8 @@
                                     <p>Sản phẩm</p>
                                 </a>
                             </li>
-                            <li class="nav-item menu-open">
-                                <a href="#" class="nav-link active">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Khách hàng
@@ -363,7 +363,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="manage-customer.html"
-                                            class="nav-link active"
+                                            class="nav-link"
                                         >
                                             <i
                                                 class="nav-icon fas fa-user-cog"
@@ -388,8 +388,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link active">
                                     <i class="nav-icon fas fa-dollar-sign"></i>
                                     <p>
                                         Sales
@@ -400,7 +400,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="manage-order.html"
-                                            class="nav-link"
+                                            class="nav-link active"
                                         >
                                             <i
                                                 class="
@@ -443,7 +443,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Manage Customer</h1>
+                                <h1 class="m-0">Manage Order</h1>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
@@ -452,7 +452,7 @@
                                         <a href="#">Home</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Customer
+                                        Order
                                     </li>
                                 </ol>
                             </div>
@@ -472,10 +472,10 @@
                         <div class="row">
                             <div class="col-12 mb-3 d-flex justify-content-end">
                                 <button
-                                    id="btn-create-customer"
+                                    id="btn-create-order"
                                     class="btn btn-dark"
                                 >
-                                    Thêm khách hàng mới
+                                    Thêm order mới
                                 </button>
                             </div>
                             <div class="col-12">
@@ -488,20 +488,17 @@
                                         text-center
                                         table-secondary
                                     "
-                                    id="table-customer"
+                                    id="table-order"
                                 >
                                     <thead>
-                                        <th>Id khách hàng</th>
-                                        <th>Họ</th>
-                                        <th>Tên</th>
+                                        <th>Id Order</th>
+                                        <th>Họ và tên khách hàng</th>
                                         <th>Số điện thoại</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Tỉnh</th>
-                                        <th>Thành phố</th>
-                                        <th>Đất nước</th>
-                                        <th>Mã bưu điện</th>
-                                        <th>Sale rep employee number</th>
-                                        <th>Giới hạn tiền</th>
+                                        <th>Lời nhắn</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th>Ngầy nhận hàng</th>
+                                        <th>Ngày chuyển hàng</th>
+                                        <th>Trạng thái</th>
                                         <th>Action</th>
                                     </thead>
                                     <tbody></tbody>
@@ -534,11 +531,11 @@
         </div>
         <!-- ./wrapper -->
         <!-- modal-update-customer -->
-        <section class="modal fade" id="modal-update-customer" tabindex="-1">
+        <section class="modal fade" id="modal-update-order" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Cập nhật khách hàng</h5>
+                        <h5 class="modal-title">Cập nhật đơn hàng</h5>
                         <button
                             type="button"
                             class="close"
@@ -551,128 +548,83 @@
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-first-name"
-                                    >Họ</label
+                                <label for="s-customer">Khách hàng</label>
+                            </div>
+                            <div class="col-10">
+                                <select
+                                    name="s-customer"
+                                    id="s-customer"
+                                    class="form-control"
+                                >
+                                    <option value="0">
+                                        Lựa chọn khách hàng
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="inp-order-date"
+                                    >Ngày đặt hàng</label
                                 >
                             </div>
                             <div class="col-10">
                                 <input
-                                    name="inp-first-name form-control"
-                                    id="inp-first-name"
+                                    type="date"
                                     class="form-control"
-                                >
-                                </input>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-last-name">Tên</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-last-name"
+                                    id="inp-order-date"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-phone">Số điện thoại</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="inp-phone"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-address">Địa chỉ</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-address"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-state">Tỉnh</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-state"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-city"
-                                    >Thành phố</label
+                                <label for="inp-required-date"
+                                    >Ngày nhận hàng</label
                                 >
                             </div>
                             <div class="col-10">
                                 <input
-                                    type="text"
+                                    type="date"
                                     class="form-control"
-                                    id="inp-city"
+                                    id="inp-required-date"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-country"
-                                    >Đất nước</label
+                                <label for="inp-shipped-date"
+                                    >Ngày giao hàng</label
                                 >
                             </div>
                             <div class="col-10">
                                 <input
-                                    type="text"
+                                    type="date"
                                     class="form-control"
-                                    id="inp-country"
+                                    id="inp-shipped-date"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-postal-code">Mã bưu điện</label>
+                                <label for="inp-status">Trạng thái</label>
                             </div>
                             <div class="col-10">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="inp-postal-code"
+                                    id="inp-status"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-sale-rep">Sale rep employee number</label>
+                                <label for="inp-message">Lời nhắn</label>
                             </div>
                             <div class="col-10">
                                 <input
-                                    type="number"
+                                    type="text"
                                     class="form-control"
-                                    id="inp-sale-rep"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-credit">Giới hạn tiền</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="inp-credit"
+                                    id="inp-message"
                                 />
                             </div>
                         </div>
@@ -687,7 +639,7 @@
                         </button>
                         <button
                             type="button"
-                            id="btn-save-customer"
+                            id="btn-save-order"
                             class="btn btn-primary"
                         >
                             Cập nhật
@@ -761,6 +713,6 @@
         <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
-        <script src="src/js/manage-customer.js"></script>
+        <script src="src/js/manage-order.js"></script>
     </body>
 </html>
