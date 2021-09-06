@@ -38,11 +38,6 @@
             i {
                 cursor: pointer;
             }
-
-            .style-img {
-                width: 120px;
-                height: 120px;
-            }
         </style>
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
@@ -341,7 +336,7 @@
                             data-accordion="false"
                         >
                             <!-- Add icons to the links using the .nav-icon class
-              with font-awesome or any other icon font library -->
+                with font-awesome or any other icon font library -->
                             <li class="nav-item menu-open">
                                 <a href="index.html" class="nav-link">
                                     <i
@@ -351,13 +346,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="product.html" class="nav-link active">
+                                <a href="product.html" class="nav-link">
                                     <i class="nav-icon fas fa-box"> </i>
                                     <p>Sản phẩm</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link active">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Khách hàng
@@ -368,7 +363,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="manage-customer.html"
-                                            class="nav-link"
+                                            class="nav-link active"
                                         >
                                             <i
                                                 class="nav-icon fas fa-user-cog"
@@ -448,7 +443,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Manage Product</h1>
+                                <h1 class="m-0">Manage Customer</h1>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
@@ -457,7 +452,7 @@
                                         <a href="#">Home</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Product
+                                        Customer
                                     </li>
                                 </ol>
                             </div>
@@ -477,16 +472,10 @@
                         <div class="row">
                             <div class="col-12 mb-3 d-flex justify-content-end">
                                 <button
-                                    id="btn-create-product"
+                                    id="btn-create-customer"
                                     class="btn btn-dark mr-3"
                                 >
-                                    Thêm mới sản phẩm
-                                </button>
-                                <button
-                                    id="btn-delete-all"
-                                    class="btn btn-danger"
-                                >
-                                    Xóa tất cả sản phẩm
+                                    Thêm khách hàng mới
                                 </button>
                             </div>
                             <div class="col-12">
@@ -499,18 +488,20 @@
                                         text-center
                                         table-secondary
                                     "
-                                    id="table-product"
+                                    id="table-customer"
                                 >
                                     <thead>
-                                        <th>Id sản phẩm</th>
-                                        <th>Ảnh sản phẩm</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Mã sản phẩm</th>
-                                        <th>Giá</th>
-                                        <th>Mô tả sản phẩm</th>
-                                        <th>Chiến lược sản phẩm</th>
-                                        <th>Nhà sản xuất</th>
-                                        <th>Tồn kho</th>
+                                        <th>Id khách hàng</th>
+                                        <th>Họ</th>
+                                        <th>Tên</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Tỉnh</th>
+                                        <th>Thành phố</th>
+                                        <th>Đất nước</th>
+                                        <th>Mã bưu điện</th>
+                                        <th>Sale rep employee number</th>
+                                        <th>Giới hạn tiền</th>
                                         <th>Action</th>
                                     </thead>
                                     <tbody></tbody>
@@ -542,12 +533,12 @@
             <!-- /.control-sidebar -->
         </div>
         <!-- ./wrapper -->
-        <!-- Modal create product -->
-        <section class="modal fade" id="modal-create-product" tabindex="-1">
+        <!-- modal-update-customer -->
+        <section class="modal fade" id="modal-update-customer" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Cập nhật sản phẩm</h5>
+                        <h5 class="modal-title">Cập nhật khách hàng</h5>
                         <button
                             type="button"
                             class="close"
@@ -560,119 +551,128 @@
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="s-product-line"
-                                    >Loại sản phẩm</label
+                                <label for="inp-first-name"
+                                    >Họ</label
                                 >
                             </div>
                             <div class="col-10">
-                                <select
-                                    name="s-product-line form-control"
-                                    id="s-product-line"
-                                    class="custom-select"
+                                <input
+                                    name="inp-first-name form-control"
+                                    id="inp-first-name"
+                                    class="form-control"
                                 >
-                                    <option value="0">
-                                        Chọn loại sản phẩm
-                                    </option>
-                                </select>
+                                </input>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-url">Link hình ảnh</label>
+                                <label for="inp-last-name">Tên</label>
                             </div>
                             <div class="col-10">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="inp-url"
+                                    id="inp-last-name"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-name">Tên sản phẩm</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-name"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-code">Mã sản phẩm</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-code"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-price">Giá sản phẩm</label>
+                                <label for="inp-phone">Số điện thoại</label>
                             </div>
                             <div class="col-10">
                                 <input
                                     type="number"
                                     class="form-control"
-                                    id="inp-price"
+                                    id="inp-phone"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-description"
-                                    >Mô tả sản phẩm</label
+                                <label for="inp-address">Địa chỉ</label>
+                            </div>
+                            <div class="col-10">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="inp-address"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="inp-state">Tỉnh</label>
+                            </div>
+                            <div class="col-10">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="inp-state"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="inp-city"
+                                    >Thành phố</label
                                 >
                             </div>
                             <div class="col-10">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="inp-description"
+                                    id="inp-city"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-scale"
-                                    >Chiến lược cho sản phẩm</label
+                                <label for="inp-country"
+                                    >Đất nước</label
                                 >
                             </div>
                             <div class="col-10">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="inp-scale"
+                                    id="inp-country"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-vendor">Nhà sản xuất</label>
+                                <label for="inp-postal-code">Mã bưu điện</label>
                             </div>
                             <div class="col-10">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    id="inp-vendor"
+                                    id="inp-postal-code"
                                 />
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-2">
-                                <label for="inp-storage">Tồn kho</label>
+                                <label for="inp-sale-rep">Sale rep employee number</label>
                             </div>
                             <div class="col-10">
                                 <input
                                     type="number"
                                     class="form-control"
-                                    id="inp-storage"
+                                    id="inp-sale-rep"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <label for="inp-credit">Giới hạn tiền</label>
+                            </div>
+                            <div class="col-10">
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="inp-credit"
                                 />
                             </div>
                         </div>
@@ -687,7 +687,7 @@
                         </button>
                         <button
                             type="button"
-                            id="btn-save-product"
+                            id="btn-save-customer"
                             class="btn btn-primary"
                         >
                             Cập nhật
@@ -696,56 +696,7 @@
                 </div>
             </div>
         </section>
-        <!-- ./ End modal create product -->
-
-        <!-- Modal delete -->
-        <section
-            class="modal fade"
-            id="modal-confirm-delete"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-danger">
-                            Xác nhận xóa sản phẩm
-                        </h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h6 class="text-danger">
-                            Bạn có chắc muốn xóa sản phẩm
-                        </h6>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                        >
-                            Close
-                        </button>
-                        <button
-                            type="button"
-                            id="btn-confirm-delete"
-                            class="btn btn-danger"
-                        >
-                            Xác nhận
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- /End Modal delte -->
+        <!-- ./ End modal-update-customer -->
 
         <!-- error modal -->
         <section
@@ -810,6 +761,6 @@
         <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
-        <script src="src/js/product.js"></script>
+        <script src="src/js/manage-customer.js"></script>
     </body>
 </html>
