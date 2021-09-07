@@ -476,9 +476,22 @@
                         <!-- Main row -->
                         <div class="row">
                             <div
-                                class="col-12 mb-3 d-flex justify-content-start"
+                                class="
+                                    col-12
+                                    mb-3
+                                    d-flex
+                                    justify-content-around
+                                "
                             >
-                                <div class="ml-1 dropdown">
+                                <div
+                                    class="
+                                        ml-1
+                                        dropdown
+                                        col-2
+                                        d-flex
+                                        justify-content-center
+                                    "
+                                >
                                     <button
                                         class="btn btn-success dropdown-toggle"
                                         type="button"
@@ -515,6 +528,38 @@
                                             Khách hàng Vip
                                         </a>
                                     </div>
+                                </div>
+                                <div
+                                    class="col-2 d-flex justify-content-center"
+                                >
+                                    <input
+                                        type="number"
+                                        name="inp-min"
+                                        placeholder="Số order nhỏ nhất"
+                                        id="inp-min"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <div
+                                    class="col-2 d-flex justify-content-center"
+                                >
+                                    <input
+                                        type="number"
+                                        name="inp-max"
+                                        placeholder="Số order lớn nhất"
+                                        id="inp-max"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <div
+                                    class="col-2 d-flex justify-content-center"
+                                >
+                                    <button
+                                        class="btn btn-dark"
+                                        id="btn-filter"
+                                    >
+                                        Lọc Order
+                                    </button>
                                 </div>
                             </div>
                             <div class="col-12">

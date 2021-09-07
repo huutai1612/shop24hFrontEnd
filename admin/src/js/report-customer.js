@@ -1,19 +1,37 @@
 $(document).ready(function () {
+    let gUrl = `http://localhost:8080/customers/count-orders`;
+
+    $('#btn-filter').click(filterCustomerOrder);
+
+    function filterCustomerOrder() {
+        let vFilterValue = {
+            min: $('#inp-min').val().trim(),
+            max: $('#inp-max').val().trim(),
+        };
+        if (vFilterValue.min == '' || vFilterValue.max == '') {
+            alert('Phải có giá trị để lọc customer');
+            gUrl = `http://localhost:8080/customers/count-orders`;
+            getOrderByCustomer(gUrl);
+        } else {
+            gUrl = `http://localhost:8080/customers/filter-count-orders?min=${vFilterValue.min}&max=${vFilterValue.max}`;
+            getOrderByCustomer(gUrl);
+        }
+    }
+
     // get total order by customer inf
-    function getOrderByCustomer() {
+    function getOrderByCustomer(paramUrl) {
         $.ajax({
-            url: `http://localhost:8080/customers/count-orders`,
+            url: paramUrl,
             method: 'get',
             dataType: 'JSON',
             success: renderChart,
             error: (e) => alert(e.responseText),
         });
     }
-    getOrderByCustomer();
+    getOrderByCustomer(gUrl);
 
     // render chart
     function renderChart(paramOrder) {
-        console.log(paramOrder);
         var bar_data = {
             data: getTotalOrder(paramOrder),
             bars: { show: true },
