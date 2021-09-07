@@ -356,8 +356,8 @@
                                     <p>Sản phẩm</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link active">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Khách hàng
@@ -379,7 +379,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="report-customer.html"
-                                            class="nav-link"
+                                            class="nav-link active"
                                         >
                                             <i
                                                 class="
@@ -393,8 +393,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item menu-open">
-                                <a href="#" class="nav-link active">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-dollar-sign"></i>
                                     <p>
                                         Sales
@@ -420,7 +420,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="report-order.html"
-                                            class="nav-link active"
+                                            class="nav-link"
                                         >
                                             <i
                                                 class="
@@ -448,7 +448,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Manage Income</h1>
+                                <h1 class="m-0">Report Customer</h1>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
@@ -457,7 +457,7 @@
                                         <a href="#">Home</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        order
+                                        report customer
                                     </li>
                                 </ol>
                             </div>
@@ -475,36 +475,9 @@
                         <!-- /.row -->
                         <!-- Main row -->
                         <div class="row">
-                            <div class="col-12 mb-3 d-flex justify-content-end">
-                                <div class="dropdown">
-                                    <button
-                                        class="btn btn-primary dropdown-toggle"
-                                        type="button"
-                                        id="dropdownMenuButton"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                    >
-                                        Xem theo
-                                    </button>
-                                    <div
-                                        class="dropdown-menu"
-                                        aria-labelledby="dropdownMenuButton"
-                                    >
-                                        <button
-                                            id="btn-day"
-                                            class="dropdown-item"
-                                        >
-                                            Ngày
-                                        </button>
-                                        <button
-                                            id="btn-week"
-                                            class="dropdown-item"
-                                        >
-                                            Tuần
-                                        </button>
-                                    </div>
-                                </div>
+                            <div
+                                class="col-12 mb-3 d-flex justify-content-start"
+                            >
                                 <div class="ml-1 dropdown">
                                     <button
                                         class="btn btn-success dropdown-toggle"
@@ -518,25 +491,28 @@
                                     <!-- FIXME: refractor api -->
                                     <div class="dropdown-menu">
                                         <a
-                                            href="http://localhost:8080/payment/excel/export/dates"
-                                            id="btn-day"
+                                            href="http://localhost:8080/type-customer/excel/export/platinum"
                                             class="dropdown-item btn-success"
                                         >
-                                            Ngày
+                                            Khách hàng bạch kim
                                         </a>
                                         <a
-                                            href="http://localhost:8080/payment/excel/export/weeks"
-                                            id="btn-week"
+                                            href="http://localhost:8080/type-customer/excel/export/gold"
                                             class="dropdown-item btn-success"
                                         >
-                                            Tuần
+                                            Khách hàng vàng
                                         </a>
                                         <a
-                                            href="http://localhost:8080/payment/excel/export/months"
-                                            id="btn-week"
+                                            href="http://localhost:8080/type-customer/excel/export/silver"
                                             class="dropdown-item btn-success"
                                         >
-                                            Tháng
+                                            Khánh hàng Bạc
+                                        </a>
+                                        <a
+                                            href="http://localhost:8080/type-customer/excel/export/vip"
+                                            class="dropdown-item btn-success"
+                                        >
+                                            Khách hàng Vip
                                         </a>
                                     </div>
                                 </div>
@@ -865,6 +841,6 @@
         <script src="plugins/flot/jquery.flot.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
-        <script src="./src/js/report-order.js"></script>
+        <script src="./src/js/report-customer.js"></script>
     </body>
 </html>
