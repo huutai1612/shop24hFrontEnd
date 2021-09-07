@@ -1,3 +1,4 @@
+// FIXME: sua api
 $(document).ready(() => {
     // khai bao order
     const G_COLUMN_ACTION = 8;
