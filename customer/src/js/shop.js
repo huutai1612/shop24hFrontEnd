@@ -5,6 +5,9 @@ $(document).ready(() => {
     // add event listener
     $('.filter-catagories').on('click', 'a', onFilterProductLineClick);
     $('.filter-btn').click(onFilterByPriceClick);
+    $('.product-content').on('click', '.add-cart', onAddCartClick);
+    let gProductIdArray = [];
+    let gOrderDetailArray = [];
 
     // getproduct
     function getProduct(paramUrl) {
@@ -23,33 +26,63 @@ $(document).ready(() => {
 
         let vProductResult = paramProduct.map((product) => {
             return `
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img style="height: 400px" src="${product.urlImage}" alt="${product.productCode}" />
-                                <div class="icon">
-                                    <i class="icon_heart_alt text-danger"></i>
-                                </div>
-                                <ul>
-                                    <li class="w-icon active">
-                                    </li>
-                                    <li class="quick-view">
-                                        <a href="product.html?productId=${product.id}">Xem sản phẩm</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="pi-text">
-                                <div class="catagory-name">Towel</div>
-                                <a href="product.html?productId=${product.id}">
-                                    <h5>${product.productName}</h5>
-                                </a>
-                                <div class="product-price">
-                                    ${product.buyPrice} VNĐ
-                                </div>
-                            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="product-item">
+                    <div class="pi-pic">
+                        <img style="height: 400px" src="${product.urlImage}" alt="${product.productCode}" />
+                        <div class="icon">
+                            <i class="icon_heart_alt"></i>
+                        </div>
+                        <ul>
+                            <li class="w-icon active">
+                                <a data-price=${product.buyPrice} data-id="${product.id}" class="add-cart" href="#"><i class="icon_bag_alt"></i></a>
+                            </li>
+                            <li class="quick-view">
+                                <a href="product.html?productId=${product.id}">Xem sản phẩm</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="pi-text">
+                        <div class="catagory-name">Towel</div>
+                        <a class="add-cart" href="product.html?productId=${product.id}">
+                            <h5>${product.productName}</h5>
+                        </a>
+                        <div class="product-price">
+                            ${product.buyPrice} VNĐ
                         </div>
                     </div>
-            `;
+                </div>
+            </div>
+    `;
+
+            // `
+            //         <div class="col-lg-4 col-sm-6">
+            //             <div class="product-item">
+            //                 <div class="pi-pic">
+            //                     <img style="height: 400px" src="${product.urlImage}" alt="${product.productCode}" />
+            //                     <div class="icon">
+            //                         <i class="icon_heart_alt text-danger"></i>
+            //                     </div>
+            //                     <ul>
+            //                         <li class="w-icon active">
+            //                         </li>
+            //                         <li class="quick-view">
+            //                             <a href="product.html?productId=${product.id}">Xem sản phẩm</a>
+            //                         </li>
+            //                     </ul>
+            //                 </div>
+            //                 <div class="pi-text">
+            //                     <div class="catagory-name">Towel</div>
+            //                     <a href="product.html?productId=${product.id}">
+            //                         <h5>${product.productName}</h5>
+            //                     </a>
+            //                     <div class="product-price">
+            //                         ${product.buyPrice} VNĐ
+            //                     </div>
+            //                 </div>
+            //             </div>
+            //         </div>
+            // `;
         });
         vProductContentElement.html(vProductResult);
     }
@@ -86,6 +119,47 @@ $(document).ready(() => {
         getProduct(
             `http://localhost:8080/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`
         );
+    }
+
+    // add cart
+    function onAddCartClick(e) {
+        e.preventDefault();
+        // set cart number
+        let productNumber = localStorage.getItem('cartNumbers');
+        productNumber = parseInt(productNumber);
+        if (productNumber) {
+            localStorage.setItem('cartNumbers', ++productNumber);
+            $('.cart-icon span').text(productNumber);
+        } else {
+            localStorage.setItem('cartNumbers', 1);
+            $('.cart-icon span').text(1);
+        }
+
+        // set product
+        let vProductId = $(this).data('id');
+        let vProduct = JSON.parse(localStorage.getItem('products'));
+        if (vProduct) {
+            gProductIdArray = vProduct;
+        }
+        gProductIdArray.push(vProductId);
+        localStorage.setItem('products', JSON.stringify(gProductIdArray));
+
+        // set order detail
+        let vBuyPrice = $(this).data('price');
+        let vOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
+        if (vOrderDetail) {
+            gOrderDetailArray = vOrderDetail;
+        }
+        let newOrderDetail = {
+            quantityOrder: 1,
+            priceEach: vBuyPrice,
+        };
+        gOrderDetailArray.push(newOrderDetail);
+        localStorage.setItem('orderDetail', JSON.stringify(gOrderDetailArray));
+
+        $('.select-items tbody').html('');
+        loadProductToCart();
+        $('#modal-added').modal('show');
     }
 
     // on load cart number function
