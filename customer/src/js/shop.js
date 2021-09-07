@@ -54,35 +54,6 @@ $(document).ready(() => {
                 </div>
             </div>
     `;
-
-            // `
-            //         <div class="col-lg-4 col-sm-6">
-            //             <div class="product-item">
-            //                 <div class="pi-pic">
-            //                     <img style="height: 400px" src="${product.urlImage}" alt="${product.productCode}" />
-            //                     <div class="icon">
-            //                         <i class="icon_heart_alt text-danger"></i>
-            //                     </div>
-            //                     <ul>
-            //                         <li class="w-icon active">
-            //                         </li>
-            //                         <li class="quick-view">
-            //                             <a href="product.html?productId=${product.id}">Xem sản phẩm</a>
-            //                         </li>
-            //                     </ul>
-            //                 </div>
-            //                 <div class="pi-text">
-            //                     <div class="catagory-name">Towel</div>
-            //                     <a href="product.html?productId=${product.id}">
-            //                         <h5>${product.productName}</h5>
-            //                     </a>
-            //                     <div class="product-price">
-            //                         ${product.buyPrice} VNĐ
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //         </div>
-            // `;
         });
         vProductContentElement.html(vProductResult);
     }

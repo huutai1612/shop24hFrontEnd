@@ -38,6 +38,11 @@
             i {
                 cursor: pointer;
             }
+
+            .style-img {
+                width: 120px;
+                height: 120px;
+            }
         </style>
     </head>
     <body class="hold-transition sidebar-mini layout-fixed">
@@ -336,7 +341,7 @@
                             data-accordion="false"
                         >
                             <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
+              with font-awesome or any other icon font library -->
                             <li class="nav-item">
                                 <a href="index.html" class="nav-link">
                                     <i
@@ -351,8 +356,8 @@
                                     <p>Sản phẩm</p>
                                 </a>
                             </li>
-                            <li class="nav-item  menu-open">
-                                <a href="#" class="nav-link active">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Khách hàng
@@ -363,7 +368,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="manage-customer.html"
-                                            class="nav-link active"
+                                            class="nav-link"
                                         >
                                             <i
                                                 class="nav-icon fas fa-user-cog"
@@ -388,8 +393,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link active">
                                     <i class="nav-icon fas fa-dollar-sign"></i>
                                     <p>
                                         Sales
@@ -415,7 +420,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="report-order.html"
-                                            class="nav-link"
+                                            class="nav-link active"
                                         >
                                             <i
                                                 class="
@@ -443,7 +448,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Manage Customer</h1>
+                                <h1 class="m-0">Manage Income</h1>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
@@ -452,7 +457,7 @@
                                         <a href="#">Home</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Customer
+                                        order
                                     </li>
                                 </ol>
                             </div>
@@ -471,41 +476,340 @@
                         <!-- Main row -->
                         <div class="row">
                             <div class="col-12 mb-3 d-flex justify-content-end">
-                                <button
-                                    id="btn-create-customer"
-                                    class="btn btn-dark"
-                                >
-                                    Thêm khách hàng mới
-                                </button>
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-primary dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenuButton"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
+                                        Xem theo
+                                    </button>
+                                    <div
+                                        class="dropdown-menu"
+                                        aria-labelledby="dropdownMenuButton"
+                                    >
+                                        <button
+                                            id="btn-day"
+                                            class="dropdown-item"
+                                        >
+                                            Ngày
+                                        </button>
+                                        <button
+                                            id="btn-week"
+                                            class="dropdown-item"
+                                        >
+                                            Tuần
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ml-1 dropdown">
+                                    <button
+                                        class="btn btn-success dropdown-toggle"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                    >
+                                        Excel
+                                    </button>
+                                    <!-- FIXME: refractor api -->
+                                    <div class="dropdown-menu">
+                                        <a
+                                            href="http://localhost:8080/payment/excel/export/dates"
+                                            id="btn-day"
+                                            class="dropdown-item btn-success"
+                                        >
+                                            Ngày
+                                        </a>
+                                        <a
+                                            href="http://localhost:8080/payment/excel/export/weeks"
+                                            id="btn-day"
+                                            class="dropdown-item btn-success"
+                                        >
+                                            Tuần
+                                        </a>
+                                        <a
+                                            href="http://localhost:8080/payment/excel/export/months"
+                                            id="btn-week"
+                                            class="dropdown-item btn-success"
+                                        >
+                                            Tháng
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12">
-                                <table
-                                    class="
-                                        table
-                                        table-hover
-                                        table-stripped
-                                        table-bordered
-                                        text-center
-                                        table-secondary
-                                    "
-                                    id="table-customer"
-                                >
-                                    <thead>
-                                        <th>Id khách hàng</th>
-                                        <th>Họ</th>
-                                        <th>Tên</th>
-                                        <th>Số điện thoại</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Tỉnh</th>
-                                        <th>Thành phố</th>
-                                        <th>Đất nước</th>
-                                        <th>Mã bưu điện</th>
-                                        <th>Sale rep employee number</th>
-                                        <th>Giới hạn tiền</th>
-                                        <th>Action</th>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                                <div class="col-md-12">
+                                    <!-- Bar chart -->
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                <i class="far fa-chart-bar"></i>
+                                                Biểu đồ
+                                            </h3>
+
+                                            <div class="card-tools">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-tool"
+                                                    data-card-widget="collapse"
+                                                >
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-tool"
+                                                    data-card-widget="remove"
+                                                >
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div
+                                                id="bar-chart"
+                                                style="
+                                                    height: 300px;
+                                                    padding: 0px;
+                                                    position: relative;
+                                                "
+                                            >
+                                                <canvas
+                                                    class="flot-base"
+                                                    style="
+                                                        direction: ltr;
+                                                        position: absolute;
+                                                        left: 0px;
+                                                        top: 0px;
+                                                        width: 763.5px;
+                                                        height: 300px;
+                                                    "
+                                                    width="763"
+                                                    height="300"
+                                                ></canvas
+                                                ><canvas
+                                                    class="flot-overlay"
+                                                    width="763"
+                                                    height="300"
+                                                    style="
+                                                        direction: ltr;
+                                                        position: absolute;
+                                                        left: 0px;
+                                                        top: 0px;
+                                                        width: 763.5px;
+                                                        height: 300px;
+                                                    "
+                                                ></canvas>
+                                                <div
+                                                    class="flot-svg"
+                                                    style="
+                                                        position: absolute;
+                                                        top: 0px;
+                                                        left: 0px;
+                                                        height: 100%;
+                                                        width: 100%;
+                                                        pointer-events: none;
+                                                    "
+                                                >
+                                                    <svg
+                                                        style="
+                                                            width: 100%;
+                                                            height: 100%;
+                                                        "
+                                                    >
+                                                        <g
+                                                            class="
+                                                                flot-x-axis
+                                                                flot-x1-axis
+                                                                xAxis
+                                                                x1Axis
+                                                            "
+                                                            style="
+                                                                position: absolute;
+                                                                inset: 0px;
+                                                            "
+                                                        >
+                                                            <text
+                                                                x="161.796875"
+                                                                y="293.75"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: center;
+                                                                "
+                                                            >
+                                                                February
+                                                            </text>
+                                                            <text
+                                                                x="297.4921875"
+                                                                y="293.75"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: center;
+                                                                "
+                                                            >
+                                                                March
+                                                            </text>
+                                                            <text
+                                                                x="429.7265625"
+                                                                y="293.75"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: center;
+                                                                "
+                                                            >
+                                                                April
+                                                            </text>
+                                                            <text
+                                                                x="558.4921875"
+                                                                y="293.75"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: center;
+                                                                "
+                                                            >
+                                                                May
+                                                            </text>
+                                                            <text
+                                                                x="38.4140625"
+                                                                y="293.75"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: center;
+                                                                "
+                                                            >
+                                                                January
+                                                            </text>
+                                                            <text
+                                                                x="684.15625"
+                                                                y="293.75"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: center;
+                                                                "
+                                                            >
+                                                                June
+                                                            </text>
+                                                        </g>
+                                                        <g
+                                                            class="
+                                                                flot-y-axis
+                                                                flot-y1-axis
+                                                                yAxis
+                                                                y1Axis
+                                                            "
+                                                            style="
+                                                                position: absolute;
+                                                                inset: 0px;
+                                                            "
+                                                        >
+                                                            <text
+                                                                x="10"
+                                                                y="268.25"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: right;
+                                                                "
+                                                            >
+                                                                0
+                                                            </text>
+                                                            <text
+                                                                x="10"
+                                                                y="205.25"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: right;
+                                                                "
+                                                            >
+                                                                5
+                                                            </text>
+                                                            <text
+                                                                x="1"
+                                                                y="16.25"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: right;
+                                                                "
+                                                            >
+                                                                20
+                                                            </text>
+                                                            <text
+                                                                x="1"
+                                                                y="142.25"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: right;
+                                                                "
+                                                            >
+                                                                10
+                                                            </text>
+                                                            <text
+                                                                x="1"
+                                                                y="79.25"
+                                                                class="
+                                                                    flot-tick-label
+                                                                    tickLabel
+                                                                "
+                                                                style="
+                                                                    position: absolute;
+                                                                    text-align: right;
+                                                                "
+                                                            >
+                                                                15
+                                                            </text>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body-->
+                                    </div>
+                                    <!-- /.card -->
+
+                                    <!-- /.card -->
+                                </div>
                             </div>
                         </div>
                         <!-- /.row (main row) -->
@@ -533,208 +837,6 @@
             <!-- /.control-sidebar -->
         </div>
         <!-- ./wrapper -->
-        <!-- modal-update-customer -->
-        <section class="modal fade" id="modal-update-customer" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Cập nhật khách hàng</h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-first-name"
-                                    >Họ</label
-                                >
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    name="inp-first-name form-control"
-                                    id="inp-first-name"
-                                    class="form-control"
-                                >
-                                </input>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-last-name">Tên</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-last-name"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-phone">Số điện thoại</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="inp-phone"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-address">Địa chỉ</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-address"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-state">Tỉnh</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-state"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-city"
-                                    >Thành phố</label
-                                >
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-city"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-country"
-                                    >Đất nước</label
-                                >
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-country"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-postal-code">Mã bưu điện</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="inp-postal-code"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-sale-rep">Sale rep employee number</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="inp-sale-rep"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-credit">Giới hạn tiền</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="inp-credit"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                        >
-                            Close
-                        </button>
-                        <button
-                            type="button"
-                            id="btn-save-customer"
-                            class="btn btn-primary"
-                        >
-                            Cập nhật
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ./ End modal-update-customer -->
-
-        <!-- error modal -->
-        <section
-            class="modal fade"
-            id="modal-error"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-danger">Lỗi</h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="error" class="text-danger">Error</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ./ End Error modal -->
 
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
@@ -759,8 +861,10 @@
         <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
         <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
         <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+        <!-- flot -->
+        <script src="plugins/flot/jquery.flot.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
-        <script src="src/js/manage-customer.js"></script>
+        <script src="./src/js/report-order.js"></script>
     </body>
 </html>
