@@ -4,16 +4,51 @@ $(document).ready(() => {
     $('.filter-catagories').on('click', 'a', onFilterProductLineClick);
     $('.filter-btn').click(onFilterByPriceClick);
     $('.product-content').on('click', '.add-cart', onAddCartClick);
+    $(document).on('click', '.page-link', onChangePageClick);
     let gProductIdArray = [];
     let gOrderDetailArray = [];
+    let gTotalPage = 0;
+    getTotalProductCount();
+
+    // search
     let gUrl = new URL(document.location).searchParams;
     let gSearchValue = gUrl.get('name');
     if (gSearchValue) {
         getProduct(`http://localhost:8080/products/name/${gSearchValue}`);
     } else {
-        getProduct('http://localhost:8080/products');
+        getProduct('http://localhost:8080/products/pages/0');
     }
     getRelatedProduct();
+
+    // function get count total
+    function getTotalProductCount() {
+        $.ajax({
+            url: `http://localhost:8080/products/counts`,
+            method: 'get',
+            dataType: 'json',
+            async: false,
+            success: (res) => (gTotalPage = Math.ceil(res / 6)),
+        });
+    }
+
+    // render pagination
+    let vPaginationElement = $('.pagination');
+    for (let i = 0; i < gTotalPage; i++) {
+        vPaginationElement.append(`<li class="page-item">
+        <a data-index="${
+            i + 1
+        }" class="page-link" href="http://localhost:8080/products/pages/${i}">${
+            i + 1
+        }</a>
+        </li>`);
+    }
+
+    function onChangePageClick(e) {
+        e.preventDefault();
+        $(this)[0].style = 'color: rgb(24,140,255)';
+        let vUrl = $(this)[0].href;
+        getProduct(vUrl);
+    }
 
     // get related product
     function getRelatedProduct() {
@@ -29,7 +64,6 @@ $(document).ready(() => {
 
     // render Related product
     function renderRelatedProduct(paramProduct) {
-        console.log(paramProduct);
         let vResult = paramProduct.map((product) => {
             return `<div class="product-item">
             <div class="pi-pic">
@@ -104,7 +138,7 @@ $(document).ready(() => {
             method: 'GET',
             dataType: 'json',
             success: renderProduct,
-            error: (e) => alert(e.responseJSON.message),
+            error: (e) => alert(e.responseText),
         });
     }
 

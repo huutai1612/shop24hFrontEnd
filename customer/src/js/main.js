@@ -28,7 +28,6 @@ $(document).ready(() => {
 
     // render Related product
     function renderRelatedProduct(paramProduct) {
-        console.log(paramProduct);
         let vResult = paramProduct.map((product) => {
             return `<div class="product-item">
             <div class="pi-pic">
