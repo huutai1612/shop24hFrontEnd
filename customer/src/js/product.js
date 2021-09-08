@@ -103,6 +103,17 @@ $(document).ready(() => {
     // add event listener
     $('#btn-add-cart').click(onAddCartClick);
 
+    // search click
+    $('#btn-search').click(onSearchClick);
+    function onSearchClick() {
+        let vSearchInput = $('#inp-search').val().trim();
+        if (vSearchInput == '') {
+            alert('Cần có tên sản phẩm để tìm kiếm');
+        } else {
+            window.location.href = `shop.html?name=${vSearchInput}`;
+        }
+    }
+
     // add cart
     function onAddCartClick(e) {
         e.preventDefault();
