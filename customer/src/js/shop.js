@@ -1,4 +1,3 @@
-// FIXME: sua api
 $(document).ready(() => {
     // add event listener
     $('.filter-catagories').on('click', 'a', onFilterProductLineClick);
@@ -14,16 +13,16 @@ $(document).ready(() => {
     let gUrl = new URL(document.location).searchParams;
     let gSearchValue = gUrl.get('name');
     if (gSearchValue) {
-        getProduct(`http://localhost:8080/products/name/${gSearchValue}`);
+        getProduct(`http://localhost:8080/api/products/name/${gSearchValue}`);
     } else {
-        getProduct('http://localhost:8080/products/pages/0');
+        getProduct('http://localhost:8080/api/products/pages/0');
     }
     getRelatedProduct();
 
     // function get count total
     function getTotalProductCount() {
         $.ajax({
-            url: `http://localhost:8080/products/counts`,
+            url: `http://localhost:8080/api/products/counts`,
             method: 'get',
             dataType: 'json',
             async: false,
@@ -37,7 +36,7 @@ $(document).ready(() => {
         vPaginationElement.append(`<li class="page-item">
         <a data-index="${
             i + 1
-        }" class="page-link" href="http://localhost:8080/products/pages/${i}">${
+        }" class="page-link" href="http://localhost:8080/api/products/pages/${i}">${
             i + 1
         }</a>
         </li>`);
@@ -53,7 +52,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/products/related`,
+            url: `http://localhost:8080/api/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -181,7 +180,10 @@ $(document).ready(() => {
 
     // get product line
     (function () {
-        $.get('http://localhost:8080/product-lines', loadProductLineToFilter);
+        $.get(
+            'http://localhost:8080/api/product-lines',
+            loadProductLineToFilter
+        );
     })();
 
     // lọc theo giới tính
@@ -196,10 +198,10 @@ $(document).ready(() => {
         e.preventDefault();
         let vProductLineId = $(this).data('id');
         if (vProductLineId == 0) {
-            getProduct('http://localhost:8080/products');
+            getProduct('http://localhost:8080/api/products/pages/0');
         } else {
             getProduct(
-                `http://localhost:8080/product-lines/${vProductLineId}/products`
+                `http://localhost:8080/api/product-lines/${vProductLineId}/products`
             );
         }
     }
@@ -209,7 +211,7 @@ $(document).ready(() => {
         let vMinValue = $('#minamount').val();
         let vMaxValue = $('#maxamount').val();
         getProduct(
-            `http://localhost:8080/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`
+            `http://localhost:8080/api/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`
         );
     }
 
@@ -281,7 +283,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `http://localhost:8080/api/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

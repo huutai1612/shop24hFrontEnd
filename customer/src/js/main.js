@@ -1,4 +1,3 @@
-// FIXME: sua api
 $(document).ready(() => {
     onLoadCartNumber();
     getRelatedProduct();
@@ -17,7 +16,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/products/related`,
+            url: `http://localhost:8080/api/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -110,7 +109,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `http://localhost:8080/api/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

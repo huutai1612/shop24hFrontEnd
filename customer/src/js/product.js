@@ -1,4 +1,3 @@
-// FIXME: sua api
 $(document).ready(() => {
     let gUrlString = window.location.href;
     let gUrl = new URL(gUrlString);
@@ -29,7 +28,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/products/related`,
+            url: `http://localhost:8080/api/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -113,7 +112,7 @@ $(document).ready(() => {
             method: 'get',
             dataType: 'json',
             async: false,
-            url: `http://localhost:8080/products/${gProductId}`,
+            url: `http://localhost:8080/api/products/${gProductId}`,
             success: renderProductToPage,
             error: (e) => alert(e.responseJSON),
         });
@@ -216,7 +215,7 @@ $(document).ready(() => {
         };
         if (validateComments(vNewComment)) {
             $.ajax({
-                url: `http://localhost:8080/products/${gProductId}/comments`,
+                url: `http://localhost:8080/api/products/${gProductId}/comments`,
                 method: 'POST',
                 data: JSON.stringify(vNewComment),
                 contentType: `application/json; charset=utf-8`,
@@ -317,7 +316,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `http://localhost:8080/api/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

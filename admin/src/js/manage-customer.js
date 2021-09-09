@@ -1,4 +1,3 @@
-// FIXME: sửa lại api
 $(document).ready(() => {
     // khai bao table
     const G_ACTION_COLUMN = 11;
@@ -57,7 +56,7 @@ $(document).ready(() => {
     // create customer
     function createNewCustomer(paramCustomer) {
         $.ajax({
-            url: `http://localhost:8080/customers`,
+            url: `http://localhost:8080/api/customers`,
             method: 'POST',
             data: JSON.stringify(paramCustomer),
             contentType: 'application/json; charset=utf-8 ',
@@ -73,7 +72,7 @@ $(document).ready(() => {
     // update customer
     function updateCustomer(paramCustomer) {
         $.ajax({
-            url: `http://localhost:8080/customers/${gCustomerId}`,
+            url: `http://localhost:8080/api/customers/${gCustomerId}`,
             method: 'PUT',
             data: JSON.stringify(paramCustomer),
             contentType: 'application/json; charset=utf-8 ',
@@ -135,7 +134,7 @@ $(document).ready(() => {
         gCustomerId = vSelectedData.id;
         $('#modal-update-customer').modal('show');
         $.get(
-            `http://localhost:8080/customers/${gCustomerId}`,
+            `http://localhost:8080/api/customers/${gCustomerId}`,
             loadCustomerToInput
         );
     }
@@ -171,7 +170,7 @@ $(document).ready(() => {
     // get data for table
     function getCustomerData() {
         $.ajax({
-            url: `http://localhost:8080/customers`,
+            url: `http://localhost:8080/api/customers`,
             method: 'GET',
             dataType: 'json',
             success: renderCustomerTable,

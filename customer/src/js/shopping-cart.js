@@ -1,4 +1,3 @@
-// FIXME: sua api
 $(document).ready(() => {
     let gProduct = JSON.parse(localStorage.getItem('products'));
     let gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
@@ -8,7 +7,7 @@ $(document).ready(() => {
         if (gProduct) {
             gProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `http://localhost:8080/api/products/${productId}`,
                     method: 'get',
                     async: false,
                     dataType: 'json',
@@ -116,7 +115,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `http://localhost:8080/api/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
