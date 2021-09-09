@@ -394,7 +394,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item menu-open">
-                                <a href="#" class="nav-link active">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-dollar-sign"></i>
                                     <p>
                                         Sales
@@ -405,7 +405,7 @@
                                     <li class="nav-item">
                                         <a
                                             href="manage-order.html"
-                                            class="nav-link active"
+                                            class="nav-link"
                                         >
                                             <i
                                                 class="
@@ -448,7 +448,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Manage Order</h1>
+                                <h1 class="m-0">Order Detail</h1>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
@@ -458,6 +458,9 @@
                                     </li>
                                     <li class="breadcrumb-item active">
                                         Order
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        Order Detail
                                     </li>
                                 </ol>
                             </div>
@@ -475,14 +478,9 @@
                         <!-- /.row -->
                         <!-- Main row -->
                         <div class="row">
-                            <div class="col-12 mb-3 d-flex justify-content-end">
-                                <button
-                                    id="btn-create-order"
-                                    class="btn btn-dark"
-                                >
-                                    Thêm order mới
-                                </button>
-                            </div>
+                            <div
+                                class="col-12 mb-3 d-flex justify-content-end"
+                            ></div>
                             <div class="col-12">
                                 <table
                                     class="
@@ -493,18 +491,15 @@
                                         text-center
                                         table-secondary
                                     "
-                                    id="table-order"
+                                    id="table-order-detail"
                                 >
                                     <thead>
-                                        <th>Order Detail</th>
-                                        <th>Họ và tên khách hàng</th>
-                                        <th>Số điện thoại</th>
-                                        <th>Lời nhắn</th>
-                                        <th>Ngày đặt hàng</th>
-                                        <th>Ngầy nhận hàng</th>
-                                        <th>Ngày chuyển hàng</th>
-                                        <th>Trạng thái</th>
-                                        <th>Action</th>
+                                        <th>Mã order</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Hình sản phẩm</th>
+                                        <th>Giá sản phẩm</th>
+                                        <th>Số lượng</th>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
@@ -718,6 +713,6 @@
         <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
-        <script src="src/js/manage-order.js"></script>
+        <script src="src/js/order-detail.js"></script>
     </body>
 </html>

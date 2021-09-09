@@ -1,6 +1,7 @@
 $(document).ready(() => {
     // khai bao order
     const G_COLUMN_ACTION = 8;
+    const G_ORDER_DETAIL_COLUMN = 0;
     let gOrderTable = $('#table-order').DataTable({
         columns: [
             { data: 'id' },
@@ -14,6 +15,11 @@ $(document).ready(() => {
             { data: 'Action' },
         ],
         columnDefs: [
+            {
+                targets: G_ORDER_DETAIL_COLUMN,
+                render: (orderId) =>
+                    `<a href="order-detail.html?orderId=${orderId}">Detail Order ${orderId}</a>`,
+            },
             {
                 targets: G_COLUMN_ACTION,
                 defaultContent: `<i class="text-primary far fa-edit"></i>`,
