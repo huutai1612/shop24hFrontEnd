@@ -40,7 +40,7 @@ $(document).ready(() => {
                 </div>
                 <ul>
                     <li class="quick-view">
-                        <a href="shop.html">Shop Now</a>
+                        <a href="product.html?productId=${product.id}">Shop Now</a>
                     </li>
                 </ul>
             </div>

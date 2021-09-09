@@ -3,11 +3,17 @@ $(document).ready(() => {
     $('.filter-catagories').on('click', 'a', onFilterProductLineClick);
     $('.filter-btn').click(onFilterByPriceClick);
     $('.product-content').on('click', '.add-cart', onAddCartClick);
-    $(document).on('click', '.page-link', onChangePageClick);
+    $(document).on('click', '.page', onChangePageClick);
+    $(document).on('click', '.next-page', onNextPageClick);
+    $(document).on('click', '.previous-page', onPreviousPageClick);
     let gProductIdArray = [];
     let gOrderDetailArray = [];
     let gTotalPage = 0;
+    let vPaginationElement = $('.pagination');
+    let gCurrentPage = 0;
+    onGetCurrentPageLoad();
     getTotalProductCount();
+    renderPagination();
 
     // search
     let gUrl = new URL(document.location).searchParams;
@@ -15,7 +21,7 @@ $(document).ready(() => {
     if (gSearchValue) {
         getProduct(`http://localhost:8080/api/products/name/${gSearchValue}`);
     } else {
-        getProduct('http://localhost:8080/api/products/pages/0');
+        getProduct(`http://localhost:8080/api/products/pages/${gCurrentPage}`);
     }
     getRelatedProduct();
 
@@ -27,26 +33,76 @@ $(document).ready(() => {
             dataType: 'json',
             async: false,
             success: (res) => (gTotalPage = Math.ceil(res / 6)),
+            error: (e) => alert(e.responseText),
         });
     }
 
     // render pagination
-    let vPaginationElement = $('.pagination');
-    for (let i = 0; i < gTotalPage; i++) {
-        vPaginationElement.append(`<li class="page-item">
-        <a data-index="${
-            i + 1
-        }" class="page-link" href="http://localhost:8080/api/products/pages/${i}">${
-            i + 1
-        }</a>
-        </li>`);
+    function renderPagination() {
+        for (let i = 0; i < gTotalPage; i++) {
+            vPaginationElement.append(`
+            <li class="page-item">
+                <a data-page="${i}" class="page-link page" href="http://localhost:8080/api/products/pages/${i}">
+                ${i + 1}
+                </a>
+            </li>`);
+        }
+        vPaginationElement.append(
+            `<li class="page-item"><a class="page-link next-page" href="#">Next</a></li>`
+        );
     }
 
+    // on change page click
     function onChangePageClick(e) {
         e.preventDefault();
         $(this)[0].style = 'color: rgb(24,140,255)';
         let vUrl = $(this)[0].href;
+        let vPage = $(this)[0].dataset.page;
+        localStorage.setItem('currentPage', vPage);
+        gCurrentPage = parseInt(localStorage.getItem('currentPage'));
         getProduct(vUrl);
+    }
+
+    // on next page click
+    function onNextPageClick(e) {
+        e.preventDefault();
+        $(this)[0].style = 'color: rgb(24,140,255)';
+        gCurrentPage++;
+        if (gCurrentPage >= gTotalPage) {
+            gCurrentPage = gTotalPage - 1;
+            localStorage.setItem('currentPage', gCurrentPage);
+        } else {
+            localStorage.setItem('currentPage', gCurrentPage);
+        }
+        let vUrl = `http://localhost:8080/api/products/pages/${parseInt(
+            localStorage.getItem('currentPage')
+        )}`;
+        getProduct(vUrl);
+    }
+
+    // on previous page click
+    function onPreviousPageClick(e) {
+        e.preventDefault();
+        $(this)[0].style = 'color: rgb(24,140,255)';
+        gCurrentPage--;
+        if (gCurrentPage < 1) {
+            gCurrentPage = 0;
+            localStorage.setItem('currentPage', gCurrentPage);
+        } else {
+            localStorage.setItem('currentPage', gCurrentPage);
+        }
+        let vUrl = `http://localhost:8080/api/products/pages/${parseInt(
+            localStorage.getItem('currentPage')
+        )}`;
+        getProduct(vUrl);
+    }
+
+    // onGetCurrentPageLoad
+    function onGetCurrentPageLoad() {
+        let vPage = parseInt(localStorage.getItem('currentPage'));
+        if (vPage) {
+            gCurrentPage = vPage;
+        }
     }
 
     // get related product
@@ -76,7 +132,7 @@ $(document).ready(() => {
                 </div>
                 <ul>
                     <li class="quick-view">
-                        <a href="shop.html">Shop Now</a>
+                        <a href="product.html?productId=${product.id}">Shop Now</a>
                     </li>
                 </ul>
             </div>
