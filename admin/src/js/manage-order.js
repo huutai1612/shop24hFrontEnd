@@ -65,10 +65,10 @@ $(document).ready(() => {
             method: 'post',
             data: JSON.stringify(paramOrder),
             contentType: 'application/json ; charset=utf-8',
-            success: () => {
-                alert(`Đã tạo mới thành công order`);
+            success: (response) => {
+                alert(`Đã tạo mới thành công order ${response.id}`);
                 $('#modal-update-order').modal('hide');
-                getOrderData();
+                window.location.href = `add-product.html?orderId=${response.id}`;
             },
             error: (e) => alert(e.responseText),
         });
