@@ -77,6 +77,7 @@ $(document).ready(() => {
             gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
             getProduct();
             addEventListenerForIncreaseAndDecrease();
+            loadProductToCart();
         }
         // increase
         for (let i = 0; i < gIncreaseInput.length; i++) {
@@ -95,6 +96,7 @@ $(document).ready(() => {
             gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
             getProduct();
             addEventListenerForIncreaseAndDecrease();
+            loadProductToCart();
         }
     }
     addEventListenerForIncreaseAndDecrease();
