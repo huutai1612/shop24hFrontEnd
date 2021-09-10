@@ -73,7 +73,6 @@ $(document).ready(() => {
     // on next page click
     function onNextPageClick(e) {
         e.preventDefault();
-
         $('.pagination li:first-child').removeClass('disabled');
         $('.pagination li:first-child a')[0].style = 'color: rgb(7 134 250)';
         $(this)[0].style = 'color: rgb(24,140,255)';
@@ -81,7 +80,6 @@ $(document).ready(() => {
         if (gCurrentPage >= gTotalPage) {
             gCurrentPage = gTotalPage - 1;
             $(this).parent().addClass('disabled');
-            $(this)[0].style = 'color: rgb(108,163,213)';
             localStorage.setItem('currentPage', gCurrentPage);
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
@@ -103,12 +101,10 @@ $(document).ready(() => {
         e.preventDefault();
         $(this)[0].style = 'color: rgb(24,140,255)';
         $('.pagination li:last-child').removeClass('disabled');
-        $('.pagination li:last-child a')[0].style = 'color: rgb(7 134 250)';
         gCurrentPage--;
         if (gCurrentPage < 1) {
             gCurrentPage = 0;
             $(this).parent().addClass('disabled');
-            $(this)[0].style = 'color: rgb(108,163,213)';
             localStorage.setItem('currentPage', gCurrentPage);
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
