@@ -14,6 +14,7 @@ $(document).ready(() => {
     onGetCurrentPageLoad();
     getTotalProductCount();
     renderPagination();
+    $(`.pagination li:nth-child(${gCurrentPage + 2})`).addClass('active');
 
     // search
     let gUrl = new URL(document.location).searchParams;
@@ -55,21 +56,32 @@ $(document).ready(() => {
     // on change page click
     function onChangePageClick(e) {
         e.preventDefault();
-        $(this)[0].style = 'color: rgb(24,140,255)';
+        // $(this)[0].style = 'color: rgb(24,140,255)';
         let vUrl = $(this)[0].href;
         let vPage = $(this)[0].dataset.page;
+        $(this).parents('li').addClass('active');
+        $(this).parents('li').siblings().removeClass('active');
         localStorage.setItem('currentPage', vPage);
         gCurrentPage = parseInt(localStorage.getItem('currentPage'));
+        $('.pagination li:last-child').removeClass('disabled');
+        $('.pagination li:last-child a')[0].style = 'color: rgb(7 134 250)';
+        $('.pagination li:first-child').removeClass('disabled');
+        $('.pagination li:first-child a')[0].style = 'color: rgb(7 134 250)';
         getProduct(vUrl);
     }
 
     // on next page click
     function onNextPageClick(e) {
         e.preventDefault();
+
+        $('.pagination li:first-child').removeClass('disabled');
+        $('.pagination li:first-child a')[0].style = 'color: rgb(7 134 250)';
         $(this)[0].style = 'color: rgb(24,140,255)';
         gCurrentPage++;
         if (gCurrentPage >= gTotalPage) {
             gCurrentPage = gTotalPage - 1;
+            $(this).parent().addClass('disabled');
+            $(this)[0].style = 'color: rgb(108,163,213)';
             localStorage.setItem('currentPage', gCurrentPage);
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
@@ -77,6 +89,12 @@ $(document).ready(() => {
         let vUrl = `http://localhost:8080/api/products/pages/${parseInt(
             localStorage.getItem('currentPage')
         )}`;
+        $(`.pagination li:nth-child(${gCurrentPage + 1})`).removeClass(
+            'active'
+        );
+        $(`.pagination li:nth-child(${gCurrentPage + 1})`)
+            .next()
+            .addClass('active');
         getProduct(vUrl);
     }
 
@@ -84,9 +102,13 @@ $(document).ready(() => {
     function onPreviousPageClick(e) {
         e.preventDefault();
         $(this)[0].style = 'color: rgb(24,140,255)';
+        $('.pagination li:last-child').removeClass('disabled');
+        $('.pagination li:last-child a')[0].style = 'color: rgb(7 134 250)';
         gCurrentPage--;
         if (gCurrentPage < 1) {
             gCurrentPage = 0;
+            $(this).parent().addClass('disabled');
+            $(this)[0].style = 'color: rgb(108,163,213)';
             localStorage.setItem('currentPage', gCurrentPage);
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
@@ -94,6 +116,12 @@ $(document).ready(() => {
         let vUrl = `http://localhost:8080/api/products/pages/${parseInt(
             localStorage.getItem('currentPage')
         )}`;
+        $(`.pagination li:nth-child(${gCurrentPage + 3})`).removeClass(
+            'active'
+        );
+        $(`.pagination li:nth-child(${gCurrentPage + 3})`)
+            .prev()
+            .addClass('active');
         getProduct(vUrl);
     }
 

@@ -52,6 +52,7 @@ $(document).ready(function () {
             colors: ['#3c8dbc'],
             xaxis: {
                 ticks: getCustomerName(paramOrder),
+                labelWidth: 1,
             },
         });
     }
