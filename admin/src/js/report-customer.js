@@ -32,15 +32,48 @@ $(document).ready(function () {
 
     // render chart
     function renderChart(paramOrder) {
-        var bar_data = {
-            data: getTotalOrder(paramOrder),
-            bars: { show: true },
-        };
-        $.plot('#bar-chart', [bar_data], {
+        var data = [
+            {
+                data: [
+                    [0, 21.51],
+                    [1, 32.5],
+                    [2, 47.14],
+                    [3, 10],
+                ],
+                stack: 0,
+                label: 'Bottom',
+            },
+            {
+                data: [
+                    [0, 37.77],
+                    [1, 24.65],
+                    [2, 7.67],
+                    [4, 15],
+                ],
+                stack: 0,
+                label: 'Top',
+            },
+        ];
+        var bar_data = [
+            {
+                data: getTotalOrder(paramOrder),
+                bars: { show: true },
+            },
+            {
+                data: getCustomerName(paramOrder),
+                bars: { show: true },
+            },
+        ];
+        let option = {
             grid: {
                 borderWidth: 1,
                 borderColor: '#f3f3f3',
                 tickColor: '#f3f3f3',
+                show: true,
+                hoverable: true,
+            },
+            points: {
+                show: false,
             },
             series: {
                 bars: {
@@ -50,10 +83,42 @@ $(document).ready(function () {
                 },
             },
             colors: ['#3c8dbc'],
-            xaxis: {
-                ticks: getCustomerName(paramOrder),
-                labelWidth: 1,
-            },
+            // xaxis: {
+            //     ticks: getCustomerName(paramOrder),
+            //     labelWidth: 1,
+            // },
+        };
+        let plot = $.plot('#bar-chart', bar_data, option);
+        $('#bar-chart').bind('plothover', function (event, pos, item) {
+            $('#tooltip').remove();
+
+            if (item) {
+                var plotData = plot.getData();
+                var valueString = '';
+
+                for (var i = 0; i < plotData.length; ++i) {
+                    var series = plotData[i];
+                    for (var j = 0; j < series.data.length; ++j) {
+                        if (series.data[j][0] === item.datapoint[0]) {
+                            valueString += series.data[j][1] + ' ';
+                        }
+                    }
+                }
+
+                $("<div id='tooltip'>" + valueString + '</div>')
+                    .css({
+                        position: 'absolute',
+                        display: 'none',
+                        top: pos.pageY + 5,
+                        left: pos.pageX + 5,
+                        border: '1px solid #fdd',
+                        padding: '2px',
+                        'background-color': '#fee',
+                        opacity: 0.8,
+                    })
+                    .appendTo('body')
+                    .fadeIn(200);
+            }
         });
     }
 
