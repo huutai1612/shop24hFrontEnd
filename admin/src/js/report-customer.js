@@ -83,10 +83,10 @@ $(document).ready(function () {
                 },
             },
             colors: ['#3c8dbc'],
-            // xaxis: {
-            //     ticks: getCustomerName(paramOrder),
-            //     labelWidth: 1,
-            // },
+            xaxis: {
+                ticks: getCustomerName(paramOrder),
+                labelWidth: 1,
+            },
         };
         let plot = $.plot('#bar-chart', bar_data, option);
         $('#bar-chart').bind('plothover', function (event, pos, item) {
