@@ -26,7 +26,7 @@ $(document).ready(() => {
     // getWeekPaymentReport();
 
     function renderChartByWeek(paramPayment) {
-        var bar_data = [
+        var vBarData = [
             {
                 data: getPaymentWeek(paramPayment),
                 bars: { show: true },
@@ -36,7 +36,7 @@ $(document).ready(() => {
                 bars: { show: true },
             },
         ];
-        let option = {
+        let vOption = {
             grid: {
                 borderWidth: 1,
                 borderColor: '#f3f3f3',
@@ -60,7 +60,7 @@ $(document).ready(() => {
                 labelWidth: 1,
             },
         };
-        let plot = $.plot('#bar-chart', bar_data, option);
+        let plot = $.plot('#bar-chart', vBarData, vOption);
         $('#bar-chart').bind('plothover', function (event, pos, item) {
             $('#tooltip').remove();
 
@@ -95,7 +95,7 @@ $(document).ready(() => {
     }
 
     function renderChartByDate(paramPayment) {
-        var bar_data = [
+        var vBarData = [
             {
                 data: getTotalIncome(paramPayment),
                 bars: { show: true },
@@ -105,7 +105,7 @@ $(document).ready(() => {
                 bars: { show: true },
             },
         ];
-        let option = {
+        let vOption = {
             grid: {
                 borderWidth: 1,
                 borderColor: '#f3f3f3',
@@ -129,10 +129,9 @@ $(document).ready(() => {
                 labelWidth: 1,
             },
         };
-        let plot = $.plot('#bar-chart', bar_data, option);
+        let plot = $.plot('#bar-chart', vBarData, vOption);
         $('#bar-chart').bind('plothover', function (event, pos, item) {
             $('#tooltip').remove();
-
             if (item) {
                 var plotData = plot.getData();
                 var valueString = '';

@@ -46,7 +46,7 @@ $(document).ready(() => {
             orderDate: $('#inp-order-date').val().trim(),
             requiredDate: $('#inp-required-date').val().trim(),
             shippedDate: $('#inp-shipped-date').val().trim(),
-            status: $('#inp-status').val().trim(),
+            status: $('#inp-status').val(),
             comments: $('#inp-message').val().trim(),
         };
         if (validateOrder(vNewOrder)) {
@@ -101,6 +101,10 @@ $(document).ready(() => {
             if (paramOrder.requiredDate == '') {
                 vResult = false;
                 throw '101. Ngày nhận hàng không được để trống';
+            }
+            if (paramOrder.status == '') {
+                vResult = false;
+                throw '102. Trạng thái đơn hàng không được để trống';
             }
             if (gOrderId == 0) {
                 if (gCustomerId == 0) {

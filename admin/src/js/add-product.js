@@ -7,6 +7,7 @@ $(document).ready(() => {
     const G_URL_COLUMN = 1;
     const G_QUANTITY_COLUMN = 5;
     const G_ACTION_COLUMN = 6;
+    const G_BUY_PRICE_COLUMN = 4;
     let gProductTable = $('#table-product').DataTable({
         columns: [
             { data: 'id' },
@@ -22,6 +23,11 @@ $(document).ready(() => {
                 targets: G_URL_COLUMN,
                 render: (paramUrl) =>
                     `<img class="style-img" src="${paramUrl}" alt="product" width="500" height="600">`,
+            },
+            {
+                targets: G_BUY_PRICE_COLUMN,
+                render: (pBuyPrice) =>
+                    `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
             },
             {
                 targets: G_QUANTITY_COLUMN,

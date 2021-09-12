@@ -4,6 +4,8 @@ $(document).ready(() => {
     const G_COLUMN_NAME = 1;
     const G_COLUMN_CODE = 2;
     const G_COLUMN_IMG = 3;
+    const G_BUY_PRICE_COLUMN = 4;
+    const G_TOTAL_PRICE_COLUMN = 6;
     getOrderDetail();
 
     let gTableOrderDetail = $('#table-order-detail').DataTable({
@@ -14,8 +16,16 @@ $(document).ready(() => {
             { data: 'productId' },
             { data: 'priceEach' },
             { data: 'quantity' },
+            { data: 'total' },
         ],
         columnDefs: [
+            {
+                targets: G_TOTAL_PRICE_COLUMN,
+                render: (pData, pType, pRow) =>
+                    `<p>${(
+                        pRow.priceEach * pRow.quantity
+                    ).toLocaleString()} VNĐ</p>`,
+            },
             {
                 targets: G_COLUMN_NAME,
                 render: (productId) => {
@@ -30,6 +40,11 @@ $(document).ready(() => {
                     });
                     return getProductName(vProductData);
                 },
+            },
+            {
+                targets: G_BUY_PRICE_COLUMN,
+                render: (pBuyPrice) =>
+                    `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
             },
             {
                 targets: G_COLUMN_CODE,

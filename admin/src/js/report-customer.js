@@ -32,29 +32,7 @@ $(document).ready(function () {
 
     // render chart
     function renderChart(paramOrder) {
-        var data = [
-            {
-                data: [
-                    [0, 21.51],
-                    [1, 32.5],
-                    [2, 47.14],
-                    [3, 10],
-                ],
-                stack: 0,
-                label: 'Bottom',
-            },
-            {
-                data: [
-                    [0, 37.77],
-                    [1, 24.65],
-                    [2, 7.67],
-                    [4, 15],
-                ],
-                stack: 0,
-                label: 'Top',
-            },
-        ];
-        var bar_data = [
+        var vBarData = [
             {
                 data: getTotalOrder(paramOrder),
                 bars: { show: true },
@@ -64,7 +42,7 @@ $(document).ready(function () {
                 bars: { show: true },
             },
         ];
-        let option = {
+        let vOption = {
             grid: {
                 borderWidth: 1,
                 borderColor: '#f3f3f3',
@@ -88,7 +66,7 @@ $(document).ready(function () {
                 labelWidth: 1,
             },
         };
-        let plot = $.plot('#bar-chart', bar_data, option);
+        let plot = $.plot('#bar-chart', vBarData, vOption);
         $('#bar-chart').bind('plothover', function (event, pos, item) {
             $('#tooltip').remove();
 

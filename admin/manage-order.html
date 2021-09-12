@@ -614,11 +614,21 @@
                                 <label for="inp-status">Trạng thái</label>
                             </div>
                             <div class="col-10">
-                                <input
-                                    type="text"
+                                <select
                                     class="form-control"
+                                    name="status"
                                     id="inp-status"
-                                />
+                                >
+                                    <option value="">
+                                        Chọn Trạng thái đơn hàng
+                                    </option>
+                                    <option value="Closed">Đóng</option>
+                                    <option value="open">Mới</option>
+                                    <option value="Checked">Đã kiểm tra</option>
+                                    <option value="Shipped">
+                                        Đã chuyển hàng
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
