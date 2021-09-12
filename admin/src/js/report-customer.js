@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let gUrl = `http://localhost:8080/api/customers/count-orders`;
+    let gUrl = `http://localhost:8080/customers/count-orders`;
 
     $('#btn-filter').click(filterCustomerOrder);
 
@@ -10,10 +10,10 @@ $(document).ready(function () {
         };
         if (vFilterValue.min == '' || vFilterValue.max == '') {
             alert('Phải có giá trị để lọc customer');
-            gUrl = `http://localhost:8080/api/customers/count-orders`;
+            gUrl = `http://localhost:8080/customers/count-orders`;
             getOrderByCustomer(gUrl);
         } else {
-            gUrl = `http://localhost:8080/api/customers/filter-count-orders?min=${vFilterValue.min}&max=${vFilterValue.max}`;
+            gUrl = `http://localhost:8080/customers/filter-count-orders?min=${vFilterValue.min}&max=${vFilterValue.max}`;
             getOrderByCustomer(gUrl);
         }
     }

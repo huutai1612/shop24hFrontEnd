@@ -56,7 +56,7 @@ $(document).ready(() => {
     // create customer
     function createNewCustomer(paramCustomer) {
         $.ajax({
-            url: `http://localhost:8080/api/customers`,
+            url: `http://localhost:8080/customers`,
             method: 'POST',
             data: JSON.stringify(paramCustomer),
             contentType: 'application/json; charset=utf-8 ',
@@ -72,7 +72,7 @@ $(document).ready(() => {
     // update customer
     function updateCustomer(paramCustomer) {
         $.ajax({
-            url: `http://localhost:8080/api/customers/${gCustomerId}`,
+            url: `http://localhost:8080/customers/${gCustomerId}`,
             method: 'PUT',
             data: JSON.stringify(paramCustomer),
             contentType: 'application/json; charset=utf-8 ',
@@ -134,7 +134,7 @@ $(document).ready(() => {
         gCustomerId = vSelectedData.id;
         $('#modal-update-customer').modal('show');
         $.get(
-            `http://localhost:8080/api/customers/${gCustomerId}`,
+            `http://localhost:8080/customers/${gCustomerId}`,
             loadCustomerToInput
         );
     }
@@ -170,7 +170,7 @@ $(document).ready(() => {
     // get data for table
     function getCustomerData() {
         $.ajax({
-            url: `http://localhost:8080/api/customers`,
+            url: `http://localhost:8080/customers`,
             method: 'GET',
             dataType: 'json',
             success: renderCustomerTable,

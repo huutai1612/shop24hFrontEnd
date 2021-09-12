@@ -63,7 +63,7 @@ $(document).ready(() => {
     // delete product by id
     function deleteProductById() {
         $.ajax({
-            url: `http://localhost:8080/api/products/${gProductId}`,
+            url: `http://localhost:8080/products/${gProductId}`,
             method: `delete`,
             success: () => {
                 alert('Đã sản phẩm thành công');
@@ -77,7 +77,7 @@ $(document).ready(() => {
     // delete all product
     function deleteAllProduct() {
         $.ajax({
-            url: `http://localhost:8080/api/products`,
+            url: `http://localhost:8080/products`,
             method: `delete`,
             success: () => {
                 alert('Đã xóa tất cả sản phẩm thành công');
@@ -126,7 +126,7 @@ $(document).ready(() => {
     // save new product
     function saveNewProduct(paramProduct) {
         $.ajax({
-            url: `http://localhost:8080/api/product-lines/${gProductLineId}/products`,
+            url: `http://localhost:8080/product-lines/${gProductLineId}/products`,
             method: 'POST',
             data: JSON.stringify(paramProduct),
             contentType: 'application/json; charset=utf-8',
@@ -142,7 +142,7 @@ $(document).ready(() => {
     // update product
     function updateExistProduct(paramProduct) {
         $.ajax({
-            url: `http://localhost:8080/api/products/${gProductId}`,
+            url: `http://localhost:8080/products/${gProductId}`,
             method: 'PUT',
             data: JSON.stringify(paramProduct),
             contentType: 'application/json; charset=utf-8',
@@ -220,14 +220,14 @@ $(document).ready(() => {
         gProductId = vSelectedData.id;
         $('#s-product-line').prop('disabled', true);
         $.get(
-            `http://localhost:8080/api/products/${gProductId}`,
+            `http://localhost:8080/products/${gProductId}`,
             loadProductToInput
         );
     }
 
     // get product line
     function getProductLine() {
-        $.get('http://localhost:8080/api/product-lines', (response) => {
+        $.get('http://localhost:8080/product-lines', (response) => {
             let vSelectElement = $('#s-product-line');
             response.forEach((productLine) => {
                 $('<option>', {
@@ -274,7 +274,7 @@ $(document).ready(() => {
     // get Product
     function getProductData() {
         $.ajax({
-            url: 'http://localhost:8080/api/products',
+            url: 'http://localhost:8080/products',
             method: 'GET',
             dataType: 'json',
             async: false,

@@ -7,7 +7,7 @@ $(document).ready(() => {
         if (gProduct) {
             gProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/api/products/${productId}`,
+                    url: `http://localhost:8080/products/${productId}`,
                     method: 'get',
                     async: false,
                     dataType: 'json',
@@ -33,7 +33,7 @@ $(document).ready(() => {
 			<td class="cart-title first-row">
 				<h5>${paramProduct.productName}</h5>
 			</td>
-			<td class="p-price first-row">${paramOrderDetail.priceEach}</td>
+			<td class="p-price first-row">${paramOrderDetail.priceEach.toLocaleString()} VNĐ</td>
 			<td class="qua-col first-row">
 				<div class="quantity">
 					<div class="pro-qty"><span class="dec qtybtn">-</span>
@@ -43,9 +43,9 @@ $(document).ready(() => {
 					<span class="inc qtybtn">+</span></div>
 				</div>
 			</td>
-			<td class="total-price first-row">${
+			<td class="total-price first-row">${(
                 paramOrderDetail.priceEach * paramOrderDetail.quantityOrder
-            } VNĐ</td>
+            ).toLocaleString()} VNĐ</td>
 			<td class="close-td first-row"><i  data-index="${paramIndex}" class="ti-close"></i></td>
 		</tr>
 		`;
@@ -117,7 +117,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/api/products/${productId}`,
+                    url: `http://localhost:8080/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
@@ -146,7 +146,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+            paramOrderDetail.quantityOrder
+        }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

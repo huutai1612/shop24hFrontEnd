@@ -31,7 +31,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/api/products/${productId}`,
+                    url: `http://localhost:8080/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
@@ -60,7 +60,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+            paramOrderDetail.quantityOrder
+        }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

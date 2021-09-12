@@ -20,16 +20,16 @@ $(document).ready(() => {
     let gUrl = new URL(document.location).searchParams;
     let gSearchValue = gUrl.get('name');
     if (gSearchValue) {
-        getProduct(`http://localhost:8080/api/products/name/${gSearchValue}`);
+        getProduct(`http://localhost:8080/products/name/${gSearchValue}`);
     } else {
-        getProduct(`http://localhost:8080/api/products/pages/${gCurrentPage}`);
+        getProduct(`http://localhost:8080/products/pages/${gCurrentPage}`);
     }
     getRelatedProduct();
 
     // function get count total
     function getTotalProductCount() {
         $.ajax({
-            url: `http://localhost:8080/api/products/counts`,
+            url: `http://localhost:8080/products/counts`,
             method: 'get',
             dataType: 'json',
             async: false,
@@ -43,7 +43,7 @@ $(document).ready(() => {
         for (let i = 0; i < gTotalPage; i++) {
             vPaginationElement.append(`
             <li class="page-item">
-                <a data-page="${i}" class="page-link page" href="http://localhost:8080/api/products/pages/${i}">
+                <a data-page="${i}" class="page-link page" href="http://localhost:8080/products/pages/${i}">
                 ${i + 1}
                 </a>
             </li>`);
@@ -86,7 +86,7 @@ $(document).ready(() => {
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
         }
-        let vUrl = `http://localhost:8080/api/products/pages/${parseInt(
+        let vUrl = `http://localhost:8080/products/pages/${parseInt(
             localStorage.getItem('currentPage')
         )}`;
         $(`.pagination li:nth-child(${gCurrentPage + 1})`).removeClass(
@@ -113,7 +113,7 @@ $(document).ready(() => {
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
         }
-        let vUrl = `http://localhost:8080/api/products/pages/${parseInt(
+        let vUrl = `http://localhost:8080/products/pages/${parseInt(
             localStorage.getItem('currentPage')
         )}`;
         $(`.pagination li:nth-child(${gCurrentPage + 3})`).removeClass(
@@ -136,7 +136,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/api/products/related`,
+            url: `http://localhost:8080/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -160,7 +160,9 @@ $(document).ready(() => {
                 </div>
                 <ul>
                     <li class="quick-view">
-                        <a href="product.html?productId=${product.id}">Shop Now</a>
+                        <a href="product.html?productId=${
+                            product.id
+                        }">Shop Now</a>
                     </li>
                 </ul>
             </div>
@@ -169,7 +171,7 @@ $(document).ready(() => {
                 <a href="#">
                     <h5>${product.productName}</h5>
                 </a>
-                <div class="product-price">${product.buyPrice} VNĐ</div>
+                <div class="product-price">${product.buyPrice.toLocaleString()} VNĐ</div>
             </div>
         </div>`;
         });
@@ -233,26 +235,34 @@ $(document).ready(() => {
             <div class="col-lg-4 col-sm-6">
                 <div class="product-item">
                     <div class="pi-pic">
-                        <img style="height: 400px" src="${product.urlImage}" alt="${product.productCode}" />
+                        <img style="height: 400px" src="${
+                            product.urlImage
+                        }" alt="${product.productCode}" />
                         <div class="icon">
                             <i class="icon_heart_alt"></i>
                         </div>
                         <ul>
                             <li class="w-icon active">
-                                <a data-price=${product.buyPrice} data-id="${product.id}" class="add-cart" href="#"><i class="icon_bag_alt"></i></a>
+                                <a data-price=${product.buyPrice} data-id="${
+                product.id
+            }" class="add-cart" href="#"><i class="icon_bag_alt"></i></a>
                             </li>
                             <li class="quick-view">
-                                <a href="product.html?productId=${product.id}">Xem sản phẩm</a>
+                                <a href="product.html?productId=${
+                                    product.id
+                                }">Xem sản phẩm</a>
                             </li>
                         </ul>
                     </div>
                     <div class="pi-text">
                         <div class="catagory-name">Towel</div>
-                        <a class="add-cart" href="product.html?productId=${product.id}">
+                        <a class="add-cart" href="product.html?productId=${
+                            product.id
+                        }">
                             <h5>${product.productName}</h5>
                         </a>
                         <div class="product-price">
-                            ${product.buyPrice} VNĐ
+                            ${product.buyPrice.toLocaleString()} VNĐ
                         </div>
                     </div>
                 </div>
@@ -264,10 +274,7 @@ $(document).ready(() => {
 
     // get product line
     (function () {
-        $.get(
-            'http://localhost:8080/api/product-lines',
-            loadProductLineToFilter
-        );
+        $.get('http://localhost:8080/product-lines', loadProductLineToFilter);
     })();
 
     // lọc theo giới tính
@@ -282,10 +289,10 @@ $(document).ready(() => {
         e.preventDefault();
         let vProductLineId = $(this).data('id');
         if (vProductLineId == 0) {
-            getProduct('http://localhost:8080/api/products/pages/0');
+            getProduct('http://localhost:8080/products/pages/0');
         } else {
             getProduct(
-                `http://localhost:8080/api/product-lines/${vProductLineId}/products`
+                `http://localhost:8080/product-lines/${vProductLineId}/products`
             );
         }
     }
@@ -295,7 +302,7 @@ $(document).ready(() => {
         let vMinValue = $('#minamount').val();
         let vMaxValue = $('#maxamount').val();
         getProduct(
-            `http://localhost:8080/api/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`
+            `http://localhost:8080/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`
         );
     }
 
@@ -367,7 +374,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/api/products/${productId}`,
+                    url: `http://localhost:8080/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
@@ -396,7 +403,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+            paramOrderDetail.quantityOrder
+        }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

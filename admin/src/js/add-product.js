@@ -51,7 +51,7 @@ $(document).ready(() => {
         };
         if (validateOrderDetail(vNewOrderDetail)) {
             $.ajax({
-                url: `http://localhost:8080/api/orders/${gOrderId}/products/${vProductId}/order-details`,
+                url: `http://localhost:8080/orders/${gOrderId}/products/${vProductId}/order-details`,
                 method: 'post',
                 data: JSON.stringify(vNewOrderDetail),
                 contentType: `application/json; charset=utf-8`,
@@ -86,7 +86,7 @@ $(document).ready(() => {
     // get Product
     function getProductData() {
         $.ajax({
-            url: 'http://localhost:8080/api/products',
+            url: 'http://localhost:8080/products',
             method: 'GET',
             dataType: 'json',
             async: false,

@@ -61,7 +61,7 @@ $(document).ready(() => {
     // create new order
     function createNewOrder(paramOrder) {
         $.ajax({
-            url: `http://localhost:8080/api/customers/${gCustomerId}/orders`,
+            url: `http://localhost:8080/customers/${gCustomerId}/orders`,
             method: 'post',
             data: JSON.stringify(paramOrder),
             contentType: 'application/json ; charset=utf-8',
@@ -77,7 +77,7 @@ $(document).ready(() => {
     // update order
     function updateOrderById(paramOrder) {
         $.ajax({
-            url: `http://localhost:8080/api/orders/${gOrderId}`,
+            url: `http://localhost:8080/orders/${gOrderId}`,
             method: 'put',
             data: JSON.stringify(paramOrder),
             contentType: 'application/json ; charset=utf-8',
@@ -130,7 +130,7 @@ $(document).ready(() => {
         gOrderId = vSelectedData.id;
         $('#s-customer').prop('disabled', true);
         $('#modal-update-order').modal('show');
-        $.get(`http://localhost:8080/api/orders/${gOrderId}`, loadOrderToInput);
+        $.get(`http://localhost:8080/orders/${gOrderId}`, loadOrderToInput);
     }
 
     // load order to input
@@ -162,7 +162,7 @@ $(document).ready(() => {
     // get order
     function getOrderData() {
         $.ajax({
-            url: `http://localhost:8080/api/customers/orders`,
+            url: `http://localhost:8080/customers/orders`,
             method: 'GET',
             dataType: 'json',
             success: renderOrderToTable,
@@ -173,7 +173,7 @@ $(document).ready(() => {
     // get customer
     function getCustomerData() {
         $.ajax({
-            url: `http://localhost:8080/api/customers`,
+            url: `http://localhost:8080/customers`,
             method: 'GET',
             dataType: 'json',
             success: renderToSelect,

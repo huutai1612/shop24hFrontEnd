@@ -5,7 +5,7 @@ $(document).ready(() => {
     // get payment
     function getDatePaymentReport() {
         $.ajax({
-            url: `http://localhost:8080/api/payments/dates`,
+            url: `http://localhost:8080/payments/dates`,
             method: 'get',
             dataType: 'JSON',
             success: renderChartByDate,
@@ -16,7 +16,7 @@ $(document).ready(() => {
 
     function getWeekPaymentReport() {
         $.ajax({
-            url: `http://localhost:8080/api/payments/weeks`,
+            url: `http://localhost:8080/payments/weeks`,
             method: 'get',
             dataType: 'JSON',
             success: renderChartByWeek,

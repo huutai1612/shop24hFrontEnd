@@ -16,7 +16,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/api/products/related`,
+            url: `http://localhost:8080/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -40,7 +40,9 @@ $(document).ready(() => {
                 </div>
                 <ul>
                     <li class="quick-view">
-                        <a href="product.html?productId=${product.id}">Shop Now</a>
+                        <a href="product.html?productId=${
+                            product.id
+                        }">Shop Now</a>
                     </li>
                 </ul>
             </div>
@@ -49,7 +51,7 @@ $(document).ready(() => {
                 <a href="#">
                     <h5>${product.productName}</h5>
                 </a>
-                <div class="product-price">${product.buyPrice} VNĐ</div>
+                <div class="product-price">${product.buyPrice.toLocaleString()} VNĐ</div>
             </div>
         </div>`;
         });
@@ -109,7 +111,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/api/products/${productId}`,
+                    url: `http://localhost:8080/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
@@ -137,7 +139,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+            paramOrderDetail.quantityOrder
+        }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

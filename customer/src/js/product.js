@@ -28,7 +28,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/api/products/related`,
+            url: `http://localhost:8080/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -61,7 +61,7 @@ $(document).ready(() => {
                 <a href="#">
                     <h5>${product.productName}</h5>
                 </a>
-                <div class="product-price">${product.buyPrice} VNĐ</div>
+                <div class="product-price">${product.buyPrice.toLocaleString()} VNĐ</div>
             </div>
         </div>`;
         });
@@ -112,7 +112,7 @@ $(document).ready(() => {
             method: 'get',
             dataType: 'json',
             async: false,
-            url: `http://localhost:8080/api/products/${gProductId}`,
+            url: `http://localhost:8080/products/${gProductId}`,
             success: renderProductToPage,
             error: (e) => alert(e.responseJSON),
         });
@@ -153,7 +153,7 @@ $(document).ready(() => {
 					<p>
 						${gProduct.productDescription}
 					</p>
-					<h4>${gProduct.buyPrice} VNĐ</h4>
+					<h4>${gProduct.buyPrice.toLocaleString()} VNĐ</h4>
 				</div>
 				<div class="quantity">
 					<div class="pro-qty">
@@ -215,7 +215,7 @@ $(document).ready(() => {
         };
         if (validateComments(vNewComment)) {
             $.ajax({
-                url: `http://localhost:8080/api/products/${gProductId}/comments`,
+                url: `http://localhost:8080/products/${gProductId}/comments`,
                 method: 'POST',
                 data: JSON.stringify(vNewComment),
                 contentType: `application/json; charset=utf-8`,
@@ -316,7 +316,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/api/products/${productId}`,
+                    url: `http://localhost:8080/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
@@ -345,7 +345,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+            paramOrderDetail.quantityOrder
+        }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

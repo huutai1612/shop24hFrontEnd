@@ -21,7 +21,7 @@ $(document).ready(() => {
                 render: (productId) => {
                     let vProductData = '';
                     $.ajax({
-                        url: `http://localhost:8080/api/products/${productId}`,
+                        url: `http://localhost:8080/products/${productId}`,
                         dataType: 'json',
                         method: 'get',
                         async: false,
@@ -36,7 +36,7 @@ $(document).ready(() => {
                 render: (productId) => {
                     let vProductData = '';
                     $.ajax({
-                        url: `http://localhost:8080/api/products/${productId}`,
+                        url: `http://localhost:8080/products/${productId}`,
                         dataType: 'json',
                         method: 'get',
                         async: false,
@@ -51,7 +51,7 @@ $(document).ready(() => {
                 render: (productId) => {
                     let vProductData = '';
                     $.ajax({
-                        url: `http://localhost:8080/api/products/${productId}`,
+                        url: `http://localhost:8080/products/${productId}`,
                         dataType: 'json',
                         method: 'get',
                         async: false,
@@ -67,7 +67,7 @@ $(document).ready(() => {
     // get order detail
     function getOrderDetail() {
         $.get(
-            `http://localhost:8080/api/orders/${gOrderId}/order-details`,
+            `http://localhost:8080/orders/${gOrderId}/order-details`,
             renderTable
         );
     }

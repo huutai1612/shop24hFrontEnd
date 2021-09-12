@@ -10,7 +10,7 @@ $(document).ready(() => {
         $('.order-table').append(`<li>Sản phẩm <span>Tổng</span></li>`);
         gProduct.forEach((productId, index) => {
             $.ajax({
-                url: `http://localhost:8080/api/products/${productId}`,
+                url: `http://localhost:8080/products/${productId}`,
                 method: 'get',
                 dataType: 'json',
                 async: false,
@@ -58,7 +58,7 @@ $(document).ready(() => {
         };
         if (validateCustomer(vCustomerInfo)) {
             $.ajax({
-                url: `http://localhost:8080/api/customers/phone/${vCustomerInfo.phoneNumber}`,
+                url: `http://localhost:8080/customers/phone/${vCustomerInfo.phoneNumber}`,
                 method: 'get',
                 dataType: 'json',
                 success: checkUserExist,
@@ -79,7 +79,7 @@ $(document).ready(() => {
     // create user
     function createUser(paramCustomerInfo) {
         $.ajax({
-            url: 'http://localhost:8080/api/customers',
+            url: 'http://localhost:8080/customers',
             method: 'POST',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(paramCustomerInfo),
@@ -114,7 +114,7 @@ $(document).ready(() => {
         };
         if (validateOrder(vNewOrder)) {
             $.ajax({
-                url: `http://localhost:8080/api/customers/${gCustomerId}/orders`,
+                url: `http://localhost:8080/customers/${gCustomerId}/orders`,
                 method: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 async: false,
@@ -132,7 +132,7 @@ $(document).ready(() => {
     function createOrderDetail(paramOrderId) {
         gProduct.forEach((productId, index) => {
             $.ajax({
-                url: `http://localhost:8080/api/orders/${paramOrderId}/products/${productId}/order-details`,
+                url: `http://localhost:8080/orders/${paramOrderId}/products/${productId}/order-details`,
                 method: 'POST',
                 async: false,
                 data: JSON.stringify(gOrderDetail[index]),
@@ -198,7 +198,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/api/products/${productId}`,
+                    url: `http://localhost:8080/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
@@ -227,7 +227,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+            paramOrderDetail.quantityOrder
+        }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>
