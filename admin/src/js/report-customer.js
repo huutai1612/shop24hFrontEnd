@@ -46,6 +46,15 @@ $(document).ready(function () {
 
     // render chart
     function renderChart(paramOrder) {
+        $('#customer-chart').remove();
+        $('.chart').append(`<canvas id="customer-chart"
+        style="
+            min-height: 250px;
+            height: 250px;
+            max-height: 250px;
+            max-width: 100%;
+        "
+        ></canvas>`);
         let vAreaChartData = {
             labels: getCustomerName(paramOrder),
             datasets: [

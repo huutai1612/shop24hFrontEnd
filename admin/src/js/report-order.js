@@ -1,20 +1,53 @@
 $(document).ready(() => {
     // add event listener
-    $('#btn-day').click(getDatePaymentReport);
-    $('#btn-week').click(getWeekPaymentReport);
+    $('#btn-day').click(selectValueToGetPaymentDate);
+    $('#btn-week').click(onGetWeekPaymentReport);
+    $('#btn-month').click(onGetMonthPaymentReport);
+    $('#btn-filter-date').click(onGetPaymentDateReportClick);
     // get payment
-    function getDatePaymentReport() {
-        $.ajax({
-            url: `http://localhost:8080/payments/dates`,
-            method: 'get',
-            dataType: 'JSON',
-            success: renderChartByDate,
-            error: (e) => alert(e.responseText),
-        });
+    function selectValueToGetPaymentDate() {
+        $('#modal-date-range').modal('show');
     }
-    getDatePaymentReport();
 
-    function getWeekPaymentReport() {
+    // get payment
+    function onGetPaymentDateReportClick() {
+        let vDateRange = {
+            firstDate: $('#inp-first-date').val(),
+            lastDate: $('#inp-last-date').val(),
+        };
+        if (validateDate(vDateRange)) {
+            $.ajax({
+                url: `http://localhost:8080/payments/dates/${vDateRange.firstDate}/${vDateRange.lastDate}`,
+                method: 'get',
+                dataType: 'JSON',
+                success: renderChartByDate,
+                error: (e) => alert(e.responseText),
+            });
+        }
+        $('#modal-date-range').modal('hide');
+    }
+
+    // validate date
+    function validateDate(paramDate) {
+        let vResult = true;
+        try {
+            if (paramDate.firstDate == '') {
+                vResult = false;
+                throw '100. Ngày bắt đầu không được dể trống';
+            }
+            if (paramDate.lastDate == '') {
+                vResult = false;
+                throw '100. Ngày kết thúc không được dể trống';
+            }
+        } catch (error) {
+            $('#modal-error').modal('show');
+            $('#error').text(error);
+        }
+        return vResult;
+    }
+
+    // lấy theo tuần
+    function onGetWeekPaymentReport() {
         $.ajax({
             url: `http://localhost:8080/payments/weeks`,
             method: 'get',
@@ -23,161 +56,172 @@ $(document).ready(() => {
             error: (e) => alert(e.responseText),
         });
     }
-    // getWeekPaymentReport();
 
-    function renderChartByWeek(paramPayment) {
-        var vBarData = [
-            {
-                data: getPaymentWeek(paramPayment),
-                bars: { show: true },
-            },
-            {
-                data: getTotalIncome(paramPayment),
-                bars: { show: true },
-            },
-        ];
-        let vOption = {
-            grid: {
-                borderWidth: 1,
-                borderColor: '#f3f3f3',
-                tickColor: '#f3f3f3',
-                show: true,
-                hoverable: true,
-            },
-            points: {
-                show: false,
-            },
-            series: {
-                bars: {
-                    show: true,
-                    barWidth: 0.5,
-                    align: 'center',
-                },
-            },
-            colors: ['#3c8dbc'],
-            xaxis: {
-                ticks: getPaymentWeek(paramPayment),
-                labelWidth: 1,
-            },
-        };
-        let plot = $.plot('#bar-chart', vBarData, vOption);
-        $('#bar-chart').bind('plothover', function (event, pos, item) {
-            $('#tooltip').remove();
-
-            if (item) {
-                var plotData = plot.getData();
-                var valueString = '';
-
-                for (var i = 0; i < plotData.length; ++i) {
-                    var series = plotData[i];
-                    for (var j = 0; j < series.data.length; ++j) {
-                        if (series.data[j][0] === item.datapoint[0]) {
-                            valueString += series.data[j][1] + ' ';
-                        }
-                    }
-                }
-
-                $("<div id='tooltip'>" + valueString + '</div>')
-                    .css({
-                        position: 'absolute',
-                        display: 'none',
-                        top: pos.pageY + 5,
-                        left: pos.pageX + 5,
-                        border: '1px solid #fdd',
-                        padding: '2px',
-                        'background-color': '#fee',
-                        opacity: 0.8,
-                    })
-                    .appendTo('body')
-                    .fadeIn(200);
-            }
+    // lấy theo tháng
+    function onGetMonthPaymentReport() {
+        $.ajax({
+            url: `http://localhost:8080/payments/months`,
+            method: 'get',
+            dataType: 'JSON',
+            success: renderChartByMonth,
+            error: (e) => alert(e.responseText),
         });
     }
 
+    // render chart theo ngày
     function renderChartByDate(paramPayment) {
-        var vBarData = [
-            {
-                data: getTotalIncome(paramPayment),
-                bars: { show: true },
-            },
-            {
-                data: getPaymentDate(paramPayment),
-                bars: { show: true },
-            },
-        ];
-        let vOption = {
-            grid: {
-                borderWidth: 1,
-                borderColor: '#f3f3f3',
-                tickColor: '#f3f3f3',
-                show: true,
-                hoverable: true,
-            },
-            points: {
-                show: false,
-            },
-            series: {
-                bars: {
-                    show: true,
-                    barWidth: 0.5,
-                    align: 'center',
+        $('#payment-chart').remove();
+        $('.chart').append(`<canvas id="payment-chart"
+        style="
+            min-height: 250px;
+            height: 250px;
+            max-height: 250px;
+            max-width: 100%;
+        "
+        ></canvas>`);
+        let vAreaChartData = {
+            labels: getPaymentDate(paramPayment),
+            datasets: [
+                {
+                    label: 'Tổng thu nhập',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: getTotalIncome(paramPayment),
                 },
-            },
-            colors: ['#3c8dbc'],
-            xaxis: {
-                ticks: getPaymentDate(paramPayment),
-                labelWidth: 1,
-            },
+            ],
         };
-        let plot = $.plot('#bar-chart', vBarData, vOption);
-        $('#bar-chart').bind('plothover', function (event, pos, item) {
-            $('#tooltip').remove();
-            if (item) {
-                var plotData = plot.getData();
-                var valueString = '';
 
-                for (var i = 0; i < plotData.length; ++i) {
-                    var series = plotData[i];
-                    for (var j = 0; j < series.data.length; ++j) {
-                        if (series.data[j][0] === item.datapoint[0]) {
-                            valueString += series.data[j][1] + ' ';
-                        }
-                    }
-                }
+        let vBarChartCanvas = $('#payment-chart').get(0).getContext('2d');
+        let vBarChartData = $.extend(true, {}, vAreaChartData);
+        let temp0 = vAreaChartData.datasets[0];
+        vBarChartData.datasets[0] = temp0;
 
-                $("<div id='tooltip'>" + valueString + '</div>')
-                    .css({
-                        position: 'absolute',
-                        display: 'none',
-                        top: pos.pageY + 5,
-                        left: pos.pageX + 5,
-                        border: '1px solid #fdd',
-                        padding: '2px',
-                        'background-color': '#fee',
-                        opacity: 0.8,
-                    })
-                    .appendTo('body')
-                    .fadeIn(200);
-            }
+        let vBarChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false,
+        };
+
+        new Chart(vBarChartCanvas, {
+            type: 'bar',
+            data: vBarChartData,
+            options: vBarChartOptions,
         });
     }
 
-    // get week payment
-    function getPaymentWeek(paramPayment) {
-        return paramPayment.map((payment, index) => [index, `${payment.week}`]);
+    // render char theo tuần
+    function renderChartByWeek(paramPayment) {
+        $('#payment-chart').remove();
+        $('.chart').append(`<canvas id="payment-chart"
+        style="
+            min-height: 250px;
+            height: 250px;
+            max-height: 250px;
+            max-width: 100%;
+        "
+        ></canvas>`);
+        let vAreaChartData = {
+            labels: getPaymentWeek(paramPayment),
+            datasets: [
+                {
+                    label: 'Tổng thu nhập',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: getTotalIncome(paramPayment),
+                },
+            ],
+        };
+        let vBarChartCanvas = $('#payment-chart').get(0).getContext('2d');
+        let vBarChartData = $.extend(true, {}, vAreaChartData);
+        let temp0 = vAreaChartData.datasets[0];
+        vBarChartData.datasets[0] = temp0;
+
+        let vBarChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false,
+        };
+
+        new Chart(vBarChartCanvas, {
+            type: 'bar',
+            data: vBarChartData,
+            options: vBarChartOptions,
+        });
+    }
+
+    // render char theo tháng
+    function renderChartByMonth(paramPayment) {
+        $('#payment-chart').remove();
+        $('.chart').append(`<canvas id="payment-chart"
+        style="
+            min-height: 250px;
+            height: 250px;
+            max-height: 250px;
+            max-width: 100%;
+        "
+        ></canvas>`);
+        let vAreaChartData = {
+            labels: getPaymentMonth(paramPayment),
+            datasets: [
+                {
+                    label: 'Tổng thu nhập',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: getTotalIncome(paramPayment),
+                },
+            ],
+        };
+        let vBarChartCanvas = $('#payment-chart').get(0).getContext('2d');
+        let vBarChartData = $.extend(true, {}, vAreaChartData);
+        let temp0 = vAreaChartData.datasets[0];
+        vBarChartData.datasets[0] = temp0;
+
+        let vBarChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false,
+        };
+
+        new Chart(vBarChartCanvas, {
+            type: 'bar',
+            data: vBarChartData,
+            options: vBarChartOptions,
+        });
     }
 
     // getPaymentDate
     function getPaymentDate(paramPayment) {
-        return paramPayment.map((payment, index) => [
-            index,
-            payment.paymentDate,
-        ]);
+        return paramPayment.map((payment) => payment.paymentDate);
+    }
+
+    // get week payment
+    function getPaymentWeek(paramPayment) {
+        return paramPayment.map((payment) => payment.week);
+    }
+
+    // get month payment
+    function getPaymentMonth(paramPayment) {
+        return paramPayment.map((payment) => payment.month);
     }
 
     // getTotalIncome
     function getTotalIncome(paramPayment) {
-        return paramPayment.map((payment, index) => [index, payment.total]);
+        return paramPayment.map((payment) => payment.total);
     }
 
     // signout

@@ -546,7 +546,7 @@
                                 <div
                                     class="col-3 d-flex justify-content-center"
                                 >
-                                    <label for="inp-first-date">Dến ngày</label>
+                                    <label for="inp-first-date">Đến ngày</label>
                                     <input
                                         type="date"
                                         id="inp-last-date"
@@ -564,51 +564,47 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="col-md-12">
-                                    <!-- Bar chart -->
-                                    <div class="card card-success">
-                                        <div class="card-header">
-                                            <h3 class="card-title">
-                                                Bar Chart
-                                            </h3>
+                            <div class="col-md-12">
+                                <!-- Bar chart -->
+                                <div class="card card-success">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Bar Chart</h3>
 
-                                            <div class="card-tools">
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-tool"
-                                                    data-card-widget="collapse"
-                                                >
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-tool"
-                                                    data-card-widget="remove"
-                                                >
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
+                                        <div class="card-tools">
+                                            <button
+                                                type="button"
+                                                class="btn btn-tool"
+                                                data-card-widget="collapse"
+                                            >
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="btn btn-tool"
+                                                data-card-widget="remove"
+                                            >
+                                                <i class="fas fa-times"></i>
+                                            </button>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="chart">
-                                                <canvas
-                                                    id="customer-chart"
-                                                    style="
-                                                        min-height: 250px;
-                                                        height: 250px;
-                                                        max-height: 250px;
-                                                        max-width: 100%;
-                                                    "
-                                                ></canvas>
-                                            </div>
-                                        </div>
-                                        <!-- /.card-body -->
                                     </div>
-                                    <!-- /.card -->
-
-                                    <!-- /.card -->
+                                    <div class="card-body">
+                                        <div class="chart">
+                                            <canvas
+                                                id="customer-chart"
+                                                style="
+                                                    min-height: 250px;
+                                                    height: 250px;
+                                                    max-height: 250px;
+                                                    max-width: 100%;
+                                                "
+                                            ></canvas>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
                                 </div>
+                                <!-- /.card -->
+
+                                <!-- /.card -->
                             </div>
                         </div>
                         <!-- /.row (main row) -->
@@ -634,6 +630,39 @@
                 <!-- Control sidebar content goes here -->
             </aside>
             <!-- /.control-sidebar -->
+            <!-- modal error begin -->
+            <div class="modal fade" id="modal-error" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-danger">Lỗi</h5>
+                            <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-danger" id="error">
+                                Modal body text goes here.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ./modal error end -->
         </div>
         <!-- ./wrapper -->
 
