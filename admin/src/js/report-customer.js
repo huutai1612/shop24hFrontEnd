@@ -3,23 +3,38 @@ $(document).ready(function () {
 
     $('#btn-filter').click(filterCustomerOrder);
 
+    // filter customer
     function filterCustomerOrder() {
         let vFilterValue = {
-            min: $('#inp-min').val().trim(),
-            max: $('#inp-max').val().trim(),
+            firstDate: $('#inp-first-date').val(),
+            lastDate: $('#inp-last-date').val(),
         };
-        if (vFilterValue.min == '' || vFilterValue.max == '') {
-            alert('Phải có giá trị để lọc customer');
-            gUrl = `http://localhost:8080/customers/count-orders`;
-            getOrderByCustomer(gUrl);
-        } else {
-            gUrl = `http://localhost:8080/customers/filter-count-orders?min=${vFilterValue.min}&max=${vFilterValue.max}`;
-            getOrderByCustomer(gUrl);
+        if (validateFilterValue(vFilterValue)) {
+            gUrl = `http://localhost:8080/customers/filter-count-orders?firstDate=${vFilterValue.firstDate}&lastDate=${vFilterValue.lastDate}`;
+            getToTalOrderOfCustomer(gUrl);
         }
     }
 
-    // get total order by customer inf
-    function getOrderByCustomer(paramUrl) {
+    function validateFilterValue(pOrderFilter) {
+        let vResult = true;
+        try {
+            if (pOrderFilter.firstDate == '') {
+                vResult = false;
+                throw '100. Cần có ngày băt đầu';
+            }
+            if (pOrderFilter.lastDate == '') {
+                vResult = false;
+                throw '101. Cần có ngày kết thúc';
+            }
+        } catch (error) {
+            $('#modal-error').modal('show');
+            $('#error').text(error);
+        }
+        return vResult;
+    }
+
+    // get total order of customer
+    function getToTalOrderOfCustomer(paramUrl) {
         $.ajax({
             url: paramUrl,
             method: 'get',
@@ -28,94 +43,58 @@ $(document).ready(function () {
             error: (e) => alert(e.responseText),
         });
     }
-    getOrderByCustomer(gUrl);
 
     // render chart
     function renderChart(paramOrder) {
-        var vBarData = [
-            {
-                data: getTotalOrder(paramOrder),
-                bars: { show: true },
-            },
-            {
-                data: getCustomerName(paramOrder),
-                bars: { show: true },
-            },
-        ];
-        let vOption = {
-            grid: {
-                borderWidth: 1,
-                borderColor: '#f3f3f3',
-                tickColor: '#f3f3f3',
-                show: true,
-                hoverable: true,
-            },
-            points: {
-                show: false,
-            },
-            series: {
-                bars: {
-                    show: true,
-                    barWidth: 0.5,
-                    align: 'center',
+        let vAreaChartData = {
+            labels: getCustomerName(paramOrder),
+            datasets: [
+                {
+                    label: 'Số order',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: getTotalOrder(paramOrder),
                 },
-            },
-            colors: ['#3c8dbc'],
-            xaxis: {
-                ticks: getCustomerName(paramOrder),
-                labelWidth: 1,
-            },
+            ],
         };
-        let plot = $.plot('#bar-chart', vBarData, vOption);
-        $('#bar-chart').bind('plothover', function (event, pos, item) {
-            $('#tooltip').remove();
+        vAreaChartData.datasets[0].data.push(0);
 
-            if (item) {
-                var plotData = plot.getData();
-                var valueString = '';
+        let vBarChartCanvas = $('#customer-chart').get(0).getContext('2d');
+        let vBarChartData = $.extend(true, {}, vAreaChartData);
+        let temp0 = vAreaChartData.datasets[0];
+        vBarChartData.datasets[0] = temp0;
 
-                for (var i = 0; i < plotData.length; ++i) {
-                    var series = plotData[i];
-                    for (var j = 0; j < series.data.length; ++j) {
-                        if (series.data[j][0] === item.datapoint[0]) {
-                            valueString += series.data[j][1] + ' ';
-                        }
-                    }
-                }
+        let vBarChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false,
+        };
 
-                $("<div id='tooltip'>" + valueString + '</div>')
-                    .css({
-                        position: 'absolute',
-                        display: 'none',
-                        top: pos.pageY + 5,
-                        left: pos.pageX + 5,
-                        border: '1px solid #fdd',
-                        padding: '2px',
-                        'background-color': '#fee',
-                        opacity: 0.8,
-                    })
-                    .appendTo('body')
-                    .fadeIn(200);
-            }
+        new Chart(vBarChartCanvas, {
+            type: 'bar',
+            data: vBarChartData,
+            options: vBarChartOptions,
         });
     }
 
     // get customer name
     function getCustomerName(paramCustomer) {
-        return paramCustomer.map((customer, index) => [
-            index,
-            customer.fullName,
-        ]);
+        return paramCustomer.map((customer) => customer.fullName);
     }
 
     // get total order
     function getTotalOrder(paramOrder) {
-        return paramOrder.map((order, index) => [index, order.totalOrder]);
+        return paramOrder.map((order) => order.totalOrder);
     }
 
     // signout
     const userCookie = getCookie('user');
-    var urlInfo = 'http://42.115.221.44:8080/devcamp-auth/users/me';
+    let urlInfo = 'http://42.115.221.44:8080/devcamp-auth/users/me';
 
     $.ajax({
         url: urlInfo,
