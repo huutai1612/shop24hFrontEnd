@@ -73,19 +73,14 @@ $(document).ready(() => {
         //   1. The initial content was wrapped by a 'div.owl-stage-outer';
         //   2. The '.owl-carousel' itself has an '.owl-loaded' class attached;
         //   We have to remove that before the new initialization.
-        $owl.html($owl.find('.owl-stage-outer').html()).removeClass(
-            'owl-loaded'
-        );
+        $owl.html($owl.find('.owl-stage-outer').html()).removeClass('owl-loaded');
         $owl.owlCarousel({
             loop: true,
             margin: 25,
             nav: true,
             items: 4,
             dots: true,
-            navText: [
-                '<i class="ti-angle-left"></i>',
-                '<i class="ti-angle-right"></i>',
-            ],
+            navText: ['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>'],
             smartSpeed: 1200,
             autoHeight: false,
             autoplay: true,
@@ -320,11 +315,7 @@ $(document).ready(() => {
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
-                        renderProductToCart(
-                            product,
-                            index,
-                            vOrderDetail[index]
-                        );
+                        renderProductToCart(product, index, vOrderDetail[index]);
                     },
                     error: (e) => alert(e.responseText),
                 });
@@ -345,9 +336,7 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
-            paramOrderDetail.quantityOrder
-        }</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${paramOrderDetail.quantityOrder}</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>
