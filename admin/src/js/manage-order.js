@@ -185,6 +185,7 @@ $(document).ready(() => {
         });
     }
 
+    // render customer to select
     function renderToSelect(paramCustomer) {
         let vSelectElement = $('#s-customer');
         paramCustomer.forEach((customer) => {
@@ -207,7 +208,6 @@ $(document).ready(() => {
             displayUser(responseObject);
         },
         error: function (xhr) {
-            console.log(xhr);
             // Khi token hết hạn, AJAX sẽ trả về lỗi khi đó sẽ redirect về trang login để người dùng đăng nhập lại
             redirectToLogin();
         },

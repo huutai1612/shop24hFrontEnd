@@ -37,7 +37,6 @@ $(document).ready(() => {
     // handle response
     function responseHandler(res) {
         setCookie('user', res.token, 1);
-        console.log(res);
         window.location.href = 'index.html';
     }
 

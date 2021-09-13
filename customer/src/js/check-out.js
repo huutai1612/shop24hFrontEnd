@@ -23,12 +23,12 @@ $(document).ready(() => {
         );
     }
     getBill();
+    onLoadCartNumber();
+    loadProductToCart();
 
     // render đơn hàng
     function renderBill(paramProduct, paramIndex) {
-        gTotal +=
-            gOrderDetail[paramIndex].quantityOrder *
-            gOrderDetail[paramIndex].priceEach;
+        gTotal += gOrderDetail[paramIndex].quantityOrder * gOrderDetail[paramIndex].priceEach;
         let vResult = `
 		<li class="fw-normal">
 			${paramProduct.productName}x ${gOrderDetail[paramIndex].quantityOrder}
@@ -63,7 +63,6 @@ $(document).ready(() => {
                 dataType: 'json',
                 success: checkUserExist,
                 error: (e) => {
-                    console.log(e.responseText);
                     createUser(vCustomerInfo);
                 },
             });
@@ -137,7 +136,7 @@ $(document).ready(() => {
                 async: false,
                 data: JSON.stringify(gOrderDetail[index]),
                 contentType: 'application/json; charset=utf-8',
-                success: (response) => console.log(response),
+                success: (response) => {},
                 error: (e) => alert(e.responseText),
             });
         });
@@ -189,7 +188,6 @@ $(document).ready(() => {
             $('.cart-icon span').text(productNumber);
         }
     }
-    onLoadCartNumber();
 
     // function load cart product
     function loadProductToCart() {
@@ -202,18 +200,13 @@ $(document).ready(() => {
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
-                        renderProductToCart(
-                            product,
-                            index,
-                            vOrderDetail[index]
-                        );
+                        renderProductToCart(product, index, vOrderDetail[index]);
                     },
                     error: (e) => alert(e.responseText),
                 });
             });
         }
     }
-    loadProductToCart();
 
     // render product to cart
     function renderProductToCart(paramProduct, paramIndex, paramOrderDetail) {
@@ -227,9 +220,7 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
-            paramOrderDetail.quantityOrder
-        }</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${paramOrderDetail.quantityOrder}</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

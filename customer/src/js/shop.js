@@ -6,14 +6,22 @@ $(document).ready(() => {
     $(document).on('click', '.page', onChangePageClick);
     $(document).on('click', '.next-page', onNextPageClick);
     $(document).on('click', '.previous-page', onPreviousPageClick);
+    $('#btn-search').click(onSearchClick);
+
+    // khai báo biến
     let gProductIdArray = [];
     let gOrderDetailArray = [];
     let gTotalPage = 0;
     let vPaginationElement = $('.pagination');
     let gCurrentPage = 0;
+
+    // chạy các hàm khởi tạo
     onGetCurrentPageLoad();
     getTotalProductCount();
     renderPagination();
+    getRelatedProduct();
+    onLoadCartNumber();
+    loadProductToCart();
     $(`.pagination li:nth-child(${gCurrentPage + 2})`).addClass('active');
 
     // search
@@ -24,7 +32,6 @@ $(document).ready(() => {
     } else {
         getProduct(`http://localhost:8080/products/pages/${gCurrentPage}`);
     }
-    getRelatedProduct();
 
     // function get count total
     function getTotalProductCount() {
@@ -89,9 +96,7 @@ $(document).ready(() => {
         let vUrl = `http://localhost:8080/products/pages/${parseInt(
             localStorage.getItem('currentPage')
         )}`;
-        $(`.pagination li:nth-child(${gCurrentPage + 1})`).removeClass(
-            'active'
-        );
+        $(`.pagination li:nth-child(${gCurrentPage + 1})`).removeClass('active');
         $(`.pagination li:nth-child(${gCurrentPage + 1})`)
             .next()
             .addClass('active');
@@ -116,9 +121,7 @@ $(document).ready(() => {
         let vUrl = `http://localhost:8080/products/pages/${parseInt(
             localStorage.getItem('currentPage')
         )}`;
-        $(`.pagination li:nth-child(${gCurrentPage + 3})`).removeClass(
-            'active'
-        );
+        $(`.pagination li:nth-child(${gCurrentPage + 3})`).removeClass('active');
         $(`.pagination li:nth-child(${gCurrentPage + 3})`)
             .prev()
             .addClass('active');
@@ -160,9 +163,7 @@ $(document).ready(() => {
                 </div>
                 <ul>
                     <li class="quick-view">
-                        <a href="product.html?productId=${
-                            product.id
-                        }">Shop Now</a>
+                        <a href="product.html?productId=${product.id}">Shop Now</a>
                     </li>
                 </ul>
             </div>
@@ -183,19 +184,14 @@ $(document).ready(() => {
         //   1. The initial content was wrapped by a 'div.owl-stage-outer';
         //   2. The '.owl-carousel' itself has an '.owl-loaded' class attached;
         //   We have to remove that before the new initialization.
-        $owl.html($owl.find('.owl-stage-outer').html()).removeClass(
-            'owl-loaded'
-        );
+        $owl.html($owl.find('.owl-stage-outer').html()).removeClass('owl-loaded');
         $owl.owlCarousel({
             loop: true,
             margin: 25,
             nav: true,
             items: 4,
             dots: true,
-            navText: [
-                '<i class="ti-angle-left"></i>',
-                '<i class="ti-angle-right"></i>',
-            ],
+            navText: ['<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>'],
             smartSpeed: 1200,
             autoHeight: false,
             autoplay: true,
@@ -235,9 +231,9 @@ $(document).ready(() => {
             <div class="col-lg-4 col-sm-6">
                 <div class="product-item">
                     <div class="pi-pic">
-                        <img style="height: 400px" src="${
-                            product.urlImage
-                        }" alt="${product.productCode}" />
+                        <img style="height: 400px" src="${product.urlImage}" alt="${
+                product.productCode
+            }" />
                         <div class="icon">
                             <i class="icon_heart_alt"></i>
                         </div>
@@ -248,17 +244,13 @@ $(document).ready(() => {
             }" class="add-cart" href="#"><i class="icon_bag_alt"></i></a>
                             </li>
                             <li class="quick-view">
-                                <a href="product.html?productId=${
-                                    product.id
-                                }">Xem sản phẩm</a>
+                                <a href="product.html?productId=${product.id}">Xem sản phẩm</a>
                             </li>
                         </ul>
                     </div>
                     <div class="pi-text">
                         <div class="catagory-name">Towel</div>
-                        <a class="add-cart" href="product.html?productId=${
-                            product.id
-                        }">
+                        <a class="add-cart" href="product.html?productId=${product.id}">
                             <h5>${product.productName}</h5>
                         </a>
                         <div class="product-price">
@@ -291,9 +283,7 @@ $(document).ready(() => {
         if (vProductLineId == 0) {
             getProduct('http://localhost:8080/products/pages/0');
         } else {
-            getProduct(
-                `http://localhost:8080/product-lines/${vProductLineId}/products`
-            );
+            getProduct(`http://localhost:8080/product-lines/${vProductLineId}/products`);
         }
     }
 
@@ -348,7 +338,7 @@ $(document).ready(() => {
     }
 
     // search click
-    $('#btn-search').click(onSearchClick);
+
     function onSearchClick() {
         let vSearchInput = $('#inp-search').val().trim();
         if (vSearchInput == '') {
@@ -365,7 +355,6 @@ $(document).ready(() => {
             $('.cart-icon span').text(productNumber);
         }
     }
-    onLoadCartNumber();
 
     // function load cart product
     function loadProductToCart() {
@@ -378,18 +367,13 @@ $(document).ready(() => {
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
-                        renderProductToCart(
-                            product,
-                            index,
-                            vOrderDetail[index]
-                        );
+                        renderProductToCart(product, index, vOrderDetail[index]);
                     },
                     error: (e) => alert(e.responseText),
                 });
             });
         }
     }
-    loadProductToCart();
 
     // render product to cart
     function renderProductToCart(paramProduct, paramIndex, paramOrderDetail) {
@@ -403,9 +387,7 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
-            paramOrderDetail.quantityOrder
-        }</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${paramOrderDetail.quantityOrder}</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

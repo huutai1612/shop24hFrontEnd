@@ -26,8 +26,7 @@ $(document).ready(() => {
             },
             {
                 targets: G_BUY_PRICE_COLUMN,
-                render: (pBuyPrice) =>
-                    `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
+                render: (pBuyPrice) => `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
             },
             {
                 targets: G_QUANTITY_COLUMN,
@@ -42,6 +41,8 @@ $(document).ready(() => {
     getProductData();
     $('.btn-add-oder-detail').click(onAddOrderDetailClick);
     $('#btn-check-order').click(onCheckOrderClick);
+
+    // check order detail
     function onCheckOrderClick() {
         window.location.href = `order-detail.html?orderId=${gOrderId}`;
     }
@@ -61,8 +62,7 @@ $(document).ready(() => {
                 method: 'post',
                 data: JSON.stringify(vNewOrderDetail),
                 contentType: `application/json; charset=utf-8`,
-                success: () =>
-                    alert(`Đã cập nhật sản phẩm cho order ${gOrderId}`),
+                success: () => alert(`Đã cập nhật sản phẩm cho order ${gOrderId}`),
                 error: (e) => alert(e.responseText),
             });
         }
@@ -115,7 +115,6 @@ $(document).ready(() => {
             displayUser(responseObject);
         },
         error: function (xhr) {
-            console.log(xhr);
             // Khi token hết hạn, AJAX sẽ trả về lỗi khi đó sẽ redirect về trang login để người dùng đăng nhập lại
             redirectToLogin();
         },

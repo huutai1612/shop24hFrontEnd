@@ -8,6 +8,7 @@ $(document).ready(() => {
     const G_TOTAL_PRICE_COLUMN = 6;
     getOrderDetail();
 
+    // khai báo table
     let gTableOrderDetail = $('#table-order-detail').DataTable({
         columns: [
             { data: 'orderId' },
@@ -22,9 +23,7 @@ $(document).ready(() => {
             {
                 targets: G_TOTAL_PRICE_COLUMN,
                 render: (pData, pType, pRow) =>
-                    `<p>${(
-                        pRow.priceEach * pRow.quantity
-                    ).toLocaleString()} VNĐ</p>`,
+                    `<p>${(pRow.priceEach * pRow.quantity).toLocaleString()} VNĐ</p>`,
             },
             {
                 targets: G_COLUMN_NAME,
@@ -43,8 +42,7 @@ $(document).ready(() => {
             },
             {
                 targets: G_BUY_PRICE_COLUMN,
-                render: (pBuyPrice) =>
-                    `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
+                render: (pBuyPrice) => `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
             },
             {
                 targets: G_COLUMN_CODE,
@@ -81,10 +79,7 @@ $(document).ready(() => {
 
     // get order detail
     function getOrderDetail() {
-        $.get(
-            `http://localhost:8080/orders/${gOrderId}/order-details`,
-            renderTable
-        );
+        $.get(`http://localhost:8080/orders/${gOrderId}/order-details`, renderTable);
     }
 
     // rendertable

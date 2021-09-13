@@ -30,6 +30,8 @@ $(document).ready(() => {
     $('#table-customer').on('click', '.fa-user-edit', onUpdateCustomerClick);
     $('#btn-save-customer').click(onSaveCustomerClick);
 
+    getCustomerData();
+
     // save customer
     function onSaveCustomerClick() {
         let vNewCustomer = {
@@ -133,10 +135,7 @@ $(document).ready(() => {
         let vSelectedData = gCustomerTable.row(vSelectedRow).data();
         gCustomerId = vSelectedData.id;
         $('#modal-update-customer').modal('show');
-        $.get(
-            `http://localhost:8080/customers/${gCustomerId}`,
-            loadCustomerToInput
-        );
+        $.get(`http://localhost:8080/customers/${gCustomerId}`, loadCustomerToInput);
     }
 
     // load customer to input
@@ -177,7 +176,6 @@ $(document).ready(() => {
             error: (e) => alert(e.responseText),
         });
     }
-    getCustomerData();
 
     // render table
     function renderCustomerTable(paramCustomer) {
@@ -198,7 +196,6 @@ $(document).ready(() => {
             displayUser(responseObject);
         },
         error: function (xhr) {
-            console.log(xhr);
             // Khi token hết hạn, AJAX sẽ trả về lỗi khi đó sẽ redirect về trang login để người dùng đăng nhập lại
             redirectToLogin();
         },

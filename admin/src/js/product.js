@@ -24,8 +24,7 @@ $(document).ready(() => {
             },
             {
                 targets: G_BUY_PRICE_COLUMN,
-                render: (pBuyPrice) =>
-                    `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
+                render: (pBuyPrice) => `<p>${pBuyPrice.toLocaleString()} VNĐ </p>`,
             },
             {
                 targets: G_ACTION_COLUMN,
@@ -34,13 +33,12 @@ $(document).ready(() => {
             },
         ],
     });
+
     // khai báo biến
     let gProduct = {
         db: '',
         checkProductCode(paramProductCode) {
-            return this.db.some(
-                (product) => product.productCode == paramProductCode
-            );
+            return this.db.some((product) => product.productCode == paramProductCode);
         },
     };
     let gProductId = 0;
@@ -225,10 +223,7 @@ $(document).ready(() => {
         let vSelectedData = gProductTable.row(vSelectedRow).data();
         gProductId = vSelectedData.id;
         $('#s-product-line').prop('disabled', true);
-        $.get(
-            `http://localhost:8080/products/${gProductId}`,
-            loadProductToInput
-        );
+        $.get(`http://localhost:8080/products/${gProductId}`, loadProductToInput);
     }
 
     // get product line
@@ -303,7 +298,6 @@ $(document).ready(() => {
             displayUser(responseObject);
         },
         error: function (xhr) {
-            console.log(xhr);
             // Khi token hết hạn, AJAX sẽ trả về lỗi khi đó sẽ redirect về trang login để người dùng đăng nhập lại
             redirectToLogin();
         },

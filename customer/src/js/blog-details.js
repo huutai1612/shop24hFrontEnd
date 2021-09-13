@@ -1,4 +1,7 @@
 $(document).ready(() => {
+    onLoadCartNumber();
+    loadProductToCart();
+
     // search click
     $('#btn-search').click(onSearchClick);
     function onSearchClick() {
@@ -17,7 +20,6 @@ $(document).ready(() => {
             $('.cart-icon span').text(productNumber);
         }
     }
-    onLoadCartNumber();
 
     // function load cart product
     function loadProductToCart() {
@@ -30,18 +32,13 @@ $(document).ready(() => {
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
-                        renderProductToCart(
-                            product,
-                            index,
-                            vOrderDetail[index]
-                        );
+                        renderProductToCart(product, index, vOrderDetail[index]);
                     },
                     error: (e) => alert(e.responseText),
                 });
             });
         }
     }
-    loadProductToCart();
 
     // render product to cart
     function renderProductToCart(paramProduct, paramIndex, paramOrderDetail) {
@@ -55,9 +52,7 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
-            paramOrderDetail.quantityOrder
-        }</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${paramOrderDetail.quantityOrder}</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

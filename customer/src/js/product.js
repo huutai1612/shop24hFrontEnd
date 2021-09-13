@@ -29,6 +29,8 @@ $(document).ready(() => {
     getAverageRate();
     getProduct();
     getRelatedProduct();
+    onLoadCartNumber();
+    loadProductToCart();
 
     // function get average rate
     function getAverageRate() {
@@ -328,7 +330,6 @@ $(document).ready(() => {
             $('.cart-icon span').text(productNumber);
         }
     }
-    onLoadCartNumber();
 
     // function load cart product
     function loadProductToCart() {
@@ -348,7 +349,6 @@ $(document).ready(() => {
             });
         }
     }
-    loadProductToCart();
 
     // render product to cart
     function renderProductToCart(paramProduct, paramIndex, paramOrderDetail) {

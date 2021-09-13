@@ -1,7 +1,18 @@
 $(document).ready(() => {
+    // khai báo biến
     let gProduct = JSON.parse(localStorage.getItem('products'));
     let gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
 
+    // add event listener
+    $('#btn-search').click(onSearchClick);
+
+    // chạy các hàm khởi tạo
+    getProduct();
+    addEventListenerForIncreaseAndDecrease();
+    onLoadCartNumber();
+    loadProductToCart();
+
+    // get product
     function getProduct() {
         $('.cart-table tbody').html('');
         if (gProduct) {
@@ -19,16 +30,13 @@ $(document).ready(() => {
             });
         }
     }
-    getProduct();
 
     // render product
     function renderProduct(paramProduct, paramIndex, paramOrderDetail) {
         let vResult = `
 		<tr>
 			<td class="cart-pic first-row">
-				<img style="width:168px; height:168px" src="${
-                    paramProduct.urlImage
-                }" alt="product">
+				<img style="width:168px; height:168px" src="${paramProduct.urlImage}" alt="product">
 			</td>
 			<td class="cart-title first-row">
 				<h5>${paramProduct.productName}</h5>
@@ -37,9 +45,7 @@ $(document).ready(() => {
 			<td class="qua-col first-row">
 				<div class="quantity">
 					<div class="pro-qty"><span class="dec qtybtn">-</span>
-						<input class="inp-quantity" type="text" value="${
-                            paramOrderDetail.quantityOrder
-                        }">
+						<input class="inp-quantity" type="text" value="${paramOrderDetail.quantityOrder}">
 					<span class="inc qtybtn">+</span></div>
 				</div>
 			</td>
@@ -64,13 +70,10 @@ $(document).ready(() => {
         }
 
         function onDecreaseProductClick(paramInputElement, paramIndex) {
-            console.log(paramIndex);
             if (paramInputElement.value < 2) {
                 paramInputElement.value = 1;
             }
-            gOrderDetail[paramIndex].quantityOrder = parseInt(
-                --paramInputElement.value
-            );
+            gOrderDetail[paramIndex].quantityOrder = parseInt(--paramInputElement.value);
             localStorage.setItem('orderDetail', JSON.stringify(gOrderDetail));
             $('.select-items tbody').html('');
             gProduct = JSON.parse(localStorage.getItem('products'));
@@ -87,9 +90,7 @@ $(document).ready(() => {
         }
 
         function onIncreaseProductClick(paramInputElement, paramIndex) {
-            gOrderDetail[paramIndex].quantityOrder = parseInt(
-                ++paramInputElement.value
-            );
+            gOrderDetail[paramIndex].quantityOrder = parseInt(++paramInputElement.value);
             localStorage.setItem('orderDetail', JSON.stringify(gOrderDetail));
             $('.select-items tbody').html('');
             gProduct = JSON.parse(localStorage.getItem('products'));
@@ -99,7 +100,6 @@ $(document).ready(() => {
             loadProductToCart();
         }
     }
-    addEventListenerForIncreaseAndDecrease();
 
     // on load cart number function
     function onLoadCartNumber() {
@@ -109,7 +109,6 @@ $(document).ready(() => {
         }
     }
 
-    onLoadCartNumber();
     // function load cart product
     function loadProductToCart() {
         let vProduct = JSON.parse(localStorage.getItem('products'));
@@ -121,18 +120,13 @@ $(document).ready(() => {
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {
-                        renderProductToCart(
-                            product,
-                            index,
-                            vOrderDetail[index]
-                        );
+                        renderProductToCart(product, index, vOrderDetail[index]);
                     },
                     error: (e) => alert(e.responseText),
                 });
             });
         }
     }
-    loadProductToCart();
 
     // render product to cart
     function renderProductToCart(paramProduct, paramIndex, paramOrderDetail) {
@@ -146,9 +140,7 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
-            paramOrderDetail.quantityOrder
-        }</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${paramOrderDetail.quantityOrder}</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>
@@ -189,7 +181,6 @@ $(document).ready(() => {
     });
 
     // search click
-    $('#btn-search').click(onSearchClick);
     function onSearchClick() {
         let vSearchInput = $('#inp-search').val().trim();
         if (vSearchInput == '') {
