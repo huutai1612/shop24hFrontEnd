@@ -6,6 +6,7 @@ $(document).ready(() => {
     let gProductIdArray = [];
     let gOrderDetailArray = [];
     let gProduct = '';
+    let gProductRate = 0;
 
     // add plus and minus product click
     let vQuantityNumber = 1;
@@ -13,7 +14,6 @@ $(document).ready(() => {
         vQuantityNumber++;
         $('#quantity').val(vQuantityNumber);
     });
-
     $(document).on('click', '.dec', function () {
         if (vQuantityNumber < 2) {
             vQuantityNumber = 1;
@@ -23,7 +23,23 @@ $(document).ready(() => {
             $('#quantity').val(vQuantityNumber);
         }
     });
+    $(document).on('click', '#btn-add-cart', onAddCartClick);
     $('.btn-comments').click(onCreateCommentsClick);
+
+    getAverageRate();
+    getProduct();
+    getRelatedProduct();
+
+    // function get average rate
+    function getAverageRate() {
+        $.ajax({
+            url: `http://localhost:8080/products/${gProductId}/comments/average`,
+            method: 'get',
+            async: false,
+            success: (response) => (gProductRate = response[0].average),
+            error: (error) => alert(error.responseText),
+        });
+    }
 
     // get related product
     function getRelatedProduct() {
@@ -112,8 +128,6 @@ $(document).ready(() => {
             error: (e) => alert(e.responseJSON),
         });
     }
-    getProduct();
-    getRelatedProduct();
 
     // renderProduct
     function renderProductToPage(paramProduct) {
@@ -137,12 +151,9 @@ $(document).ready(() => {
 					></a>
 				</div>
 				<div class="pd-rating">
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star"></i>
-					<i class="fa fa-star-o"></i>
-					<span>(5)</span>
+                <span class="stars ml-2" data-rating="${gProductRate}" data-num-stars="5" >
+                </span>
+                (${gProductRate})
 				</div>
 				<div class="pd-desc">
 					<p>
@@ -183,30 +194,45 @@ $(document).ready(() => {
 
     // render comments
     function renderComments(paramComments) {
-        let vResult = paramComments.map(
-            (comment) => `
-            <div
-                class="avatar-text">
+        let vResult = paramComments.map((comment) => {
+            return `
+                <div class="avatar-text mt-2 d-flex">
                 <h5>${comment.name}</h5>
-                <div class=" at-rating">
-                    <i class="fa fa-star text-warning"></i>
-                    <i class="fa fa-star text-warning"></i>
-                    <i class="fa fa-star text-warning"></i>
-                    <i class="fa fa-star text-warning"></i>
-                    <i class="fa fa-star-o"></i>
+                    <span class="stars ml-2" data-rating="${comment.rateStar}" data-num-stars="5" ></span>
                 </div>
-                <div class="at-reply">${comment.comments}</div>
-            </div>
-        `
-        );
+                <div class="at-reply"><p>${comment.comments}</p></div>
+                
+                
+                `;
+        });
+        $(function () {
+            $('.stars').stars();
+        });
+
         $('.comment-option').html(vResult);
     }
+
+    // render star
+    $.fn.stars = function () {
+        return $(this).each(function () {
+            const rating = $(this).data('rating');
+            const numStars = $(this).data('numStars');
+            const fullStar = '<i class="fas fa-star text-warning"></i>'.repeat(Math.floor(rating));
+            const halfStar =
+                rating % 1 !== 0 ? '<i class="fas fa-star-half-alt text-warning"></i>' : '';
+            const noStar = '<i class="far fa-star text-warning"></i>'.repeat(
+                Math.floor(numStars - rating)
+            );
+            $(this).html(`${fullStar}${halfStar}${noStar}`);
+        });
+    };
 
     // create comments
     function onCreateCommentsClick() {
         let vNewComment = {
             name: $('#inp-name').val(),
             comments: $('#inp-comment').val(),
+            rateStar: $('#inp-rating').val(),
         };
         if (validateComments(vNewComment)) {
             $.ajax({
@@ -215,10 +241,10 @@ $(document).ready(() => {
                 data: JSON.stringify(vNewComment),
                 contentType: `application/json; charset=utf-8`,
                 success: () => {
+                    getAverageRate();
                     getProduct();
                     $('#inp-name').val('');
                     $('#inp-comment').val('');
-                    $('#btn-add-cart').click(onAddCartClick);
                 },
                 error: (e) => alert(e.responseText),
             });
@@ -230,20 +256,20 @@ $(document).ready(() => {
         try {
             if (paramComments.name == '') {
                 vResult = false;
-                throw '100. Phải có tên để xác nhận danh tính';
+                throw '100. Xin hãy để lại tên để bình luận';
             }
             if (paramComments.comments == '') {
                 vResult = false;
-                throw '101. Nên để lại comments';
+                throw '101. Xin để lại đánh giá cho sản phẩm';
+            }
+            if (paramComments.rateStar == '') {
+                paramComments.rateStar = 0;
             }
         } catch (error) {
             alert(error);
         }
         return vResult;
     }
-
-    // add event listener
-    $('#btn-add-cart').click(onAddCartClick);
 
     // search click
     $('#btn-search').click(onSearchClick);
