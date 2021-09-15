@@ -184,39 +184,39 @@ $(document).ready(() => {
         gCustomerTable.draw();
     }
 
-    // signout
-    /*const userCookie = getCookie('user');
-    var urlInfo = 'http://42.115.221.44:8080/devcamp-auth/users/me';
+    // log out
+    // add event listener
+    $(document).on('click', '.btn-log-out', onLogoutClick);
 
-    $.ajax({
-        url: urlInfo,
-        method: 'GET',
-        headers: { Authorization: 'Bearer ' + userCookie },
-        success: function (responseObject) {
-            displayUser(responseObject);
-        },
-        error: function (xhr) {
-            // Khi token hết hạn, AJAX sẽ trả về lỗi khi đó sẽ redirect về trang login để người dùng đăng nhập lại
-            redirectToLogin();
-        },
-    });
+    let gUserToken = getCookie('user');
 
-    function displayUser(paramUser) {}
-
-    function redirectToLogin() {
-        // Trước khi logout cần xóa token đã lưu trong cookie
-        setCookie('user', '', 1);
-        window.location.href = 'signIn.html';
+    // check user cookie
+    if (gUserToken) {
+        $.ajax({
+            url: `http://localhost:8080/user-info`,
+            method: 'get',
+            headers: { Authorization: `Token ${gUserToken}` },
+            dataType: 'json',
+            success: handleUser,
+            error: (e) => console.log(e.responseText),
+        });
     }
 
-    $('#btn-log-out').click(redirectToLogin);
+    // log out
+    function onLogoutClick() {
+        setCookie('user', '', 1);
+        window.location.href = `../customer/index.html`;
+    }
 
+    function handleUser() {}
+
+    // get Cookie
     function getCookie(cname) {
-        let name = cname + '=';
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
+        var name = cname + '=';
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
             }
@@ -226,10 +226,12 @@ $(document).ready(() => {
         }
         return '';
     }
+
+    // set cookie
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
         var expires = 'expires=' + d.toUTCString();
         document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
-    }*/
+    }
 });
