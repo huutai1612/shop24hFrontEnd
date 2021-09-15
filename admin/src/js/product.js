@@ -1,7 +1,7 @@
 $(document).ready(() => {
     // table product
     const G_URL_COLUMN = 1;
-    const G_ACTION_COLUMN = 9;
+    const G_ACTION_COLUMN = 10;
     const G_BUY_PRICE_COLUMN = 4;
     let gProductTable = $('#table-product').DataTable({
         columns: [
@@ -14,6 +14,7 @@ $(document).ready(() => {
             { data: 'productScale' },
             { data: 'productVendor' },
             { data: 'quantityInStock' },
+            { data: 'isRelated' },
             { data: 'Action' },
         ],
         columnDefs: [
@@ -117,13 +118,24 @@ $(document).ready(() => {
             quantityInStock: $('#inp-storage').val().trim(),
             buyPrice: $('#inp-price').val().trim(),
             urlImage: $('#inp-url').val().trim(),
+            isRelated: $('#inp-related').val(),
         };
+        setTrueFalse(vNewProduct);
         if (validateProduct(vNewProduct)) {
             if (gProductId == 0) {
                 saveNewProduct(vNewProduct);
             } else {
                 updateExistProduct(vNewProduct);
             }
+        }
+    }
+
+    // set true false cho isRelated
+    function setTrueFalse(pNewProduct) {
+        if (pNewProduct.isRelated == 0 || pNewProduct.isRelated == 'false') {
+            pNewProduct.isRelated = false;
+        } else {
+            pNewProduct.isRelated = true;
         }
     }
 
@@ -226,19 +238,6 @@ $(document).ready(() => {
         $.get(`http://localhost:8080/products/${gProductId}`, loadProductToInput);
     }
 
-    // get product line
-    function getProductLine() {
-        $.get('http://localhost:8080/product-lines', (response) => {
-            let vSelectElement = $('#s-product-line');
-            response.forEach((productLine) => {
-                $('<option>', {
-                    text: productLine.productLine,
-                    value: productLine.id,
-                }).appendTo(vSelectElement);
-            });
-        });
-    }
-
     // load product to input
     function loadProductToInput(paramProduct) {
         $('#s-product-line').val(0);
@@ -250,6 +249,7 @@ $(document).ready(() => {
         $('#inp-scale').val(paramProduct.productScale);
         $('#inp-vendor').val(paramProduct.productVendor);
         $('#inp-storage').val(paramProduct.quantityInStock);
+        $('#inp-related').val(paramProduct.isRelated);
     }
 
     // reset input
@@ -263,6 +263,7 @@ $(document).ready(() => {
         $('#inp-scale').val('');
         $('#inp-vendor').val('');
         $('#inp-storage').val('');
+        $('#inp-related').val(0);
     }
 
     // render table
@@ -286,8 +287,21 @@ $(document).ready(() => {
         });
     }
 
+    // get product line
+    function getProductLine() {
+        $.get('http://localhost:8080/product-lines', (response) => {
+            let vSelectElement = $('#s-product-line');
+            response.forEach((productLine) => {
+                $('<option>', {
+                    text: productLine.productLine,
+                    value: productLine.id,
+                }).appendTo(vSelectElement);
+            });
+        });
+    }
+
     // signout
-    const userCookie = getCookie('user');
+    /*const userCookie = getCookie('user');
     var urlInfo = 'http://42.115.221.44:8080/devcamp-auth/users/me';
 
     $.ajax({
@@ -333,5 +347,5 @@ $(document).ready(() => {
         d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
         var expires = 'expires=' + d.toUTCString();
         document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
-    }
+    }*/
 });

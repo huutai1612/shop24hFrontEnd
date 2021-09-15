@@ -1,6 +1,70 @@
 $(document).ready(() => {
+    // on load
     onLoadCartNumber();
     loadProductToCart();
+
+    // add event listener
+    $('#btn-register').click(onRegisterCustomerClick);
+
+    // click to register
+    function onRegisterCustomerClick() {
+        let vNewCustomer = {
+            firstName: $('#f-name').val().trim(),
+            lastName: $('#l-name').val().trim(),
+            phoneNumber: $('#username').val().trim(),
+            password: $('#pass').val().trim(),
+        };
+        let vRepeatPas = $('#con-pass').val().trim();
+        if (validateNewCustomer(vNewCustomer, vRepeatPas)) {
+            $.ajax({
+                url: `http://localhost:8080/register/customer`,
+                method: `POST`,
+                data: JSON.stringify(vNewCustomer),
+                contentType: `application/json; charset=utf-8`,
+                success: (res) => {
+                    alert(`Bạn đã đăng ký thành công tài khoản với số điện thoại ${res.username}`);
+                    window.location.href = `login.html`;
+                },
+                error: (e) => alert(e.responseText),
+            });
+        }
+    }
+
+    // validate
+    function validateNewCustomer(pNewCustomer, pPassRepeat) {
+        let vResult = true;
+        try {
+            if (pNewCustomer.firstName == '') {
+                vResult = false;
+                throw '100. Không được để trống họ';
+            }
+            if (pNewCustomer.lastName == '') {
+                vResult = false;
+                throw '101. Không được để trống tên';
+            }
+            if (pNewCustomer.phoneNumber == '') {
+                vResult = false;
+                throw '102. Không được để trống số điện thoại đăng ký';
+            }
+            if (pNewCustomer.phoneNumber.length < 10) {
+                vResult = false;
+                throw '103. Số điện thoại không đúng định dạng';
+            }
+            if (pNewCustomer.password == '') {
+                vResult = false;
+                throw '104. Mật khẩu không được để trống';
+            }
+            if (pNewCustomer.password !== pPassRepeat) {
+                vResult = false;
+                throw '105. Mật khẩu không trùng nhau';
+            }
+        } catch (error) {
+            $('#modal-error').modal('show');
+            $('#error').text(error);
+        }
+        return vResult;
+    }
+
     // search click
     $('#btn-search').click(onSearchClick);
     function onSearchClick() {

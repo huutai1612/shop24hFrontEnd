@@ -6,10 +6,13 @@ $(document).ready(() => {
     const G_COLUMN_IMG = 3;
     const G_BUY_PRICE_COLUMN = 4;
     const G_TOTAL_PRICE_COLUMN = 6;
-    getOrderDetail();
+    let gToTal = 0;
 
     // khai báo table
     let gTableOrderDetail = $('#table-order-detail').DataTable({
+        searching: false,
+        paging: false,
+        bInfo: false,
         columns: [
             { data: 'orderId' },
             { data: 'productId' },
@@ -22,8 +25,10 @@ $(document).ready(() => {
         columnDefs: [
             {
                 targets: G_TOTAL_PRICE_COLUMN,
-                render: (pData, pType, pRow) =>
-                    `<p>${(pRow.priceEach * pRow.quantity).toLocaleString()} VNĐ</p>`,
+                render: (pData, pType, pRow) => {
+                    let vToTalEachDetail = pRow.priceEach * pRow.quantity;
+                    return `<p class="text-info">${vToTalEachDetail.toLocaleString()} <span class="ml-1 text-dark">VNĐ</span></p>`;
+                },
             },
             {
                 targets: G_COLUMN_NAME,
@@ -76,14 +81,29 @@ $(document).ready(() => {
             },
         ],
     });
+    getOrderDetail();
+    $('#total').text(gToTal.toLocaleString());
 
     // get order detail
     function getOrderDetail() {
-        $.get(`http://localhost:8080/orders/${gOrderId}/order-details`, renderTable);
+        $.ajax({
+            url: `http://localhost:8080/orders/${gOrderId}/order-details`,
+            method: 'get',
+            async: false,
+            dataType: 'json',
+            success: renderTable,
+            error: (e) => alert(e.responseText),
+        });
     }
 
     // rendertable
     function renderTable(paramOrderDetail) {
+        // get total
+        paramOrderDetail.forEach((orderDetail) => {
+            let vToTalEach = orderDetail.priceEach * orderDetail.quantity;
+            gToTal += vToTalEach;
+        });
+        // render
         gTableOrderDetail.clear();
         gTableOrderDetail.rows.add(paramOrderDetail);
         gTableOrderDetail.draw();

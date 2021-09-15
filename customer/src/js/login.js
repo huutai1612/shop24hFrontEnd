@@ -1,8 +1,179 @@
 $(document).ready(() => {
     onLoadCartNumber();
     loadProductToCart();
-    // search click
+    let gUserToken = getCookie('user');
+    if (gUserToken) {
+        checkRole();
+    }
+
+    // add event listener
     $('#btn-search').click(onSearchClick);
+    $('.login-btn').click(onLoginClick);
+
+    // add event listener
+    $(document).on('click', '.btn-log-out', onLogoutClick);
+
+    let gUserToken = getCookie('user');
+
+    // check user cookie
+    if (gUserToken) {
+        $.ajax({
+            url: `http://localhost:8080/user-info`,
+            method: 'get',
+            headers: { Authorization: `Token ${gUserToken}` },
+            dataType: 'json',
+            success: handleUser,
+            error: (e) => console.log(e.responseText),
+        });
+    }
+
+    // log out
+    function onLogoutClick() {
+        setCookie('user', '', 1);
+        window.location.href = `index.html`;
+    }
+
+    // handle user
+    function handleUser(pRes) {
+        $('.ht-right').html(`
+            <button class="btn btn-danger text-white btn-log-out login-panel">Log out</button>
+            <a href="user-detail.html?userId=${
+                pRes[1]
+            }" class="login-panel"><i class="fa fa-user"></i>${[pRes[0]]}
+            </a>
+                <div class="top-social">
+                    <a href="https://www.facebook.com"><i class="ti-facebook"></i></a>
+                    <a href="https://twitter.com/"><i class="ti-twitter-alt"></i></a>
+                    <a href="https://www.linkedin.com/"><i class="ti-linkedin"></i></a>
+                    <a href="https://www.pinterest.com/"><i class="ti-pinterest"></i></a>
+                </div>`);
+    }
+
+    // get Cookie
+    function getCookie(cname) {
+        var name = cname + '=';
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return '';
+    }
+
+    // set cookie
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        var expires = 'expires=' + d.toUTCString();
+        document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+    }
+
+    // login click
+    function onLoginClick() {
+        let vLoginData = {
+            phoneNumber: $('#phone').val().trim(),
+            password: $('#pass').val().trim(),
+        };
+        if (validateData(vLoginData)) {
+            signIn(vLoginData);
+        }
+    }
+
+    // login
+    function signIn(pData) {
+        $.ajax({
+            method: 'POST',
+            url: 'http://localhost:8080/login',
+            data: JSON.stringify(pData),
+            contentType: `application/json; charset=utf-8`,
+            success: responseHandler,
+            error: (error) => {
+                $('#modal-error').modal('show');
+                $('#message-error').text(error.responseJSON.message);
+            },
+        });
+    }
+
+    // response handle
+    function responseHandler(res) {
+        setCookie('user', res, 1);
+        gUserToken = getCookie('user');
+        checkRole();
+    }
+
+    // check role
+    function checkRole() {
+        $.ajax({
+            url: `http://localhost:8080/user/checkrole`,
+            method: 'get',
+            async: false,
+            headers: { Authorization: 'Token ' + gUserToken },
+            success: redirectCustomerPage,
+            error: redirectToAdminPage,
+        });
+    }
+
+    // redirect to customer page
+    function redirectCustomerPage() {
+        window.location.href = `index.html`;
+    }
+
+    // redirect to admin Page
+    function redirectToAdminPage() {
+        window.location.href = `../admin/index.html`;
+    }
+
+    // validate data
+    function validateData(pData) {
+        let vResult = true;
+        try {
+            if (pData.phoneNumber == '') {
+                vResult = false;
+                throw '100. Số điện thoại không được để trống';
+            }
+            if (pData.password == '') {
+                vResult = false;
+                throw '101. Mật khẩu không được để trống';
+            }
+        } catch (error) {
+            $('#modal-error').modal('show');
+            $('#error').text(error);
+        }
+        return vResult;
+    }
+
+    // set cookie
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        var expires = 'expires=' + d.toUTCString();
+        document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+    }
+
+    // get Cookie
+    function getCookie(cname) {
+        var name = cname + '=';
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return '';
+    }
+
+    // search click
     function onSearchClick() {
         let vSearchInput = $('#inp-search').val().trim();
         if (vSearchInput == '') {

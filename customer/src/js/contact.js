@@ -1,6 +1,71 @@
 $(document).ready(() => {
     onLoadCartNumber();
     loadProductToCart();
+
+    // add event listener
+    $(document).on('click', '.btn-log-out', onLogoutClick);
+
+    let gUserToken = getCookie('user');
+
+    // check user cookie
+    if (gUserToken) {
+        $.ajax({
+            url: `http://localhost:8080/user-info`,
+            method: 'get',
+            headers: { Authorization: `Token ${gUserToken}` },
+            dataType: 'json',
+            success: handleUser,
+            error: (e) => console.log(e.responseText),
+        });
+    }
+
+    // log out
+    function onLogoutClick() {
+        setCookie('user', '', 1);
+        window.location.href = `index.html`;
+    }
+
+    // handle user
+    function handleUser(pRes) {
+        $('.ht-right').html(`
+            <button class="btn btn-danger text-white btn-log-out login-panel">Log out</button>
+            <a href="user-detail.html?userId=${
+                pRes[1]
+            }" class="login-panel"><i class="fa fa-user"></i>${[pRes[0]]}
+            </a>
+                <div class="top-social">
+                    <a href="https://www.facebook.com"><i class="ti-facebook"></i></a>
+                    <a href="https://twitter.com/"><i class="ti-twitter-alt"></i></a>
+                    <a href="https://www.linkedin.com/"><i class="ti-linkedin"></i></a>
+                    <a href="https://www.pinterest.com/"><i class="ti-pinterest"></i></a>
+                </div>`);
+    }
+
+    // get Cookie
+    function getCookie(cname) {
+        var name = cname + '=';
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return '';
+    }
+
+    // set cookie
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        var expires = 'expires=' + d.toUTCString();
+        document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+    }
+
     // search click
     $('#btn-search').click(onSearchClick);
     function onSearchClick() {
