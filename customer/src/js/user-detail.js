@@ -3,6 +3,7 @@ $(document).ready(() => {
     let gUserToken = getCookie('user');
     const G_URL_STRING = new URL(window.location.href);
     let gUserId = G_URL_STRING.searchParams.get('userId');
+    const G_BASE_URL = `http://localhost:8080`;
     let gProductId = 0;
 
     // search click
@@ -31,7 +32,7 @@ $(document).ready(() => {
         };
         if (validateComments(vNewComment)) {
             $.ajax({
-                url: `http://localhost:8080/customers/${gUserId}/products/${gProductId}/comments`,
+                url: `${G_BASE_URL}/customers/${gUserId}/products/${gProductId}/comments`,
                 method: 'POST',
                 data: JSON.stringify(vNewComment),
                 contentType: `application/json; charset=utf-8`,
@@ -66,7 +67,7 @@ $(document).ready(() => {
     function getOrderDetail() {
         let vOrderId = $(this).data('id');
         $.ajax({
-            url: `http://localhost:8080/orders/${vOrderId}/order-details`,
+            url: `${G_BASE_URL}/orders/${vOrderId}/order-details`,
             method: 'get',
             async: false,
             dataType: 'json',
@@ -84,7 +85,7 @@ $(document).ready(() => {
             vTotal = orderDetail.priceEach * orderDetail.quantity;
             vTotalPrice += vTotal;
             $.ajax({
-                url: `http://localhost:8080/products/${orderDetail.productId}`,
+                url: `${G_BASE_URL}/products/${orderDetail.productId}`,
                 method: 'get',
                 async: false,
                 success: (response) => (vProduct = response),

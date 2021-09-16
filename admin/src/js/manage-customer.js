@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
+
     // khai bao table
     const G_ACTION_COLUMN = 11;
     let gCustomerTable = $('#table-customer').DataTable({
@@ -58,7 +60,7 @@ $(document).ready(() => {
     // create customer
     function createNewCustomer(paramCustomer) {
         $.ajax({
-            url: `http://localhost:8080/customers`,
+            url: `${G_BASE_URL}/customers`,
             method: 'POST',
             data: JSON.stringify(paramCustomer),
             contentType: 'application/json; charset=utf-8 ',
@@ -74,7 +76,7 @@ $(document).ready(() => {
     // update customer
     function updateCustomer(paramCustomer) {
         $.ajax({
-            url: `http://localhost:8080/customers/${gCustomerId}`,
+            url: `${G_BASE_URL}/customers/${gCustomerId}`,
             method: 'PUT',
             data: JSON.stringify(paramCustomer),
             contentType: 'application/json; charset=utf-8 ',
@@ -135,7 +137,7 @@ $(document).ready(() => {
         let vSelectedData = gCustomerTable.row(vSelectedRow).data();
         gCustomerId = vSelectedData.id;
         $('#modal-update-customer').modal('show');
-        $.get(`http://localhost:8080/customers/${gCustomerId}`, loadCustomerToInput);
+        $.get(`${G_BASE_URL}/customers/${gCustomerId}`, loadCustomerToInput);
     }
 
     // load customer to input
@@ -169,7 +171,7 @@ $(document).ready(() => {
     // get data for table
     function getCustomerData() {
         $.ajax({
-            url: `http://localhost:8080/customers`,
+            url: `${G_BASE_URL}/customers`,
             method: 'GET',
             dataType: 'json',
             success: renderCustomerTable,
@@ -193,7 +195,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',

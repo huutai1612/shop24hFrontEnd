@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    let gUrl = `http://localhost:8080/customers/count-orders`;
+    const G_BASE_URL = `http://localhost:8080`;
+
+    let gUrl = `${G_BASE_URL}/customers/count-orders`;
 
     $('#btn-filter').click(filterCustomerOrder);
 
@@ -10,7 +12,7 @@ $(document).ready(function () {
             lastDate: $('#inp-last-date').val(),
         };
         if (validateFilterValue(vFilterValue)) {
-            gUrl = `http://localhost:8080/customers/filter-count-orders?firstDate=${vFilterValue.firstDate}&lastDate=${vFilterValue.lastDate}`;
+            gUrl = `${G_BASE_URL}/customers/filter-count-orders?firstDate=${vFilterValue.firstDate}&lastDate=${vFilterValue.lastDate}`;
             getToTalOrderOfCustomer(gUrl);
         }
     }
@@ -111,7 +113,7 @@ $(document).ready(function () {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',

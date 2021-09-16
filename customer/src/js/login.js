@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
     onLoadCartNumber();
     loadProductToCart();
     let gUserToken = getCookie('user');
@@ -25,7 +26,7 @@ $(document).ready(() => {
     function signIn(pData) {
         $.ajax({
             method: 'POST',
-            url: 'http://localhost:8080/login',
+            url: `${G_BASE_URL}/login`,
             data: JSON.stringify(pData),
             contentType: `application/json; charset=utf-8`,
             success: responseHandler,
@@ -46,7 +47,7 @@ $(document).ready(() => {
     // check role
     function checkRole() {
         $.ajax({
-            url: `http://localhost:8080/user/checkrole`,
+            url: `${G_BASE_URL}/user/checkrole`,
             method: 'get',
             async: false,
             headers: { Authorization: 'Token ' + gUserToken },
@@ -134,7 +135,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

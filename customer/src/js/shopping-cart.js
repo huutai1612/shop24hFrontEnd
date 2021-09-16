@@ -2,6 +2,7 @@ $(document).ready(() => {
     // khai báo biến
     let gProduct = JSON.parse(localStorage.getItem('products'));
     let gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
+    const G_BASE_URL = `http://localhost:8080`;
 
     // add event listener
     $('#btn-search').click(onSearchClick);
@@ -18,7 +19,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',
@@ -80,7 +81,7 @@ $(document).ready(() => {
         if (gProduct) {
             gProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     async: false,
                     dataType: 'json',
@@ -180,7 +181,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

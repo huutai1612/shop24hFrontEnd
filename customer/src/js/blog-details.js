@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
     onLoadCartNumber();
     loadProductToCart();
 
@@ -10,7 +11,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',
@@ -92,7 +93,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

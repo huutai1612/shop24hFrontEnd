@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
     let gProduct = JSON.parse(localStorage.getItem('products'));
     let gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
     let gTotal = 0;
@@ -12,7 +13,7 @@ $(document).ready(() => {
         $('.order-table').append(`<li>Sản phẩm <span>Tổng</span></li>`);
         gProduct.forEach((productId, index) => {
             $.ajax({
-                url: `http://localhost:8080/products/${productId}`,
+                url: `${G_BASE_URL}/products/${productId}`,
                 method: 'get',
                 dataType: 'json',
                 async: false,
@@ -35,7 +36,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',
@@ -123,7 +124,7 @@ $(document).ready(() => {
         };
         if (gUserToken) {
             $.ajax({
-                url: `http://localhost:8080/user-info`,
+                url: `${G_BASE_URL}/user-info`,
                 method: 'get',
                 headers: { Authorization: `Token ${gUserToken}` },
                 dataType: 'json',
@@ -133,7 +134,7 @@ $(document).ready(() => {
         } else {
             if (validateCustomer(vCustomerInfo)) {
                 $.ajax({
-                    url: `http://localhost:8080/customers/phone/${vCustomerInfo.phoneNumber}`,
+                    url: `${G_BASE_URL}/customers/phone/${vCustomerInfo.phoneNumber}`,
                     method: 'get',
                     dataType: 'json',
                     success: checkUserExist,
@@ -159,7 +160,7 @@ $(document).ready(() => {
     // create user
     function createUser(paramCustomerInfo) {
         $.ajax({
-            url: 'http://localhost:8080/customers',
+            url: `${G_BASE_URL}/customers`,
             method: 'POST',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(paramCustomerInfo),
@@ -194,7 +195,7 @@ $(document).ready(() => {
         };
         if (validateOrder(vNewOrder)) {
             $.ajax({
-                url: `http://localhost:8080/customers/${gCustomerId}/orders`,
+                url: `${G_BASE_URL}/customers/${gCustomerId}/orders`,
                 method: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 async: false,
@@ -212,7 +213,7 @@ $(document).ready(() => {
     function createOrderDetail(paramOrderId) {
         gProduct.forEach((productId, index) => {
             $.ajax({
-                url: `http://localhost:8080/orders/${paramOrderId}/products/${productId}/order-details`,
+                url: `${G_BASE_URL}/orders/${paramOrderId}/products/${productId}/order-details`,
                 method: 'POST',
                 async: false,
                 data: JSON.stringify(gOrderDetail[index]),
@@ -277,7 +278,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

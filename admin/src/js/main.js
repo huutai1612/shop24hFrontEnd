@@ -1,6 +1,7 @@
 $(document).ready(() => {
     // log out
     // add event listener
+    const G_BASE_URL = `http://localhost:8080`;
     $(document).on('click', '.btn-log-out', onLogoutClick);
 
     let gUserToken = getCookie('user');
@@ -8,7 +9,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',

@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
     let gUrlString = window.location.href;
     let gUrl = new URL(gUrlString);
     let gProductId = parseInt(gUrl.searchParams.get('productId'));
@@ -38,7 +39,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',
@@ -97,7 +98,7 @@ $(document).ready(() => {
     // function get average rate
     function getAverageRate() {
         $.ajax({
-            url: `http://localhost:8080/products/${gProductId}/comments/average`,
+            url: `${G_BASE_URL}/products/${gProductId}/comments/average`,
             method: 'get',
             async: false,
             success: (response) => (gProductRate = response[0].average),
@@ -108,7 +109,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/products/related`,
+            url: `${G_BASE_URL}/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -187,7 +188,7 @@ $(document).ready(() => {
             method: 'get',
             dataType: 'json',
             async: false,
-            url: `http://localhost:8080/products/${gProductId}`,
+            url: `${G_BASE_URL}/products/${gProductId}`,
             success: renderProductToPage,
             error: (e) => alert(e.responseJSON),
         });
@@ -356,7 +357,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

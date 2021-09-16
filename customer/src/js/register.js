@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
     // on load
     onLoadCartNumber();
     loadProductToCart();
@@ -17,7 +18,7 @@ $(document).ready(() => {
         let vRepeatPas = $('#con-pass').val().trim();
         if (validateNewCustomer(vNewCustomer, vRepeatPas)) {
             $.ajax({
-                url: `http://localhost:8080/register/customer`,
+                url: `${G_BASE_URL}/register/customer`,
                 method: `POST`,
                 data: JSON.stringify(vNewCustomer),
                 contentType: `application/json; charset=utf-8`,
@@ -91,7 +92,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

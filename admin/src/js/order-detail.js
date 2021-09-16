@@ -6,6 +6,7 @@ $(document).ready(() => {
     const G_COLUMN_IMG = 3;
     const G_BUY_PRICE_COLUMN = 4;
     const G_TOTAL_PRICE_COLUMN = 6;
+    const G_BASE_URL = `http://localhost:8080`;
     let gToTal = 0;
 
     // khai báo table
@@ -35,7 +36,7 @@ $(document).ready(() => {
                 render: (productId) => {
                     let vProductData = '';
                     $.ajax({
-                        url: `http://localhost:8080/products/${productId}`,
+                        url: `${G_BASE_URL}/products/${productId}`,
                         dataType: 'json',
                         method: 'get',
                         async: false,
@@ -54,7 +55,7 @@ $(document).ready(() => {
                 render: (productId) => {
                     let vProductData = '';
                     $.ajax({
-                        url: `http://localhost:8080/products/${productId}`,
+                        url: `${G_BASE_URL}/products/${productId}`,
                         dataType: 'json',
                         method: 'get',
                         async: false,
@@ -69,7 +70,7 @@ $(document).ready(() => {
                 render: (productId) => {
                     let vProductData = '';
                     $.ajax({
-                        url: `http://localhost:8080/products/${productId}`,
+                        url: `${G_BASE_URL}/products/${productId}`,
                         dataType: 'json',
                         method: 'get',
                         async: false,
@@ -87,7 +88,7 @@ $(document).ready(() => {
     // get order detail
     function getOrderDetail() {
         $.ajax({
-            url: `http://localhost:8080/orders/${gOrderId}/order-details`,
+            url: `${G_BASE_URL}/orders/${gOrderId}/order-details`,
             method: 'get',
             async: false,
             dataType: 'json',
@@ -133,7 +134,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',

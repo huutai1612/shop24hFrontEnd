@@ -3,6 +3,8 @@ $(document).ready(() => {
     const G_URL_COLUMN = 1;
     const G_ACTION_COLUMN = 10;
     const G_BUY_PRICE_COLUMN = 4;
+    const G_BASE_URL = `http://localhost:8080`;
+
     let gProductTable = $('#table-product').DataTable({
         columns: [
             { data: 'id' },
@@ -68,7 +70,7 @@ $(document).ready(() => {
     // delete product by id
     function deleteProductById() {
         $.ajax({
-            url: `http://localhost:8080/products/${gProductId}`,
+            url: `${G_BASE_URL}/products/${gProductId}`,
             method: `delete`,
             success: () => {
                 alert('Đã sản phẩm thành công');
@@ -82,7 +84,7 @@ $(document).ready(() => {
     // delete all product
     function deleteAllProduct() {
         $.ajax({
-            url: `http://localhost:8080/products`,
+            url: `${G_BASE_URL}/products`,
             method: `delete`,
             success: () => {
                 alert('Đã xóa tất cả sản phẩm thành công');
@@ -142,7 +144,7 @@ $(document).ready(() => {
     // save new product
     function saveNewProduct(paramProduct) {
         $.ajax({
-            url: `http://localhost:8080/product-lines/${gProductLineId}/products`,
+            url: `${G_BASE_URL}/product-lines/${gProductLineId}/products`,
             method: 'POST',
             data: JSON.stringify(paramProduct),
             contentType: 'application/json; charset=utf-8',
@@ -158,7 +160,7 @@ $(document).ready(() => {
     // update product
     function updateExistProduct(paramProduct) {
         $.ajax({
-            url: `http://localhost:8080/products/${gProductId}`,
+            url: `${G_BASE_URL}/products/${gProductId}`,
             method: 'PUT',
             data: JSON.stringify(paramProduct),
             contentType: 'application/json; charset=utf-8',
@@ -235,7 +237,7 @@ $(document).ready(() => {
         let vSelectedData = gProductTable.row(vSelectedRow).data();
         gProductId = vSelectedData.id;
         $('#s-product-line').prop('disabled', true);
-        $.get(`http://localhost:8080/products/${gProductId}`, loadProductToInput);
+        $.get(`${G_BASE_URL}/products/${gProductId}`, loadProductToInput);
     }
 
     // load product to input
@@ -276,7 +278,7 @@ $(document).ready(() => {
     // get Product
     function getProductData() {
         $.ajax({
-            url: 'http://localhost:8080/products',
+            url: `${G_BASE_URL}/products`,
             method: 'GET',
             dataType: 'json',
             async: false,
@@ -289,7 +291,7 @@ $(document).ready(() => {
 
     // get product line
     function getProductLine() {
-        $.get('http://localhost:8080/product-lines', (response) => {
+        $.get(`${G_BASE_URL}/product-lines`, (response) => {
             let vSelectElement = $('#s-product-line');
             response.forEach((productLine) => {
                 $('<option>', {
@@ -309,7 +311,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',

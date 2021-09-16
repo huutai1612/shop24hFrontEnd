@@ -10,6 +10,7 @@ $(document).ready(() => {
     $(document).on('click', '.btn-log-out', onLogoutClick);
 
     // khai báo biến
+    const G_BASE_URL = `http://localhost:8080`;
     let gProductIdArray = [];
     let gOrderDetailArray = [];
     let gTotalPage = 0;
@@ -30,15 +31,15 @@ $(document).ready(() => {
     let gUrl = new URL(document.location).searchParams;
     let gSearchValue = gUrl.get('name');
     if (gSearchValue) {
-        getProduct(`http://localhost:8080/products/name/${gSearchValue}`);
+        getProduct(`${G_BASE_URL}/products/name/${gSearchValue}`);
     } else {
-        getProduct(`http://localhost:8080/products/pages/${gCurrentPage}`);
+        getProduct(`${G_BASE_URL}/products/pages/${gCurrentPage}`);
     }
 
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',
@@ -97,7 +98,7 @@ $(document).ready(() => {
     // function get count total
     function getTotalProductCount() {
         $.ajax({
-            url: `http://localhost:8080/products/counts`,
+            url: `${G_BASE_URL}/products/counts`,
             method: 'get',
             dataType: 'json',
             async: false,
@@ -111,7 +112,7 @@ $(document).ready(() => {
         for (let i = 0; i < gTotalPage; i++) {
             vPaginationElement.append(`
             <li class="page-item">
-                <a data-page="${i}" class="page-link page" href="http://localhost:8080/products/pages/${i}">
+                <a data-page="${i}" class="page-link page" href="${G_BASE_URL}/products/pages/${i}">
                 ${i + 1}
                 </a>
             </li>`);
@@ -154,9 +155,7 @@ $(document).ready(() => {
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
         }
-        let vUrl = `http://localhost:8080/products/pages/${parseInt(
-            localStorage.getItem('currentPage')
-        )}`;
+        let vUrl = `${G_BASE_URL}/products/pages/${parseInt(localStorage.getItem('currentPage'))}`;
         $(`.pagination li:nth-child(${gCurrentPage + 1})`).removeClass('active');
         $(`.pagination li:nth-child(${gCurrentPage + 1})`)
             .next()
@@ -179,9 +178,7 @@ $(document).ready(() => {
         } else {
             localStorage.setItem('currentPage', gCurrentPage);
         }
-        let vUrl = `http://localhost:8080/products/pages/${parseInt(
-            localStorage.getItem('currentPage')
-        )}`;
+        let vUrl = `${G_BASE_URL}/products/pages/${parseInt(localStorage.getItem('currentPage'))}`;
         $(`.pagination li:nth-child(${gCurrentPage + 3})`).removeClass('active');
         $(`.pagination li:nth-child(${gCurrentPage + 3})`)
             .prev()
@@ -200,7 +197,7 @@ $(document).ready(() => {
     // get related product
     function getRelatedProduct() {
         $.ajax({
-            url: `http://localhost:8080/products/related`,
+            url: `${G_BASE_URL}/products/related`,
             method: 'GET',
             async: false,
             dataType: 'json',
@@ -327,7 +324,7 @@ $(document).ready(() => {
 
     // get product line
     (function () {
-        $.get('http://localhost:8080/product-lines', loadProductLineToFilter);
+        $.get(`${G_BASE_URL}/product-lines`, loadProductLineToFilter);
     })();
 
     // lọc theo giới tính
@@ -342,9 +339,9 @@ $(document).ready(() => {
         e.preventDefault();
         let vProductLineId = $(this).data('id');
         if (vProductLineId == 0) {
-            getProduct('http://localhost:8080/products/pages/0');
+            getProduct(`${G_BASE_URL}/products/pages/0`);
         } else {
-            getProduct(`http://localhost:8080/product-lines/${vProductLineId}/products`);
+            getProduct(`${G_BASE_URL}/product-lines/${vProductLineId}/products`);
         }
     }
 
@@ -352,9 +349,7 @@ $(document).ready(() => {
     function onFilterByPriceClick() {
         let vMinValue = $('#minamount').val();
         let vMaxValue = $('#maxamount').val();
-        getProduct(
-            `http://localhost:8080/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`
-        );
+        getProduct(`${G_BASE_URL}/products/price?minPrice=${vMinValue}&maxPrice=${vMaxValue}`);
     }
 
     // add cart
@@ -424,7 +419,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

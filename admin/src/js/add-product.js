@@ -8,6 +8,7 @@ $(document).ready(() => {
     const G_QUANTITY_COLUMN = 5;
     const G_ACTION_COLUMN = 6;
     const G_BUY_PRICE_COLUMN = 4;
+    const G_BASE_URL = `http://localhost:8080`;
     let gProductTable = $('#table-product').DataTable({
         columns: [
             { data: 'id' },
@@ -58,7 +59,7 @@ $(document).ready(() => {
         };
         if (validateOrderDetail(vNewOrderDetail)) {
             $.ajax({
-                url: `http://localhost:8080/orders/${gOrderId}/products/${vProductId}/order-details`,
+                url: `${G_BASE_URL}/orders/${gOrderId}/products/${vProductId}/order-details`,
                 method: 'post',
                 data: JSON.stringify(vNewOrderDetail),
                 contentType: `application/json; charset=utf-8`,
@@ -92,7 +93,7 @@ $(document).ready(() => {
     // get Product
     function getProductData() {
         $.ajax({
-            url: 'http://localhost:8080/products',
+            url: `${G_BASE_URL}/products`,
             method: 'GET',
             dataType: 'json',
             async: false,
@@ -112,7 +113,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',

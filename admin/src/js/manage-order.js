@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
+
     // khai bao order
     const G_COLUMN_ACTION = 8;
     const G_ORDER_DETAIL_COLUMN = 0;
@@ -61,7 +63,7 @@ $(document).ready(() => {
     // create new order
     function createNewOrder(paramOrder) {
         $.ajax({
-            url: `http://localhost:8080/customers/${gCustomerId}/orders`,
+            url: `${G_BASE_URL}/customers/${gCustomerId}/orders`,
             method: 'post',
             data: JSON.stringify(paramOrder),
             contentType: 'application/json ; charset=utf-8',
@@ -77,7 +79,7 @@ $(document).ready(() => {
     // update order
     function updateOrderById(paramOrder) {
         $.ajax({
-            url: `http://localhost:8080/orders/${gOrderId}`,
+            url: `${G_BASE_URL}/orders/${gOrderId}`,
             method: 'put',
             data: JSON.stringify(paramOrder),
             contentType: 'application/json ; charset=utf-8',
@@ -134,7 +136,7 @@ $(document).ready(() => {
         gOrderId = vSelectedData.id;
         $('#s-customer').prop('disabled', true);
         $('#modal-update-order').modal('show');
-        $.get(`http://localhost:8080/orders/${gOrderId}`, loadOrderToInput);
+        $.get(`${G_BASE_URL}/orders/${gOrderId}`, loadOrderToInput);
     }
 
     // load order to input
@@ -166,7 +168,7 @@ $(document).ready(() => {
     // get order
     function getOrderData() {
         $.ajax({
-            url: `http://localhost:8080/customers/orders`,
+            url: `${G_BASE_URL}/customers/orders`,
             method: 'GET',
             dataType: 'json',
             success: renderOrderToTable,
@@ -177,7 +179,7 @@ $(document).ready(() => {
     // get customer
     function getCustomerData() {
         $.ajax({
-            url: `http://localhost:8080/customers`,
+            url: `${G_BASE_URL}/customers`,
             method: 'GET',
             dataType: 'json',
             success: renderToSelect,
@@ -205,7 +207,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',

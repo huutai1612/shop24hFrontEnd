@@ -3,6 +3,8 @@ $(document).ready(() => {
     let stringUrl = window.location.href;
     let url = new URL(stringUrl);
     let gOrderId = url.searchParams.get('orderId');
+    const G_BASE_URL = `http://localhost:8080`;
+
     $('#input-order-id').val(`OIDOD ${gOrderId}`);
 
     // chạy hảm khởi tạo
@@ -17,7 +19,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',
@@ -99,7 +101,7 @@ $(document).ready(() => {
         if (vProduct) {
             vProduct.forEach((productId, index) => {
                 $.ajax({
-                    url: `http://localhost:8080/products/${productId}`,
+                    url: `${G_BASE_URL}/products/${productId}`,
                     method: 'get',
                     dataType: 'json',
                     success: (product) => {

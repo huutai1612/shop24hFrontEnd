@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    const G_BASE_URL = `http://localhost:8080`;
+
     // add event listener
     $('#btn-day').click(selectValueToGetPaymentDate);
     $('#btn-week').click(onGetWeekPaymentReport);
@@ -17,7 +19,7 @@ $(document).ready(() => {
         };
         if (validateDate(vDateRange)) {
             $.ajax({
-                url: `http://localhost:8080/payments/dates/${vDateRange.firstDate}/${vDateRange.lastDate}`,
+                url: `${G_BASE_URL}/payments/dates/${vDateRange.firstDate}/${vDateRange.lastDate}`,
                 method: 'get',
                 dataType: 'JSON',
                 success: renderChartByDate,
@@ -49,7 +51,7 @@ $(document).ready(() => {
     // lấy theo tuần
     function onGetWeekPaymentReport() {
         $.ajax({
-            url: `http://localhost:8080/payments/weeks`,
+            url: `${G_BASE_URL}/payments/weeks`,
             method: 'get',
             dataType: 'JSON',
             success: renderChartByWeek,
@@ -60,7 +62,7 @@ $(document).ready(() => {
     // lấy theo tháng
     function onGetMonthPaymentReport() {
         $.ajax({
-            url: `http://localhost:8080/payments/months`,
+            url: `${G_BASE_URL}/payments/months`,
             method: 'get',
             dataType: 'JSON',
             success: renderChartByMonth,
@@ -233,7 +235,7 @@ $(document).ready(() => {
     // check user cookie
     if (gUserToken) {
         $.ajax({
-            url: `http://localhost:8080/user-info`,
+            url: `${G_BASE_URL}/user-info`,
             method: 'get',
             headers: { Authorization: `Token ${gUserToken}` },
             dataType: 'json',
