@@ -232,7 +232,7 @@ $(document).ready(() => {
 						<input id="quantity" type="text" value="1" />
 						<span class="inc qtybtn">+</span>
 					</div>
-					<a href="#" id="btn-add-cart" class="primary-btn pd-cart"
+					<a href="#" id="btn-add-cart" class="primary-btn text-white pd-cart"
 						>Add To Cart</a
 					>
 				</div>
