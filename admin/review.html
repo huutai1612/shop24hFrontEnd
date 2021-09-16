@@ -23,6 +23,11 @@
             href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css"
         />
         <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+        <!-- fontawesome -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
+            rel="stylesheet"
+        />
         <!-- Theme style -->
         <link rel="stylesheet" href="dist/css/adminlte.min.css" />
         <style>
@@ -254,7 +259,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="product.html" class="nav-link active">
+                                <a href="product.html" class="nav-link">
                                     <i class="nav-icon fas fa-box"> </i>
                                     <p>Sản phẩm</p>
                                 </a>
@@ -305,8 +310,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="review.html" class="nav-link">
+                            <li class="nav-item active">
+                                <a href="review.html" class="nav-link active">
                                     <i class="fas fa-thumbs-up mr-3"> </i>
                                     <p>Review</p>
                                 </a>
@@ -325,7 +330,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Manage Product</h1>
+                                <h1 class="m-0">Review</h1>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
@@ -333,7 +338,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="#">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Product</li>
+                                    <li class="breadcrumb-item active">Review</li>
                                 </ol>
                             </div>
                             <!-- /.col -->
@@ -350,34 +355,25 @@
                         <!-- /.row -->
                         <!-- Main row -->
                         <div class="row">
-                            <div class="col-12 mb-3 d-flex justify-content-end">
-                                <button id="btn-create-product" class="btn btn-dark mr-3">
-                                    Thêm mới sản phẩm
-                                </button>
-                                <button id="btn-delete-all" class="btn btn-danger">
-                                    Xóa tất cả sản phẩm
-                                </button>
+                            <div class="col-12 mb-3 d-flex justify-content-center">
+                                <select name="product" class="form-control" id="select-product">
+                                    <option value="0">Chọn sản phẩm</option>
+                                </select>
                             </div>
                             <div class="col-12">
                                 <table
                                     class="
                                         table table-hover table-stripped table-bordered
                                         text-center
-                                        table-secondary
                                     "
-                                    id="table-product"
+                                    id="table-review"
                                 >
                                     <thead>
-                                        <th>Id sản phẩm</th>
-                                        <th>Ảnh sản phẩm</th>
                                         <th>Tên sản phẩm</th>
-                                        <th>Mã sản phẩm</th>
-                                        <th>Giá</th>
-                                        <th>Mô tả sản phẩm</th>
-                                        <th>Chiến lược sản phẩm</th>
-                                        <th>Nhà sản xuất</th>
-                                        <th>Tồn kho</th>
-                                        <th>Phổ biến</th>
+                                        <th>Hình ảnh sản phẩm</th>
+                                        <th>Người đánh giá</th>
+                                        <th>Star</th>
+                                        <th>Đánh giá</th>
                                         <th>Action</th>
                                     </thead>
                                     <tbody></tbody>
@@ -408,7 +404,7 @@
         </div>
         <!-- ./wrapper -->
         <!-- Modal create product -->
-        <section class="modal fade" id="modal-create-product" tabindex="-1">
+        <!-- <section class="" id="modal-create-product" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -440,74 +436,6 @@
                                 <input type="text" class="form-control" id="inp-url" />
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-name">Tên sản phẩm</label>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" id="inp-name" />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-code">Mã sản phẩm</label>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" id="inp-code" />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-price">Giá sản phẩm</label>
-                            </div>
-                            <div class="col-10">
-                                <input type="number" class="form-control" id="inp-price" />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-description">Mô tả sản phẩm</label>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" id="inp-description" />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-scale">Chiến lược cho sản phẩm</label>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" id="inp-scale" />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-vendor">Nhà sản xuất</label>
-                            </div>
-                            <div class="col-10">
-                                <input type="text" class="form-control" id="inp-vendor" />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-storage">Tồn kho</label>
-                            </div>
-                            <div class="col-10">
-                                <input type="number" class="form-control" id="inp-storage" />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-storage">Is related</label>
-                            </div>
-                            <div class="col-10">
-                                <select type="number" class="form-control" id="inp-related">
-                                    <option value="0">Chọn is related</option>
-                                    <option value="true">Related</option>
-                                    <option value="false">Isn't Related</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -519,17 +447,11 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
         <!-- ./ End modal create product -->
 
         <!-- Modal delete -->
-        <section
-            class="modal fade"
-            id="modal-confirm-delete"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
+        <section class="modal fade" id="modal-confirm-delete" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -555,13 +477,7 @@
         <!-- /End Modal delte -->
 
         <!-- error modal -->
-        <section
-            class="modal fade"
-            id="modal-error"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
+        <section class="modal fade" id="modal-error" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -608,6 +524,6 @@
         <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.js"></script>
-        <script src="src/js/product.js"></script>
+        <script src="./src/js/review.js"></script>
     </body>
 </html>
