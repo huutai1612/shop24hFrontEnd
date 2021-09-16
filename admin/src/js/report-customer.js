@@ -118,6 +118,8 @@ $(document).ready(function () {
             success: handleUser,
             error: (e) => console.log(e.responseText),
         });
+    } else {
+        window.location.href = `../customer/index.html`;
     }
 
     // log out

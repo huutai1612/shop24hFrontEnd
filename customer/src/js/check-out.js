@@ -5,6 +5,7 @@ $(document).ready(() => {
     let gCustomerId = 0;
     let gOrderId = 0;
     let gUserToken = getCookie('user');
+
     // get don hang
     function getBill() {
         $('.order-table').html('');
@@ -20,7 +21,7 @@ $(document).ready(() => {
             });
         });
         $('.order-table').append(
-            `<li class="total-price">Phải thanh toán <span>${gTotal} VNĐ</span></li>`
+            `<li class="total-price">Phải thanh toán <span>${gTotal.toLocaleString()} VNĐ</span></li>`
         );
     }
     getBill();
@@ -29,6 +30,7 @@ $(document).ready(() => {
 
     // add event listener
     $(document).on('click', '.btn-log-out', onLogoutClick);
+    $('#btn-order').click(onCreateOrderClick);
 
     // check user cookie
     if (gUserToken) {
@@ -94,9 +96,9 @@ $(document).ready(() => {
         gTotal += gOrderDetail[paramIndex].quantityOrder * gOrderDetail[paramIndex].priceEach;
         let vResult = `
 		<li class="fw-normal">
-			${paramProduct.productName}x ${gOrderDetail[paramIndex].quantityOrder}
+			${paramProduct.productName} x ${gOrderDetail[paramIndex].quantityOrder}
 			<span>
-				${gOrderDetail[paramIndex].quantityOrder * gOrderDetail[paramIndex].priceEach}
+				${(gOrderDetail[paramIndex].quantityOrder * gOrderDetail[paramIndex].priceEach).toLocaleString()}
 				VNĐ
 			</span>
 		</li>
@@ -105,7 +107,7 @@ $(document).ready(() => {
     }
 
     // place order
-    $('#btn-order').click(onCreateOrderClick);
+
     function onCreateOrderClick() {
         let vCustomerInfo = {
             lastName: $('#last').val().trim(),
@@ -119,17 +121,33 @@ $(document).ready(() => {
             salesRepEmployeeNumber: $('#sale-rep').val().trim(),
             creditLimit: $('#credit').val().trim(),
         };
-        if (validateCustomer(vCustomerInfo)) {
+        if (gUserToken) {
             $.ajax({
-                url: `http://localhost:8080/customers/phone/${vCustomerInfo.phoneNumber}`,
+                url: `http://localhost:8080/user-info`,
                 method: 'get',
+                headers: { Authorization: `Token ${gUserToken}` },
                 dataType: 'json',
-                success: checkUserExist,
-                error: (e) => {
-                    createUser(vCustomerInfo);
-                },
+                success: setCustomerIfLogin,
+                error: (e) => alert(e.responseText),
             });
+        } else {
+            if (validateCustomer(vCustomerInfo)) {
+                $.ajax({
+                    url: `http://localhost:8080/customers/phone/${vCustomerInfo.phoneNumber}`,
+                    method: 'get',
+                    dataType: 'json',
+                    success: checkUserExist,
+                    error: (e) => {
+                        createUser(vCustomerInfo);
+                    },
+                });
+            }
         }
+    }
+
+    function setCustomerIfLogin(pResponse) {
+        gCustomerId = pResponse[1];
+        $('#modal-order').modal('show');
     }
 
     // check user

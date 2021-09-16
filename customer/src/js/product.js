@@ -25,7 +25,6 @@ $(document).ready(() => {
         }
     });
     $(document).on('click', '#btn-add-cart', onAddCartClick);
-    $('.btn-comments').click(onCreateCommentsClick);
 
     getAverageRate();
     getProduct();
@@ -133,7 +132,7 @@ $(document).ready(() => {
                 </div>
                 <ul>
                     <li class="quick-view">
-                        <a href="shop.html">Shop Now</a>
+                        <a href="product.html?productId=${product.id}">Shop Now</a>
                     </li>
                 </ul>
             </div>
@@ -291,50 +290,6 @@ $(document).ready(() => {
             $(this).html(`${fullStar}${halfStar}${noStar}`);
         });
     };
-
-    // create comments
-    function onCreateCommentsClick() {
-        let vNewComment = {
-            name: $('#inp-name').val(),
-            comments: $('#inp-comment').val(),
-            rateStar: $('#inp-rating').val(),
-        };
-        if (validateComments(vNewComment)) {
-            $.ajax({
-                url: `http://localhost:8080/products/${gProductId}/comments`,
-                method: 'POST',
-                data: JSON.stringify(vNewComment),
-                contentType: `application/json; charset=utf-8`,
-                success: () => {
-                    getAverageRate();
-                    getProduct();
-                    $('#inp-name').val('');
-                    $('#inp-comment').val('');
-                },
-                error: (e) => alert(e.responseText),
-            });
-        }
-    }
-
-    function validateComments(paramComments) {
-        let vResult = true;
-        try {
-            if (paramComments.name == '') {
-                vResult = false;
-                throw '100. Xin hãy để lại tên để bình luận';
-            }
-            if (paramComments.comments == '') {
-                vResult = false;
-                throw '101. Xin để lại đánh giá cho sản phẩm';
-            }
-            if (paramComments.rateStar == '') {
-                paramComments.rateStar = 0;
-            }
-        } catch (error) {
-            alert(error);
-        }
-        return vResult;
-    }
 
     // search click
     $('#btn-search').click(onSearchClick);

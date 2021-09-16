@@ -3,7 +3,7 @@ $(document).ready(() => {
     let stringUrl = window.location.href;
     let url = new URL(stringUrl);
     let gOrderId = url.searchParams.get('orderId');
-    $('#input-order-id').val(gOrderId);
+    $('#input-order-id').val(`OIDOD ${gOrderId}`);
 
     // chạy hảm khởi tạo
     onLoadCartNumber();

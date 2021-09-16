@@ -101,7 +101,9 @@ $(document).ready(() => {
 				<img style="width:168px; height:168px" src="${paramProduct.urlImage}" alt="product">
 			</td>
 			<td class="cart-title first-row">
-				<h5>${paramProduct.productName}</h5>
+				<a class="text-primary" href="product.html?productId=${paramProduct.id}">${
+            paramProduct.productName
+        }</a>
 			</td>
 			<td class="p-price first-row">${paramOrderDetail.priceEach.toLocaleString()} VNĐ</td>
 			<td class="qua-col first-row">
