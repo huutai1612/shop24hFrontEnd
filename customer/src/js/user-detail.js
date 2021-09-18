@@ -17,6 +17,72 @@ $(document).ready(() => {
   $(document).on('click', '.btn-order-detail', getOrderDetail);
   $(document).on('click', '.btn-rating', onRatingClick);
   $('.btn-comments').click(onCreateCommentsClick);
+  $('#btn-update').click(onSaveCustomerClick);
+
+  // save customer
+  function onSaveCustomerClick() {
+    let vNewCustomer = {
+      lastName: $('#last').val().trim(),
+      firstName: $('#fir').val().trim(),
+      address: $('#street').val().trim(),
+      city: $('#town').val().trim(),
+      state: $('#state').val().trim(),
+      postalCode: $('#zip').val().trim(),
+      country: $('#cun').val().trim(),
+      salesRepEmployeeNumber: $('#sale-rep').val().trim(),
+      creditLimit: $('#credit').val().trim(),
+    };
+    if (validateCustomer(vNewCustomer)) {
+      updateCustomer(vNewCustomer);
+    }
+  }
+
+  // update customer
+  function updateCustomer(paramCustomer) {
+    $.ajax({
+      url: `${G_BASE_URL}/customers/${gUserId}`,
+      method: 'PUT',
+      data: JSON.stringify(paramCustomer),
+      contentType: 'application/json; charset=utf-8 ',
+      success: () => {
+        alert('Đã cập nhật thông tin khách hàng thành công');
+        getInfo();
+        $('#modal-information').modal('hide');
+      },
+      error: (e) => alert(e.responseText),
+    });
+  }
+
+  // validate customer
+  function validateCustomer(paramCustomer) {
+    let vResult = true;
+    try {
+      if (paramCustomer.firstName == '') {
+        vResult = false;
+        throw '100. Họ không được để trống';
+      }
+      if (paramCustomer.lastName == '') {
+        vResult = false;
+        throw '101. Tên không được để trống';
+      }
+      if (paramCustomer.address == '') {
+        vResult = false;
+        throw '104. Địa chỉ không được để trống';
+      }
+      if (paramCustomer.city == '') {
+        vResult = false;
+        throw '105. Thành phố không được để trống';
+      }
+      if (paramCustomer.state == '') {
+        vResult = false;
+        throw '106. Tỉnh không được để trống';
+      }
+    } catch (error) {
+      $('#modal-error').modal('show');
+      $('#error').text(error);
+    }
+    return vResult;
+  }
 
   // rating
   function onRatingClick() {

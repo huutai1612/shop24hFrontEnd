@@ -29,6 +29,10 @@ $(document).ready(() => {
   onLoadCartNumber();
   loadProductToCart();
 
+  if (gUserToken) {
+    $('.non-active').css('display', 'none');
+  }
+
   // add event listener
   $(document).on('click', '.btn-log-out', onLogoutClick);
   $('#btn-order').click(onCreateOrderClick);
