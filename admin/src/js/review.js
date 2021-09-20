@@ -56,6 +56,10 @@ $(document).ready(function () {
     ],
   });
 
+  $('#select-product').select2({
+    theme: 'bootstrap4',
+  });
+
   // get name
   let productName = function getProductName(pProduct) {
     return `<td>${pProduct.productName}</td>`;

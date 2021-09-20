@@ -362,7 +362,7 @@
                                             <i
                                                 class="nav-icon fas fa-user-cog"
                                             ></i>
-                                            <p>Quản lý khách hàng</p>
+                                            <p>Quản lý User</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -443,7 +443,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Manage Customer</h1>
+                                <h1 class="m-0">Manage User</h1>
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
@@ -452,7 +452,7 @@
                                         <a href="#">Home</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Customer
+                                        User
                                     </li>
                                 </ol>
                             </div>
@@ -470,7 +470,18 @@
                         <!-- /.row -->
                         <!-- Main row -->
                         <div class="row">
-                            <div class="col-12 mb-3 d-flex justify-content-end">
+                            <div class="col-6">
+                                <select name="select-customer" class="form-control" id="select-customer">
+                                    <option value="0">Chọn loại user</option>
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3 d-flex justify-content-around">
+                                <button
+                                    id="btn-create-staff"
+                                    class="btn btn-primary"
+                                >
+                                    Thêm khách nhân viên mới
+                                </button>
                                 <button
                                     id="btn-create-customer"
                                     class="btn btn-dark"
@@ -491,10 +502,10 @@
                                     id="table-customer"
                                 >
                                     <thead>
-                                        <th>Id khách hàng</th>
+                                        <th>Mã User</th>
                                         <th>Họ</th>
                                         <th>Tên</th>
-                                        <th>Số điện thoại</th>
+                                        <th>Tên đăng nhập (Số điện thoại)</th>
                                         <th>Địa chỉ</th>
                                         <th>Tỉnh</th>
                                         <th>Thành phố</th>
@@ -698,6 +709,37 @@
         </section>
         <!-- ./ End modal-update-customer -->
 
+        <!-- Modal delete -->
+        <section
+            class="modal fade"
+            id="modal-confirm-delete"
+            tabindex="-1"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger">Xác nhận xóa user</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="text-danger">Bạn có chắc muốn xóa user</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" id="btn-confirm-delete" class="btn btn-danger">
+                            Xác nhận
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /End Modal delete -->
+
         <!-- error modal -->
         <section
             class="modal fade"
@@ -735,6 +777,74 @@
             </div>
         </section>
         <!-- ./ End Error modal -->
+
+        <!-- register staff modal -->
+        <section
+            class="modal fade"
+            id="modal-register-staff"
+            tabindex="-1"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Đăng ký nhân viên mới</h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="f-name">Họ</label>
+                                    <input class="form-control" type="text" id="f-name" />
+                                </div>
+                                <div class="col-6">
+                                    <label for="l-name">Tên</label>
+                                    <input class="form-control" type="text" id="l-name" />
+                                </div>
+                            </div>
+                            <div class="">
+                                <label for="username">Tên đăng nhập</label>
+                                <input class="form-control" type="text" id="username" />
+                            </div>
+                            <div class="">
+                                <label for="pass">Mật khẩu *</label>
+                                <input class="form-control" type="password" id="pass" />
+                            </div>
+                            <div class="">
+                                <label for="con-pass">Nhập lại mật khẩu *</label>
+                                <input class="form-control" type="password" id="con-pass" />
+                            </div>
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                        <button
+                                type="button"
+                                id="btn-register"
+                                class="btn btn-primary"
+                            >
+                                Đăng Ký
+                            </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ End register staff  -->
 
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
