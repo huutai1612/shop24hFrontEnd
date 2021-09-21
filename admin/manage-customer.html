@@ -471,7 +471,7 @@
                         <!-- Main row -->
                         <div class="row">
                             <div class="col-6">
-                                <select name="select-customer" class="form-control" id="select-customer">
+                                <select name="select-customer" class="form-control select-customer" id="select-customer">
                                     <option value="0">Chọn loại user</option>
                                 </select>
                             </div>
@@ -480,7 +480,7 @@
                                     id="btn-create-staff"
                                     class="btn btn-primary"
                                 >
-                                    Thêm khách nhân viên mới
+                                    Thêm nhân viên mới
                                 </button>
                                 <button
                                     id="btn-create-customer"
@@ -513,6 +513,7 @@
                                         <th>Mã bưu điện</th>
                                         <th>Sale rep employee number</th>
                                         <th>Giới hạn tiền</th>
+                                        <th>List order</th>
                                         <th>Action</th>
                                     </thead>
                                     <tbody></tbody>
@@ -739,6 +740,39 @@
             </div>
         </section>
         <!-- /End Modal delete -->
+
+        <!-- Modal select role-->
+        <section
+            class="modal fade"
+            id="modal-change-role"
+            tabindex="-1"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-primary">Thay đổi quyền cho user</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <select name="select-customer" class="form-control select-customer" id="select-change-role">
+                            <option value="0">Chọn loại user</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" id="btn-confirm-change-role" class="btn btn-primary">
+                            Thay đổi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /End Modal select role-->
 
         <!-- error modal -->
         <section

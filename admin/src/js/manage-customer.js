@@ -3,7 +3,8 @@ $(document).ready(() => {
 
   // khai bao table
   const G_CUSTOMER_ID_COLUMN = 0;
-  const G_ACTION_COLUMN = 11;
+  const G_LIST_ORDER_COLUMN = 11;
+  const G_ACTION_COLUMN = 12;
   let gCustomerTable = $('#table-customer').DataTable({
     order: [],
     columns: [
@@ -18,6 +19,7 @@ $(document).ready(() => {
       { data: 'postalCode' },
       { data: 'salesRepEmployeeNumber' },
       { data: 'creditLimit' },
+      { data: 'id' },
       { data: 'Action' },
     ],
     columnDefs: [
@@ -26,8 +28,15 @@ $(document).ready(() => {
         render: (pCustomerId) => `<p>FSCSID ${pCustomerId} </p>`,
       },
       {
+        targets: G_LIST_ORDER_COLUMN,
+        render: (pCustomerId) =>
+          `<a href="manage-order.html?customerId=${pCustomerId}">Danh sách đơn hàng</a>`,
+      },
+      {
         targets: G_ACTION_COLUMN,
-        defaultContent: `<i class="text-primary fas fa-user-edit"></i> | <i class="fas text-danger fa-user-minus"></i>`,
+        defaultContent: `<i class="text-primary fas fa-user-edit" data-toggle="tooltip" data-placement="top" title="Edit user"></i> 
+        | <i class="fas text-danger fa-user-minus data-toggle="tooltip" data-placement="top" title="Delete User""></i> 
+        | <i class="text-info fas fa-user-cog" data-toggle="tooltip" data-placement="top" title="Edit Role"></i>`,
       },
     ],
   });
@@ -37,14 +46,47 @@ $(document).ready(() => {
   $('#btn-create-customer').click(onCreateNewCustomerClick);
   $('#table-customer').on('click', '.fa-user-edit', onUpdateCustomerClick);
   $('#table-customer').on('click', '.fa-user-minus', onDeleteCustomerClick);
+  $('#table-customer').on('click', '.fa-user-cog', onChangeRoleUserClick);
   $('#btn-save-customer').click(onSaveCustomerClick);
   $(document).on('click', '.btn-log-out', onLogoutClick);
   $('#select-customer').change(onSelectRoleChange);
   $('#btn-confirm-delete').click(onConfirmDeleteUserClick);
   $('#btn-register').click(onRegisterCustomerClick);
   $('#btn-create-staff').click(onCreateNewStaffClick);
+  $('#btn-confirm-change-role').click(onConfirmChangeRoleClick);
 
   getDataForSelect();
+
+  // on confirm change role click
+  function onConfirmChangeRoleClick() {
+    let vRoleId = $('#select-change-role').val();
+    if (vRoleId == 0) {
+      $('#modal-error').modal('show');
+      $('#error').text(`Chọn quyền để thay đổi cho user`);
+    } else {
+      $.ajax({
+        url: `${G_BASE_URL}/roles/${vRoleId}/customers-set-role/${gCustomerId}`,
+        method: `PUT`,
+        contentType: 'application/json; charset=utf-8',
+        dataType: `json`,
+        success: (res) => {
+          alert('Bạn đã thay đổi thành công quyền của user');
+          $('#modal-change-role').modal('hide');
+          $('#select-change-role').val(0);
+          getCustomerData(vRoleId);
+        },
+        error: (e) => alert(e.responseText),
+      });
+    }
+  }
+
+  // on change role user click
+  function onChangeRoleUserClick() {
+    $('#modal-change-role').modal('show');
+    let vSelectedRow = $(this).parents('tr');
+    let vSelectedData = gCustomerTable.row(vSelectedRow).data();
+    gCustomerId = vSelectedData.id;
+  }
 
   // on confirm delete user click
   function onConfirmDeleteUserClick() {
@@ -150,7 +192,7 @@ $(document).ready(() => {
 
   // render select data
   function renderSelectData(pResponse) {
-    let vSelectRoleElement = $('#select-customer');
+    let vSelectRoleElement = $('.select-customer');
     pResponse.forEach((role) => {
       $('<option>', {
         text: role.roleKey,
