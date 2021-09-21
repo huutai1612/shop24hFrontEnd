@@ -51,7 +51,7 @@ $(document).ready(function () {
       },
       {
         targets: G_ACTION_COLUMN,
-        defaultContent: `<i class="fas fa-trash-alt text-danger"></i>`,
+        defaultContent: `<i class="fas fa-trash-alt text-danger"></i> | <i class=" text-info fas fa-comments"></i>`,
       },
     ],
   });
@@ -73,11 +73,45 @@ $(document).ready(function () {
   // add event listener
   $('#select-product').change(onSelectChange);
   $('#table-review').on('click', '.fa-trash-alt', onDeleteReviewClick);
+  $('#table-review').on('click', '.fa-comments', onReplyCommentClick);
   $('#btn-confirm-delete').click(onConfirmDeleteClick);
+  $('#btn-save-reply').click(onSaveReplyClick);
 
   // on Load
   onLoadProduct();
   getAllReview();
+
+  // on reply comment click
+  function onReplyCommentClick() {
+    $('#modal-create-reply').modal('show');
+    let vSelectedRow = $(this).parents('tr');
+    let vSelectedData = gReviewTable.row(vSelectedRow).data();
+    gReviewId = vSelectedData.id;
+  }
+
+  // on save reply click
+  function onSaveReplyClick() {
+    let vReplyComment = {
+      replies: $('#inp-reply').val().trim(),
+    };
+    if (vReplyComment.replies == '') {
+      alert(`100. Phải có nội dung để trả lời bình luận `);
+    } else {
+      $.ajax({
+        url: `${G_BASE_URL}/comments/${gReviewId}/replies`,
+        method: `POST`,
+        data: JSON.stringify(vReplyComment),
+        contentType: `application/json; charset=utf-8`,
+        success: (res) => {
+          alert(`Đã trả lời bình luận`);
+          getAllReview();
+          $('#inp-reply').val('');
+          $('#modal-create-reply').modal('hide');
+        },
+        error: (e) => alert(e.responseText),
+      });
+    }
+  }
 
   // function delete review
   function onDeleteReviewClick() {

@@ -268,20 +268,36 @@ $(document).ready(() => {
   function renderComments(paramComments) {
     let vResult = paramComments.map((comment) => {
       return `
-                <div class="avatar-text mt-2 d-flex">
-                <h5>${comment.name}</h5>
-                    <span class="stars ml-2" data-rating="${comment.rateStar}" data-num-stars="5" ></span>
-                </div>
-                <div class="at-reply"><p>${comment.comments}</p></div>
-                
-                
-                `;
+        <div class="avatar-text mt-2 d-flex">
+          <h5>${comment.name}</h5>
+              <span class="stars ml-2" data-rating="${comment.rateStar}" data-num-stars="5" ></span>
+          </div>
+          <div class="at-reply">
+            <p class="user-comment">
+            ${comment.comments}
+            ${renderReply(comment.replies)}
+            </p>
+          </div>
+        `;
     });
     $(function () {
       $('.stars').stars();
     });
 
     $('.comment-option').html(vResult);
+  }
+
+  function renderReply(pReply) {
+    let vReturn = pReply.map((reply) => {
+      return `
+      <div class="arrow-up"></div>
+      <div class=" reply d-flex justify-content-end shadow-lg p-3 bg-white rounded">
+        <span>${reply.replies}</span>
+        <i class="ml-2 fab fa-adn text-info"></i>
+      </div>
+      `;
+    });
+    return vReturn;
   }
 
   // render star
