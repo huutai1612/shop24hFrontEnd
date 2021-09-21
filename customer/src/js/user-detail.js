@@ -18,6 +18,63 @@ $(document).ready(() => {
   $(document).on('click', '.btn-rating', onRatingClick);
   $('.btn-comments').click(onCreateCommentsClick);
   $('#btn-update').click(onSaveCustomerClick);
+  $('#btn-change-password').click(onChangePasswordClick);
+  $('#btn-confirm-change-password').click(onConfirmChangePasswordClick);
+
+  // change password click
+  function onChangePasswordClick() {
+    $('#modal-change-password').modal('show');
+  }
+
+  // on confirm change pas click
+  function onConfirmChangePasswordClick() {
+    let vOldPassWord = $('#inp-old-password').val().trim();
+    let vNewPassword = {
+      password: $('#inp-new-password').val().trim(),
+    };
+    let vRepeatPassword = $('#inp-new-password-repeat').val().trim();
+    if (validatePassword(vOldPassWord, vNewPassword, vRepeatPassword)) {
+      $.ajax({
+        url: `${G_BASE_URL}/customer/change-password/customers/${gUserId}/old-password/${vOldPassWord}`,
+        method: `put`,
+        data: JSON.stringify(vNewPassword),
+        contentType: `application/json ; charset=utf-8`,
+        success: (res) => {
+          alert('Đã cập nhật mật khẩu thành công. Xin hãy đăng nhập lại');
+          setCookie('user', '', 1);
+          window.location.href = `login.html`;
+        },
+        error: (e) => alert(e.responseText),
+      });
+    }
+  }
+
+  // validate password
+  function validatePassword(pOldPas, pNewPas, pRePas) {
+    let vResult = true;
+    try {
+      if (pOldPas == '') {
+        vResult = false;
+        throw `101. Bạn chưa nhập mật khẩu cũ`;
+      }
+      if (pNewPas.password == '') {
+        vResult = false;
+        throw `102. Bạn chưa nhập mật khẩu mới`;
+      }
+      if (pRePas == '') {
+        vResult = false;
+        throw `103. Bạn chưa nhập lại  mật khẩu mới`;
+      }
+      if (pRePas !== pNewPas.password) {
+        vResult = false;
+        throw `104. Mật khẩu không trùng nhau`;
+      }
+    } catch (error) {
+      $('#modal-error').modal('show');
+      $('#error').text(error);
+    }
+    return vResult;
+  }
 
   // save customer
   function onSaveCustomerClick() {

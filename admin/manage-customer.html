@@ -511,10 +511,9 @@
                                         <th>Thành phố</th>
                                         <th>Đất nước</th>
                                         <th>Mã bưu điện</th>
-                                        <th>Sale rep employee number</th>
-                                        <th>Giới hạn tiền</th>
                                         <th>List order</th>
                                         <th>Action</th>
+                                        <th>Đổi mật khẩu</th>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
@@ -545,6 +544,8 @@
             <!-- /.control-sidebar -->
         </div>
         <!-- ./wrapper -->
+
+        <!-- MODAL START -->
         <!-- modal-update-customer -->
         <section class="modal fade" id="modal-update-customer" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -664,28 +665,57 @@
                                 />
                             </div>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                        <button
+                            type="button"
+                            id="btn-save-customer"
+                            class="btn btn-primary"
+                        >
+                            Cập nhật
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ End modal-update-customer -->
+
+        <!-- modal-update-customer -->
+        <section class="modal fade" id="modal-update-password" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cập nhật mật khẩu cho user</h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
                         <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-sale-rep">Sale rep employee number</label>
+                            <div class="col-3 d-flex align-items-center">
+                                <label for="inp-new-password"
+                                    >Mật khẩu mới</label
+                                >
                             </div>
-                            <div class="col-10">
+                            <div class="col-9">
                                 <input
-                                    type="number"
+                                    type="password"
+                                    id="inp-new-password"
                                     class="form-control"
-                                    id="inp-sale-rep"
-                                />
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-2">
-                                <label for="inp-credit">Giới hạn tiền</label>
-                            </div>
-                            <div class="col-10">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    id="inp-credit"
-                                />
+                                >
+                                </input>
                             </div>
                         </div>
                     </div>
@@ -699,7 +729,7 @@
                         </button>
                         <button
                             type="button"
-                            id="btn-save-customer"
+                            id="btn-save-password"
                             class="btn btn-primary"
                         >
                             Cập nhật

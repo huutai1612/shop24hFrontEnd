@@ -3,8 +3,9 @@ $(document).ready(() => {
 
   // khai bao table
   const G_CUSTOMER_ID_COLUMN = 0;
-  const G_LIST_ORDER_COLUMN = 11;
-  const G_ACTION_COLUMN = 12;
+  const G_LIST_ORDER_COLUMN = 9;
+  const G_ACTION_COLUMN = 10;
+  const G_PASSWORD_COLUMN = 11;
   let gCustomerTable = $('#table-customer').DataTable({
     order: [],
     columns: [
@@ -17,10 +18,9 @@ $(document).ready(() => {
       { data: 'city' },
       { data: 'country' },
       { data: 'postalCode' },
-      { data: 'salesRepEmployeeNumber' },
-      { data: 'creditLimit' },
       { data: 'id' },
       { data: 'Action' },
+      { data: 'id' },
     ],
     columnDefs: [
       {
@@ -38,6 +38,11 @@ $(document).ready(() => {
         | <i class="fas text-danger fa-user-minus data-toggle="tooltip" data-placement="top" title="Delete User""></i> 
         | <i class="text-info fas fa-user-cog" data-toggle="tooltip" data-placement="top" title="Edit Role"></i>`,
       },
+      {
+        targets: G_PASSWORD_COLUMN,
+        render: (pCustomerId) =>
+          `<button class="btn btn-info btn-change-password" data-id="${pCustomerId}">Đổi mật khẩu</button>`,
+      },
     ],
   });
   let gCustomerId = 0;
@@ -47,6 +52,7 @@ $(document).ready(() => {
   $('#table-customer').on('click', '.fa-user-edit', onUpdateCustomerClick);
   $('#table-customer').on('click', '.fa-user-minus', onDeleteCustomerClick);
   $('#table-customer').on('click', '.fa-user-cog', onChangeRoleUserClick);
+  $('#table-customer').on('click', '.btn-change-password', onChangePasswordUserClick);
   $('#btn-save-customer').click(onSaveCustomerClick);
   $(document).on('click', '.btn-log-out', onLogoutClick);
   $('#select-customer').change(onSelectRoleChange);
@@ -54,8 +60,39 @@ $(document).ready(() => {
   $('#btn-register').click(onRegisterCustomerClick);
   $('#btn-create-staff').click(onCreateNewStaffClick);
   $('#btn-confirm-change-role').click(onConfirmChangeRoleClick);
+  $('#btn-save-password').click(onSaveNewPassWordClick);
 
   getDataForSelect();
+
+  // on save password click
+  function onSaveNewPassWordClick() {
+    let vNewPassword = {
+      password: $('#inp-new-password').val().trim(),
+    };
+    if (vNewPassword.password == '') {
+      alert(`Cần nhập mật khẩu để thay đổi`);
+    } else {
+      $.ajax({
+        url: `${G_BASE_URL}/admin/change-password/customers/${gCustomerId}`,
+        method: `put`,
+        data: JSON.stringify(vNewPassword),
+        contentType: `application/json; charset=utf-8`,
+        success: (res) => {
+          alert(`Đã thay đổi password cho user thành công`);
+          getCustomerData(3);
+          $('#inp-new-password').val('');
+          $('#modal-update-password').modal('hide');
+        },
+        error: (e) => alert(e.responseText),
+      });
+    }
+  }
+
+  // on change password user click
+  function onChangePasswordUserClick() {
+    gCustomerId = $(this).data('id');
+    $('#modal-update-password').modal('show');
+  }
 
   // on confirm change role click
   function onConfirmChangeRoleClick() {
@@ -212,8 +249,6 @@ $(document).ready(() => {
       state: $('#inp-state').val().trim(),
       postalCode: $('#inp-postal-code').val().trim(),
       country: $('#inp-country').val().trim(),
-      salesRepEmployeeNumber: $('#inp-sale-rep').val().trim(),
-      creditLimit: $('#inp-credit').val().trim(),
     };
     if (validateCustomer(vNewCustomer)) {
       if (gCustomerId == 0) {
