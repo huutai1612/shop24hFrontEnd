@@ -37,6 +37,9 @@ $(document).ready(() => {
       $.ajax({
         url: `${G_BASE_URL}/customer/change-password/customers/${gUserId}/old-password/${vOldPassWord}`,
         method: `put`,
+        headers: {
+          Authorization: `Token ${gUserToken}`,
+        },
         data: JSON.stringify(vNewPassword),
         contentType: `application/json ; charset=utf-8`,
         success: (res) => {
@@ -99,6 +102,7 @@ $(document).ready(() => {
     $.ajax({
       url: `${G_BASE_URL}/customers/${gUserId}`,
       method: 'PUT',
+      headers: { Authorization: `Token ${gUserToken}` },
       data: JSON.stringify(paramCustomer),
       contentType: 'application/json; charset=utf-8 ',
       success: () => {
@@ -157,6 +161,7 @@ $(document).ready(() => {
       $.ajax({
         url: `${G_BASE_URL}/customers/${gUserId}/products/${gProductId}/comments`,
         method: 'POST',
+        headers: { Authorization: `Token ${gUserToken}` },
         data: JSON.stringify(vNewComment),
         contentType: `application/json; charset=utf-8`,
         success: () => {
@@ -192,6 +197,7 @@ $(document).ready(() => {
     $.ajax({
       url: `${G_BASE_URL}/orders/${vOrderId}/order-details`,
       method: 'get',
+      headers: { Authorization: `Token ${gUserToken}` },
       async: false,
       dataType: 'json',
       success: renderOrderDetail,

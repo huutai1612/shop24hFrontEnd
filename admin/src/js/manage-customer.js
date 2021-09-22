@@ -46,6 +46,7 @@ $(document).ready(() => {
     ],
   });
   let gCustomerId = 0;
+  let gUserToken = getCookie('user');
 
   //add event listener
   $('#btn-create-customer').click(onCreateNewCustomerClick);
@@ -76,6 +77,9 @@ $(document).ready(() => {
         url: `${G_BASE_URL}/admin/change-password/customers/${gCustomerId}`,
         method: `put`,
         data: JSON.stringify(vNewPassword),
+        headers: {
+          Authorization: `Token ${gUserToken}`,
+        },
         contentType: `application/json; charset=utf-8`,
         success: (res) => {
           alert(`Đã thay đổi password cho user thành công`);
@@ -104,6 +108,7 @@ $(document).ready(() => {
       $.ajax({
         url: `${G_BASE_URL}/roles/${vRoleId}/customers-set-role/${gCustomerId}`,
         method: `PUT`,
+        headers: { Authorization: `Token ${gUserToken}` },
         contentType: 'application/json; charset=utf-8',
         dataType: `json`,
         success: (res) => {
@@ -129,6 +134,7 @@ $(document).ready(() => {
   function onConfirmDeleteUserClick() {
     $.ajax({
       url: `${G_BASE_URL}/customers/${gCustomerId}`,
+      headers: { Authorization: `Token ${gUserToken}` },
       method: `DELETE`,
       success: () => {
         $('#modal-confirm-delete').modal('hide');
@@ -280,6 +286,7 @@ $(document).ready(() => {
     $.ajax({
       url: `${G_BASE_URL}/customers/${gCustomerId}`,
       method: 'PUT',
+      headers: { Authorization: `Token ${gUserToken}` },
       data: JSON.stringify(paramCustomer),
       contentType: 'application/json; charset=utf-8 ',
       success: () => {
@@ -391,8 +398,6 @@ $(document).ready(() => {
   }
 
   // log out
-
-  let gUserToken = getCookie('user');
 
   // check user cookie
   if (gUserToken) {

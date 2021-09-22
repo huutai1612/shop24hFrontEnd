@@ -90,12 +90,13 @@ $(document).ready(() => {
     $.ajax({
       url: `${G_BASE_URL}/orders/${gOrderId}`,
       method: 'put',
+      headers: { Authorization: `Token ${gUserToken}` },
       data: JSON.stringify(paramOrder),
       contentType: 'application/json ; charset=utf-8',
       success: () => {
         alert(`Đã cập nhật thành công order`);
         $('#modal-update-order').modal('hide');
-        getOrderData();
+        getOrderData(`customers/orders`);
       },
       error: (e) => alert(e.responseText),
     });
