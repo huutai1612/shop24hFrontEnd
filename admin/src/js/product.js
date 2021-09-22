@@ -3,7 +3,7 @@ $(document).ready(() => {
   const G_URL_COLUMN = 1;
   const G_ACTION_COLUMN = 10;
   const G_BUY_PRICE_COLUMN = 4;
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
 
   let gProductTable = $('#table-product').DataTable({
     columns: [

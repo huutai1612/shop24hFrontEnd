@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
   let gUrlString = window.location.href;
   let gUrl = new URL(gUrlString);
   let gProductId = parseInt(gUrl.searchParams.get('productId'));

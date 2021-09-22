@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
 
   // khai bao table
   const G_CUSTOMER_ID_COLUMN = 0;

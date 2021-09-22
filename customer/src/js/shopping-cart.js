@@ -2,7 +2,7 @@ $(document).ready(() => {
   // khai báo biến
   let gProduct = JSON.parse(localStorage.getItem('products'));
   let gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
 
   // add event listener
   $('#btn-search').click(onSearchClick);

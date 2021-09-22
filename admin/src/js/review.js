@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
   const G_PRODUCT_COLUMN_NAME = 0;
   const G_PRODUCT_COLUMN_IMG = 1;
   const G_STAR_COLUMN = 3;

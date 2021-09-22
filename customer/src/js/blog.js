@@ -1,6 +1,6 @@
 $(document).ready(() => {
   // search click
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
   onLoadCartNumber();
   loadProductToCart();
 

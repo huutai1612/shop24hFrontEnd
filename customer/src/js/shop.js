@@ -10,7 +10,7 @@ $(document).ready(() => {
   $(document).on('click', '.btn-log-out', onLogoutClick);
 
   // khai báo biến
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
   let gProductIdArray = [];
   let gOrderDetailArray = [];
   let gTotalPage = 0;

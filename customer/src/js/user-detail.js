@@ -3,7 +3,7 @@ $(document).ready(() => {
   let gUserToken = getCookie('user');
   const G_URL_STRING = new URL(window.location.href);
   let gUserId = G_URL_STRING.searchParams.get('userId');
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
   let gProductId = 0;
 
   // search click
@@ -256,7 +256,7 @@ $(document).ready(() => {
   // get my information
   function getInfo() {
     $.ajax({
-      url: `http://localhost:8080/customers/${gUserId}`,
+      url: `${G_BASE_URL}/customers/${gUserId}`,
       method: 'get',
       success: handleCustomerInfo,
       error: (e) => alert(e.responseText),
@@ -295,7 +295,7 @@ $(document).ready(() => {
   // check user cookie
   if (gUserToken) {
     $.ajax({
-      url: `http://localhost:8080/user-info`,
+      url: `${G_BASE_URL}/user-info`,
       method: 'get',
       headers: { Authorization: `Token ${gUserToken}` },
       dataType: 'json',
@@ -383,7 +383,7 @@ $(document).ready(() => {
     if (vProduct) {
       vProduct.forEach((productId, index) => {
         $.ajax({
-          url: `http://localhost:8080/products/${productId}`,
+          url: `${G_BASE_URL}/products/${productId}`,
           method: 'get',
           dataType: 'json',
           success: (product) => {

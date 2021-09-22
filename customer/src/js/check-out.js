@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
   let gProduct = JSON.parse(localStorage.getItem('products'));
   let gOrderDetail = JSON.parse(localStorage.getItem('orderDetail'));
   let gTotal = 0;

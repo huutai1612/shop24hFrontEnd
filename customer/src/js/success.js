@@ -3,7 +3,7 @@ $(document).ready(() => {
   let stringUrl = window.location.href;
   let url = new URL(stringUrl);
   let gOrderId = url.searchParams.get('orderId');
-  const G_BASE_URL = `http://localhost:8080`;
+  const G_BASE_URL = `http://localhost:8080/api`;
 
   $('#input-order-id').val(`OIDOD ${gOrderId}`);
 
