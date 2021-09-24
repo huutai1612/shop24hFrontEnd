@@ -238,7 +238,7 @@ $(document).ready(() => {
     let vSelectRoleElement = $('.select-customer');
     pResponse.forEach((role) => {
       $('<option>', {
-        text: role.roleKey,
+        text: role.roleName,
         value: role.id,
       }).appendTo(vSelectRoleElement);
     });
