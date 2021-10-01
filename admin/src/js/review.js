@@ -125,12 +125,14 @@ $(document).ready(function () {
   function onConfirmDeleteClick() {
     $.ajax({
       url: `${G_BASE_URL}/comments/${gReviewId}`,
+      headers: { Authorization: `Token ${gUserToken}` },
       method: `delete`,
       success: () => {
         alert('Bạn đã xóa thành công review');
         $('#modal-confirm-delete').modal('hide');
         getAllReview();
       },
+      error: (e) => alert(e.responseText),
     });
   }
 
@@ -178,8 +180,13 @@ $(document).ready(function () {
     return $(this).each(function () {
       const rating = $(this).data('rating');
       const numStars = $(this).data('numStars');
-      const fullStar = '<i class="fas fa-star text-warning"></i>'.repeat(Math.floor(rating));
-      const halfStar = rating % 1 !== 0 ? '<i class="fas fa-star-half-alt text-warning"></i>' : '';
+      const fullStar = '<i class="fas fa-star text-warning"></i>'.repeat(
+        Math.floor(rating)
+      );
+      const halfStar =
+        rating % 1 !== 0
+          ? '<i class="fas fa-star-half-alt text-warning"></i>'
+          : '';
       const noStar = '<i class="far fa-star text-warning"></i>'.repeat(
         Math.floor(numStars - rating)
       );
