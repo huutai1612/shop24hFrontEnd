@@ -5,6 +5,7 @@ $(document).ready(() => {
   const G_COLUMN_ACTION = 8;
   const G_ORDER_DETAIL_COLUMN = 0;
   let gOrderTable = $('#table-order').DataTable({
+    orders: [],
     columns: [
       { data: 'id' },
       { data: 'fullName' },
