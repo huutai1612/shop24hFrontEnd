@@ -75,7 +75,8 @@ $(document).ready(() => {
       password: $('#inp-new-password').val().trim(),
     };
     if (vNewPassword.password == '') {
-      alert(`Cần nhập mật khẩu để thay đổi`);
+      $('#modal-error').modal('show');
+      $('#error').text(`Cần nhập mật khẩu để thay đổi`);
     } else {
       $.ajax({
         url: `${G_BASE_URL}/admin/change-password/customers/${gCustomerId}`,
@@ -86,12 +87,16 @@ $(document).ready(() => {
         },
         contentType: `application/json; charset=utf-8`,
         success: (res) => {
-          alert(`Đã thay đổi password cho user thành công`);
+          $('#modal-success').modal('show');
+          $('#success').text(`Đã thay đổi password cho user thành công`);
           getCustomerData(3);
           $('#inp-new-password').val('');
           $('#modal-update-password').modal('hide');
         },
-        error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
+        error: (e) => {
+          $('#modal-error').modal('show');
+          $('#error').text(`Bạn không có quyền thực hiện thao tác này`);
+        },
       });
     }
   }
@@ -116,12 +121,16 @@ $(document).ready(() => {
         contentType: 'application/json; charset=utf-8',
         dataType: `json`,
         success: (res) => {
-          alert('Bạn đã thay đổi thành công quyền của user');
           $('#modal-change-role').modal('hide');
           $('#select-change-role').val(0);
+          $('#modal-success').modal('show');
+          $('#success').text('Bạn đã thay đổi thành công quyền của user');
           getCustomerData(vRoleId);
         },
-        error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
+        error: (e) => {
+          $('#modal-error').modal('show');
+          $('#error').text(`Bạn không có quyền thực hiện thao tác này`);
+        },
       });
     }
   }
@@ -142,10 +151,14 @@ $(document).ready(() => {
       method: `DELETE`,
       success: () => {
         $('#modal-confirm-delete').modal('hide');
-        alert(`Đã xóa thành công user`);
+        $('#modal-success').modal('show');
+        $('#success').text(`Đã xóa thành công user`);
         getCustomerData(3);
       },
-      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
+      error: (e) => {
+        $('#modal-error').modal('show');
+        $('#error').text(`Bạn không có quyền thực hiện thao tác này`);
+      },
     });
   }
 
@@ -188,7 +201,8 @@ $(document).ready(() => {
         contentType: `application/json; charset=utf-8`,
         success: (res) => {
           $('#modal-register-staff').modal('hide');
-          alert(
+          $('#modal-success').modal('show');
+          $('#success').text(
             `Bạn đã thành công tạo mới nhân viên ${res.firstName} ${res.lastName}`
           );
           getCustomerData(2);
@@ -238,7 +252,10 @@ $(document).ready(() => {
       url: `${G_BASE_URL}/roles`,
       method: `get`,
       success: renderSelectData,
-      error: (e) => alert(e.responseText),
+      error: (e) => {
+        $('#modal-error').modal('show');
+        $('#error').text(e.responseText);
+      },
     });
   }
 
@@ -282,11 +299,15 @@ $(document).ready(() => {
       data: JSON.stringify(paramCustomer),
       contentType: 'application/json; charset=utf-8 ',
       success: () => {
-        alert('Đã tạo khách hàng mới thành công');
+        $('#modal-success').modal('show');
+        $('#success').text('Đã tạo khách hàng mới thành công');
         getCustomerData(3);
         $('#modal-update-customer').modal('hide');
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => {
+        $('#modal-error').modal('show');
+        $('#error').text(e.responseText);
+      },
     });
   }
 
@@ -299,7 +320,8 @@ $(document).ready(() => {
       data: JSON.stringify(paramCustomer),
       contentType: 'application/json; charset=utf-8 ',
       success: () => {
-        alert('Đã cập nhật thông tin khách hàng thành công');
+        $('#modal-success').modal('show');
+        $('#success').text('Đã cập nhật thông tin khách hàng thành công');
         getCustomerData(3);
         $('#modal-update-customer').modal('hide');
       },
@@ -398,7 +420,10 @@ $(document).ready(() => {
       method: 'GET',
       dataType: 'json',
       success: renderCustomerTable,
-      error: (e) => alert(e.responseText),
+      error: (e) => {
+        $('#modal-error').modal('show');
+        $('#error').text(e.responseText);
+      },
     });
   }
 
