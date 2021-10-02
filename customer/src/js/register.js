@@ -18,18 +18,44 @@ $(document).ready(() => {
     let vRepeatPas = $('#con-pass').val().trim();
     if (validateNewCustomer(vNewCustomer, vRepeatPas)) {
       $.ajax({
-        url: `${G_BASE_URL}/register/customer`,
-        method: `POST`,
-        data: JSON.stringify(vNewCustomer),
-        contentType: `application/json; charset=utf-8`,
-        success: (res) => {
-          alert(`Bạn đã đăng ký thành công tài khoản với số điện thoại ${res.username}`);
-          window.location.href = `login.html`;
+        url: `${G_BASE_URL}/customers/phone/${vNewCustomer.phoneNumber}`,
+        method: 'get',
+        async: false,
+        success: checkUserExist,
+        error: () => {
+          registerNewUser(vNewCustomer);
         },
-        error: (e) => alert(e.responseText),
       });
     }
   }
+
+  // create user
+  const registerNewUser = (pNewCustomer) => {
+    $.ajax({
+      url: `${G_BASE_URL}/register/customer`,
+      method: `POST`,
+      data: JSON.stringify(pNewCustomer),
+      contentType: `application/json; charset=utf-8`,
+      success: (res) => {
+        $('#modal-register').modal('show');
+        $('#text-success').text(
+          `Bạn đã đăng ký thành công tài khoản với số điện thoại ${res.username}
+          Xin quay lại trang đăng nhập để đăng nhập
+          `
+        );
+        setTimeout(() => {
+          window.location.href = `login.html`;
+        }, 3000);
+      },
+      error: (e) => alert(e.responseText),
+    });
+  };
+
+  // check user exist
+  const checkUserExist = (pRes) => {
+    $('#modal-error').modal('show');
+    $('#error').text(`Tài khoản đã tồn tại trên hệ thống`);
+  };
 
   // validate
   function validateNewCustomer(pNewCustomer, pPassRepeat) {
@@ -116,7 +142,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+      paramOrderDetail.quantityOrder
+    }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>

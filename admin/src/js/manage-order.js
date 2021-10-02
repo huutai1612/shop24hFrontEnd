@@ -99,7 +99,7 @@ $(document).ready(() => {
         $('#modal-update-order').modal('hide');
         getOrderData(`customers/orders`);
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
     });
   }
 

@@ -132,7 +132,7 @@ $(document).ready(function () {
         $('#modal-confirm-delete').modal('hide');
         getAllReview();
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
     });
   }
 

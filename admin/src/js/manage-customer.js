@@ -53,7 +53,11 @@ $(document).ready(() => {
   $('#table-customer').on('click', '.fa-user-edit', onUpdateCustomerClick);
   $('#table-customer').on('click', '.fa-user-minus', onDeleteCustomerClick);
   $('#table-customer').on('click', '.fa-user-cog', onChangeRoleUserClick);
-  $('#table-customer').on('click', '.btn-change-password', onChangePasswordUserClick);
+  $('#table-customer').on(
+    'click',
+    '.btn-change-password',
+    onChangePasswordUserClick
+  );
   $('#btn-save-customer').click(onSaveCustomerClick);
   $(document).on('click', '.btn-log-out', onLogoutClick);
   $('#select-customer').change(onSelectRoleChange);
@@ -87,7 +91,7 @@ $(document).ready(() => {
           $('#inp-new-password').val('');
           $('#modal-update-password').modal('hide');
         },
-        error: (e) => alert(e.responseText),
+        error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
       });
     }
   }
@@ -117,7 +121,7 @@ $(document).ready(() => {
           $('#select-change-role').val(0);
           getCustomerData(vRoleId);
         },
-        error: (e) => alert(e.responseText),
+        error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
       });
     }
   }
@@ -141,7 +145,7 @@ $(document).ready(() => {
         alert(`Đã xóa thành công user`);
         getCustomerData(3);
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
     });
   }
 
@@ -184,7 +188,9 @@ $(document).ready(() => {
         contentType: `application/json; charset=utf-8`,
         success: (res) => {
           $('#modal-register-staff').modal('hide');
-          alert(`Bạn đã thành công tạo mới nhân viên ${res.firstName} ${res.lastName}`);
+          alert(
+            `Bạn đã thành công tạo mới nhân viên ${res.firstName} ${res.lastName}`
+          );
           getCustomerData(2);
         },
         error: (e) => alert(e.responseText),
@@ -294,7 +300,7 @@ $(document).ready(() => {
         getCustomerData(3);
         $('#modal-update-customer').modal('hide');
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
     });
   }
 

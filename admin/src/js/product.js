@@ -80,7 +80,7 @@ $(document).ready(() => {
         $('#modal-confirm-delete').modal('hide');
         getProductData();
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
     });
   }
 
@@ -95,7 +95,7 @@ $(document).ready(() => {
         $('#modal-confirm-delete').modal('hide');
         getProductData();
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
     });
   }
 

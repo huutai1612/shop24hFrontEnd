@@ -25,6 +25,7 @@ $(document).ready(() => {
       `<li class="total-price">Phải thanh toán <span>${gTotal.toLocaleString()} VNĐ</span></li>`
     );
   }
+
   getBill();
   onLoadCartNumber();
   loadProductToCart();
@@ -105,12 +106,17 @@ $(document).ready(() => {
 
   // render đơn hàng
   function renderBill(paramProduct, paramIndex) {
-    gTotal += gOrderDetail[paramIndex].quantityOrder * gOrderDetail[paramIndex].priceEach;
+    gTotal +=
+      gOrderDetail[paramIndex].quantityOrder *
+      gOrderDetail[paramIndex].priceEach;
     let vResult = `
 		<li class="fw-normal">
 			${paramProduct.productName} x ${gOrderDetail[paramIndex].quantityOrder}
 			<span>
-				${(gOrderDetail[paramIndex].quantityOrder * gOrderDetail[paramIndex].priceEach).toLocaleString()}
+				${(
+          gOrderDetail[paramIndex].quantityOrder *
+          gOrderDetail[paramIndex].priceEach
+        ).toLocaleString()}
 				VNĐ
 			</span>
 		</li>
@@ -313,7 +319,9 @@ $(document).ready(() => {
 				</td>
 				<td class="si-text">
 					<div class="product-selected">
-						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${paramOrderDetail.quantityOrder}</p>
+						<p>${paramProduct.buyPrice.toLocaleString()} VNĐ x ${
+      paramOrderDetail.quantityOrder
+    }</p>
 						<h6>${paramProduct.productName} </h6>
 					</div>
 				</td>
