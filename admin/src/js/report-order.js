@@ -107,6 +107,28 @@ $(document).ready(() => {
       responsive: true,
       maintainAspectRatio: false,
       datasetFill: false,
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return `${tooltipItem.yLabel / 1000000} triệu`;
+          },
+        },
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              callback: function (label, index, labels) {
+                return (label / 1000000).toLocaleString();
+              },
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Đơn vị: triệu VNĐ',
+            },
+          },
+        ],
+      },
     };
 
     new Chart(vBarChartCanvas, {
@@ -152,6 +174,28 @@ $(document).ready(() => {
       responsive: true,
       maintainAspectRatio: false,
       datasetFill: false,
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return `${tooltipItem.yLabel / 1000000} triệu`;
+          },
+        },
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              callback: function (label, index, labels) {
+                return (label / 1000000).toLocaleString();
+              },
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Đơn vị: triệu VNĐ',
+            },
+          },
+        ],
+      },
     };
 
     new Chart(vBarChartCanvas, {
@@ -197,6 +241,28 @@ $(document).ready(() => {
       responsive: true,
       maintainAspectRatio: false,
       datasetFill: false,
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return `${tooltipItem.yLabel / 1000000} triệu`;
+          },
+        },
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              callback: function (label, index, labels) {
+                return (label / 1000000).toLocaleString();
+              },
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Đơn vị: triệu VNĐ',
+            },
+          },
+        ],
+      },
     };
 
     new Chart(vBarChartCanvas, {

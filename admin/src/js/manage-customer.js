@@ -193,7 +193,10 @@ $(document).ready(() => {
           );
           getCustomerData(2);
         },
-        error: (e) => alert(e.responseText),
+        error: (e) => {
+          $('#modal-error').modal('show');
+          $('#error').text(e.responseText);
+        },
       });
     }
   }
@@ -300,7 +303,10 @@ $(document).ready(() => {
         getCustomerData(3);
         $('#modal-update-customer').modal('hide');
       },
-      error: (e) => alert(`Bạn không có quyền thực hiện thao tác này`),
+      error: (e) => {
+        $('#modal-error').modal('show');
+        $('#error').text(e.responseText);
+      },
     });
   }
 

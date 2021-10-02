@@ -18,7 +18,10 @@ $(document).ready(() => {
         dataType: 'json',
         async: false,
         success: (response) => renderBill(response, index),
-        error: (e) => alert(e.responseJSON.message),
+        error: (e) => {
+          $('#error').text(e.responseText);
+          $('#modal-error').modal('show');
+        },
       });
     });
     $('.order-table').append(
@@ -146,7 +149,10 @@ $(document).ready(() => {
         headers: { Authorization: `Token ${gUserToken}` },
         dataType: 'json',
         success: setCustomerIfLogin,
-        error: (e) => alert(e.responseText),
+        error: (e) => {
+          $('#error').text(e.responseText);
+          $('#modal-error').modal('show');
+        },
       });
     } else {
       if (validateCustomer(vCustomerInfo)) {
@@ -185,7 +191,10 @@ $(document).ready(() => {
         gCustomerId = response.id;
         $('#modal-order').modal('show');
       },
-      error: (e) => alert(e.responseText),
+      error: (e) => {
+        $('#error').text(e.responseText);
+        $('#modal-error').modal('show');
+      },
     });
   }
 
@@ -221,7 +230,10 @@ $(document).ready(() => {
           gOrderId = response.id;
           createOrderDetail(response.id);
         },
-        error: (e) => alert(e.responseText),
+        error: (e) => {
+          $('#error').text(e.responseText);
+          $('#modal-error').modal('show');
+        },
       });
     }
   }
@@ -236,7 +248,10 @@ $(document).ready(() => {
         data: JSON.stringify(gOrderDetail[index]),
         contentType: 'application/json; charset=utf-8',
         success: (response) => {},
-        error: (e) => alert(e.responseText),
+        error: (e) => {
+          $('#error').text(e.responseText);
+          $('#modal-error').modal('show');
+        },
       });
     });
     localStorage.clear();
@@ -252,7 +267,8 @@ $(document).ready(() => {
         throw `200. Cần có ngày nhận hàng`;
       }
     } catch (error) {
-      alert(error);
+      $('#error').text(error);
+      $('#modal-error').modal('show');
     }
     return vResult;
   }
@@ -366,7 +382,8 @@ $(document).ready(() => {
   function onSearchClick() {
     let vSearchInput = $('#inp-search').val().trim();
     if (vSearchInput == '') {
-      alert('Cần có tên sản phẩm để tìm kiếm');
+      $('#modal-error').modal('show');
+      $('#error').text(`Cần có tên sản phẩm để tìm kiếm`);
     } else {
       window.location.href = `shop.html?name=${vSearchInput}`;
     }
